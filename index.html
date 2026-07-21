@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDADE Mieh w Mieh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Consistent Theming */
+        :root {
+            --primary-blue: #005bb5;
+            --light-blue: #e6f0fa;
+            --dark-text: #333;
+            --light-text: #fff;
+            --transition-smooth: all 0.3s ease-in-out;
+        }
+
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--light-text);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .logo-text p {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        nav a:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), #003f7a);
+            color: var(--light-text);
+            text-align: center;
+            padding: 100px 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin: 60px 0 30px;
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+        /* Cards Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 5%;
+            margin-bottom: 50px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--light-text);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border-bottom: 4px solid var(--primary-blue);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background-color: var(--primary-blue);
+            color: var(--light-text);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            background-color: #003f7a;
+        }
+
+        /* Colonie Section */
+        .colonie-section {
+            background-color: var(--light-blue);
+            padding: 50px 0;
+        }
+
+        .colonie-card {
+            background: var(--light-text);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .colonie-card:hover {
+            transform: scale(1.02);
+        }
+
+        .colonie-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .colonie-date {
+            display: inline-block;
+            background: #ffc107;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Modal (Album View) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 900px;
+            border-radius: 15px;
+            position: relative;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-text);
+            color: var(--light-text);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero {
+                margin-top: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="logo-container">
+            <img src="OIP.webp" alt="MIDADE Logo">
+            <div class="logo-text">
+                <h1>MIDADE Mieh w Mieh</h1>
+                <p>Mouvement International D'apostolat Des Enfants</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#groups">Our Groups</a></li>
+                <li><a href="#colonie">Summer Colonie</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2>Welcome to MIDADE Mieh w Mieh</h2>
+        <p>Empowering children through faith, friendship, and unforgettable memories. Discover our groups and summer adventures!</p>
+    </section>
+
+    <!-- Groups Section -->
+    <section id="groups">
+        <h2 class="section-title">Our Groups</h2>
+        <div class="grid-container">
+            <!-- Group 1 -->
+            <div class="card" style="animation-delay: 0.1s;">
+                <div class="card-icon">🎨</div>
+                <h3>Group 1</h3>
+                <p>Ages 3 - 7</p>
+                <p>Our youngest members discovering joy, creativity, and early friendships.</p>
+                <button class="btn" onclick="openAlbum('Group 1 Album')">View Album</button>
+            </div>
+            <!-- Group 2 -->
+            <div class="card" style="animation-delay: 0.2s;">
+                <div class="card-icon">⛺</div>
+                <h3>Group 2</h3>
+                <p>Ages 7 - 8</p>
+                <p>Little adventurers learning to work together and explore the world.</p>
+                <button class="btn" onclick="openAlbum('Group 2 Album')">View Album</button>
+            </div>
+            <!-- Group 3 -->
+            <div class="card" style="animation-delay: 0.3s;">
+                <div class="card-icon">🧭</div>
+                <h3>Group 3</h3>
+                <p>Ages 9 - 10</p>
+                <p>Growing in responsibility, teamwork, and deeper connections.</p>
+                <button class="btn" onclick="openAlbum('Group 3 Album')">View Album</button>
+            </div>
+            <!-- Group 4 -->
+            <div class="card" style="animation-delay: 0.4s;">
+                <div class="card-icon">🔥</div>
+                <h3>Group 4</h3>
+                <p>Ages 11 - 12</p>
+                <p>Pioneers stepping up to challenges and building strong character.</p>
+                <button class="btn" onclick="openAlbum('Group 4 Album')">View Album</button>
+            </div>
+            <!-- Group 5 -->
+            <div class="card" style="animation-delay: 0.5s;">
+                <div class="card-icon">🕊️</div>
+                <h3>Group 5</h3>
+                <p>Ages 13 - 14</p>
+                <p>The youth leaders of tomorrow, guiding by example and faith.</p>
+                <button class="btn" onclick="openAlbum('Group 5 Album')">View Album</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Colonie Section -->
+    <section id="colonie" class="colonie-section">
+        <h2 class="section-title">Summer Colonie</h2>
+        <div class="grid-container">
+            <!-- Colonie Group 1 -->
+            <div class="colonie-card">
+                <div class="colonie-info">
+                    <span class="colonie-date">July 2026</span>
+                    <h3>Group 1: Les Petites Étoiles</h3>
+                    <p>Ages 3-7 • Magic & Discovery Camp</p>
+                    <button class="btn" onclick="openAlbum('Colonie Group 1')">Colonie Album</button>
+                </div>
+            </div>
+            <!-- Colonie Group 2 -->
+            <div class="colonie-card">
+                <div class="colonie-info">
+                    <span class="colonie-date">July 2026</span>
+                    <h3>Group 2: Les Explorateurs</h3>
+                    <p>Ages 7-8 • Nature Safari Camp</p>
+                    <button class="btn" onclick="openAlbum('Colonie Group 2')">Colonie Album</button>
+                </div>
+            </div>
+            <!-- Colonie Group 3 -->
+            <div class="colonie-card">
+                <div class="colonie-info">
+                    <span class="colonie-date">July 2026</span>
+                    <h3>Group 3: L'Oasis Joyeuse</h3>
+                    <p>Ages 9-10 • Adventure & Sports Camp</p>
+                    <button class="btn" onclick="openAlbum('Colonie Group 3')">Colonie Album</button>
+                </div>
+            </div>
+            <!-- Colonie Group 4 -->
+            <div class="colonie-card">
+                <div class="colonie-info">
+                    <span class="colonie-date">July 2026</span>
+                    <h3>Group 4: Horizon Lointain</h3>
+                    <p>Ages 11-12 • Mountain Survival Camp</p>
+                    <button class="btn" onclick="openAlbum('Colonie Group 4')">Colonie Album</button>
+                </div>
+            </div>
+            <!-- Colonie Group 5 -->
+            <div class="colonie-card">
+                <div class="colonie-info">
+                    <span class="colonie-date">July 2026</span>
+                    <h3>Group 5: La Flambeau</h3>
+                    <p>Ages 13-14 • Leadership & Retreat Camp</p>
+                    <button class="btn" onclick="openAlbum('Colonie Group 5')">Colonie Album</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Album Modal (Hidden by default) -->
+    <div id="albumModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAlbum()">&times;</span>
+            <h2 id="modalTitle" style="color: var(--primary-blue); margin-bottom: 10px;">Album Name</h2>
+            <p style="color: #666; margin-bottom: 20px;">Memories captured during our amazing moments.</p>
+            
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- JavaScript will inject images here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MIDADE Mieh w Mieh - Mouvement International D'apostolat Des Enfants. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // --- Smooth Scrolling for Navigation ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- Scroll Animations ---
+        const cards = document.querySelectorAll('.card, .colonie-card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-on-scroll');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+
+        // --- Album Modal Logic ---
+        const modal = document.getElementById("albumModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const galleryGrid = document.getElementById("galleryGrid");
+
+        function openAlbum(albumName) {
+            modalTitle.innerText = albumName;
+            galleryGrid.innerHTML = ''; // Clear previous images
+            
+            // Generate some placeholder images to simulate an album.
+            // When you have real images, you can replace these URLs with your actual local file paths (e.g., "group1-pic1.jpg").
+            for(let i = 1; i <= 8; i++) {
+                const img = document.createElement('img');
+                // Using a placeholder service generating random nature/people photos for demonstration
+                img.src = `https://picsum.photos/300/200?random=${Math.random()}`;
+                img.alt = `${albumName} Picture ${i}`;
+                galleryGrid.appendChild(img);
+            }
+            
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
+        }
+
+        function closeAlbum() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Close modal if user clicks outside the content area
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeAlbum();
+            }
+        }
+    </script>
+</body>
+</html>
