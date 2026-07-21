@@ -4,341 +4,588 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MIDADE Mieh w Mieh</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables - Default Blue Theme */
+        /* Modern CSS Variables */
         :root {
-            --primary-color: #005bb5;
-            --secondary-color: #003f7a;
-            --light-bg: #e6f0fa;
-            --dark-text: #333;
-            --light-text: #fff;
-            --transition-smooth: all 0.3s ease-in-out;
+            --primary: #005bb5; --secondary: #003f7a; --bg-light: #f8f9fa; --bg-card: #ffffff;
+            --text-dark: #333333; --text-light: #ffffff; --glass-bg: rgba(255, 255, 255, 0.9);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-
-        /* Pink Theme Override */
         body.pink-theme {
-            --primary-color: #d81b60;
-            --secondary-color: #ad1457;
-            --light-bg: #fce4ec;
+            --primary: #d81b60; --secondary: #ad1457; --bg-light: #fce4ec;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: #f8f9fa; color: var(--dark-text); line-height: 1.6; overflow-x: hidden; }
-
-        /* Floating Buttons */
-        .floating-controls {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-light); color: var(--text-dark); overflow-x: hidden; transition: var(--transition); }
+        
+        /* Arabic RTL Support */
+        body[dir="rtl"] { font-family: 'Cairo', sans-serif; }
+        
+        /* Floating Controls */
+        .controls-panel { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        body[dir="rtl"] .controls-panel { right: auto; left: 20px; }
+        
+        .btn-float { 
+            width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--primary); color: white; 
+            font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: var(--transition); 
         }
+        .btn-float:hover { transform: translateY(-5px) scale(1.05); }
 
-        .icon-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: var(--transition-smooth);
+        /* Navigation */
+        header { 
+            background: var(--glass-bg); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; 
+            z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; 
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
         }
-        .icon-btn:hover { transform: scale(1.1); }
-
-        /* Header & Nav */
-        header { background-color: var(--light-text); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: fixed; width: 100%; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-container img { height: 60px; width: auto; }
-        .logo-text h1 { font-size: 1.2rem; color: var(--primary-color); }
-        .logo-text p { font-size: 0.7rem; color: #666; text-transform: uppercase; }
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { text-decoration: none; color: var(--dark-text); font-weight: 600; transition: var(--transition-smooth); }
-        nav a:hover { color: var(--primary-color); }
+        .logo-wrap { display: flex; align-items: center; gap: 15px; }
+        .logo-wrap img { height: 55px; }
+        .logo-text h1 { font-size: 1.3rem; color: var(--primary); font-weight: 700; }
+        .logo-text p { font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .lang-select { padding: 5px 10px; border-radius: 20px; border: 1px solid var(--primary); outline: none; cursor: pointer; font-family: inherit; }
 
         /* Hero */
-        .hero { margin-top: 80px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: var(--light-text); text-align: center; padding: 100px 20px; }
-        .hero h2 { font-size: 2.5rem; margin-bottom: 10px; }
-        .section-title { text-align: center; margin: 60px 0 30px; font-size: 2rem; color: var(--primary-color); }
+        .hero { 
+            margin-top: 85px; padding: 120px 20px; text-align: center; color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        .hero h2 { font-size: 2.8rem; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
 
-        /* Grids & Cards */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 0 5%; margin-bottom: 50px; }
-        .card, .colonie-card { background: var(--light-text); border-radius: 15px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; border-bottom: 4px solid var(--primary-color); }
-        .btn { background-color: var(--primary-color); color: var(--light-text); border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; margin-top: 10px;}
-        .colonie-section { background-color: var(--light-bg); padding: 50px 0; }
-        .colonie-date { display: inline-block; background: #ffc107; color: #000; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
-
-        /* Modals (Gallery & Admin) */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
-        .modal-content { background-color: #fff; margin: 5% auto; padding: 20px; width: 90%; max-width: 900px; border-radius: 15px; max-height: 80vh; overflow-y: auto;}
-        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .gallery-grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 10px; }
-
-        /* Admin Panel Styles */
-        .admin-form { display: flex; flex-direction: column; gap: 15px; max-width: 400px; margin: 0 auto; }
-        .admin-form input, .admin-form select { padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .hidden { display: none !important; }
+        /* Layout Grids */
+        .section-title { text-align: center; margin: 60px 0 40px; font-size: 2.2rem; color: var(--primary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 5%; max-width: 1400px; margin: 0 auto 60px; }
         
-        footer { background-color: var(--dark-text); color: var(--light-text); text-align: center; padding: 20px; margin-top: 40px; }
+        /* Cards */
+        .card { 
+            background: var(--bg-card); border-radius: 20px; padding: 25px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-bottom: 5px solid var(--primary);
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .card h3 { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .card .badge { display: inline-block; background: #ffc107; color: #000; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; margin-bottom: 15px; }
+        
+        /* Buttons */
+        .btn { 
+            background: var(--primary); color: white; border: none; padding: 10px 25px; 
+            border-radius: 25px; font-size: 1rem; cursor: pointer; transition: var(--transition); 
+            font-weight: 600; font-family: inherit; margin-top: 15px;
+        }
+        .btn:hover { background: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn-danger { background: #dc3545; } .btn-danger:hover { background: #b02a37; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        /* Modals (Glassmorphism) */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--bg-card); width: 90%; max-width: 1000px; border-radius: 25px; padding: 30px; max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: #888; transition: 0.2s; }
+        body[dir="rtl"] .close-btn { right: auto; left: 25px; }
+        .close-btn:hover { color: #111; }
+
+        /* Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: var(--transition); }
+        .gallery-grid img:hover { transform: scale(1.03); }
+
+        /* Admin Forms & Dashboards */
+        .admin-box { max-width: 500px; margin: 0 auto; text-align: center; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; text-align: left; }
+        body[dir="rtl"] .form-group { text-align: right; }
+        .form-group input, .form-group select { padding: 12px; border-radius: 10px; border: 1px solid #ccc; font-family: inherit; font-size: 1rem; }
+        
+        .admin-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .admin-panel-section { background: #f4f7f6; padding: 20px; border-radius: 15px; }
+        
+        /* Utils */
+        .hidden { display: none !important; }
+        .admin-only { display: none; }
+        body.is-admin .admin-only { display: block; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; text-align: center; }
+            .hero { margin-top: 120px; }
+            .admin-dashboard { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Floating Theme & Admin Buttons -->
-    <div class="floating-controls">
-        <button class="icon-btn" id="themeToggleBtn" title="Change Color">🎨</button>
-        <button class="icon-btn" onclick="openAdmin()" title="Admin Login">🔒</button>
+    <!-- Floating Buttons -->
+    <div class="controls-panel">
+        <button class="btn-float" id="btnTheme" title="Change Theme">🎨</button>
+        <button class="btn-float" id="btnAdmin" title="Admin Panel">🔒</button>
     </div>
 
     <!-- Header -->
     <header>
-        <div class="logo-container">
-            <img src="OIP.webp" alt="MIDADE Logo">
+        <div class="logo-wrap">
+            <img src="OIP.webp" alt="MIDADE">
             <div class="logo-text">
-                <h1>MIDADE Mieh w Mieh</h1>
-                <p>Mouvement International D'apostolat Des Enfants</p>
+                <h1 data-i18n="app_title">MIDADE Mieh w Mieh</h1>
+                <p data-i18n="app_subtitle">Mouvement International D'apostolat Des Enfants</p>
             </div>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#groups">Groups</a></li>
-                <li><a href="#colonie">Colonie</a></li>
-            </ul>
-        </nav>
+        <div>
+            <select id="langSelect" class="lang-select">
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="ar">العربية</option>
+            </select>
+            <!-- Logout Button (Only visible if admin) -->
+            <button class="btn btn-danger admin-only" id="btnLogout" style="padding: 5px 15px; margin-left: 10px; margin-top:0;">Logout</button>
+        </div>
     </header>
 
     <!-- Hero -->
     <section class="hero">
-        <h2>Welcome to MIDADE Mieh w Mieh</h2>
-        <p>Empowering children through faith, friendship, and unforgettable memories.</p>
+        <h2 data-i18n="hero_title">Welcome to MIDADE Mieh w Mieh</h2>
+        <p data-i18n="hero_desc">Empowering children through faith, friendship, and unforgettable memories.</p>
     </section>
 
-    <!-- Groups Section -->
-    <section id="groups">
-        <h2 class="section-title">Our Groups</h2>
-        <div class="grid-container">
-            <div class="card"><h3>Group 1</h3><p>Ages 3 - 7</p><button class="btn" onclick="openAlbum('Group 1 Album')">View Album</button></div>
-            <div class="card"><h3>Group 2</h3><p>Ages 7 - 8</p><button class="btn" onclick="openAlbum('Group 2 Album')">View Album</button></div>
-            <div class="card"><h3>Group 3</h3><p>Ages 9 - 10</p><button class="btn" onclick="openAlbum('Group 3 Album')">View Album</button></div>
-            <div class="card"><h3>Group 4</h3><p>Ages 11 - 12</p><button class="btn" onclick="openAlbum('Group 4 Album')">View Album</button></div>
-            <div class="card"><h3>Group 5</h3><p>Ages 13 - 14</p><button class="btn" onclick="openAlbum('Group 5 Album')">View Album</button></div>
-        </div>
-    </section>
+    <!-- Dynamic Main Groups -->
+    <h2 class="section-title" data-i18n="title_groups">Our Groups</h2>
+    <div id="loaderGroups" class="loader"></div>
+    <div id="groupsGrid" class="grid"></div>
 
-    <!-- Colonie Section -->
-    <section id="colonie" class="colonie-section">
-        <h2 class="section-title">Summer Colonie</h2>
-        <div class="grid-container">
-            <div class="colonie-card"><span class="colonie-date">July 2025</span><h3>Colonie Group 1</h3><button class="btn" onclick="openAlbum('Colonie Group 1')">Colonie Album</button></div>
-            <div class="colonie-card"><span class="colonie-date">August 2025</span><h3>Colonie Group 2</h3><button class="btn" onclick="openAlbum('Colonie Group 2')">Colonie Album</button></div>
-            <div class="colonie-card"><span class="colonie-date">July 2025</span><h3>Colonie Group 3</h3><button class="btn" onclick="openAlbum('Colonie Group 3')">Colonie Album</button></div>
-            <div class="colonie-card"><span class="colonie-date">August 2025</span><h3>Colonie Group 4</h3><button class="btn" onclick="openAlbum('Colonie Group 4')">Colonie Album</button></div>
-            <div class="colonie-card"><span class="colonie-date">August 2025</span><h3>Colonie Group 5</h3><button class="btn" onclick="openAlbum('Colonie Group 5')">Colonie Album</button></div>
-        </div>
-    </section>
+    <!-- Dynamic Colonie -->
+    <h2 class="section-title" data-i18n="title_colonie">Summer Colonie</h2>
+    <div id="loaderColonie" class="loader"></div>
+    <div id="colonieGrid" class="grid"></div>
 
-    <!-- Gallery Modal -->
-    <div id="albumModal" class="modal">
+    <!-- Modals -->
+    
+    <!-- 1. Gallery Modal -->
+    <div id="modalGallery" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('albumModal')">&times;</span>
-            <h2 id="modalTitle" style="color: var(--primary-color);">Album Name</h2>
-            <div class="gallery-grid" id="galleryGrid"></div>
+            <span class="close-btn modal-close">&times;</span>
+            <h2 id="galleryTitle" style="color: var(--primary);">Album</h2>
+            <div id="galleryLoader" class="loader hidden"></div>
+            <div id="galleryGrid" class="gallery-grid"></div>
         </div>
     </div>
 
-    <!-- Admin Login & Upload Modal -->
-    <div id="adminModal" class="modal">
+    <!-- 2. Admin Modal -->
+    <div id="modalAdmin" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+            <span class="close-btn modal-close">&times;</span>
             
             <!-- Login Screen -->
-            <div id="loginScreen" class="admin-form">
-                <h2 style="color: var(--primary-color);">Admin Login</h2>
-                <input type="text" id="adminUser" placeholder="Username">
-                <input type="password" id="adminPass" placeholder="Password">
-                <button class="btn" onclick="checkLogin()">Login</button>
-                <p id="loginError" style="color: red; display: none;">Incorrect username or password.</p>
+            <div id="adminLoginScreen" class="admin-box">
+                <h2 style="margin-bottom: 20px;" data-i18n="admin_login">Admin Login</h2>
+                <div class="form-group">
+                    <input type="text" id="adminUser" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="adminPass" placeholder="Password">
+                </div>
+                <button class="btn" id="btnLoginSubmit">Login</button>
+                <p id="loginError" style="color: red; margin-top: 10px;" class="hidden">Access Denied.</p>
             </div>
 
-            <!-- Upload Dashboard (Hidden until logged in) -->
-            <div id="uploadScreen" class="admin-form hidden">
-                <h2 style="color: var(--primary-color);">Admin Dashboard</h2>
-                <p>Upload a picture to a specific group.</p>
+            <!-- Dashboard Screen (Hidden until logged in) -->
+            <div id="adminDashboardScreen" class="hidden">
+                <h2 style="margin-bottom: 20px; text-align:center;" data-i18n="admin_panel">Admin Control Panel</h2>
                 
-                <label>Select Album:</label>
-                <select id="albumSelect">
-                    <option value="Group 1 Album">Group 1 Album</option>
-                    <option value="Group 2 Album">Group 2 Album</option>
-                    <option value="Group 3 Album">Group 3 Album</option>
-                    <option value="Group 4 Album">Group 4 Album</option>
-                    <option value="Group 5 Album">Group 5 Album</option>
-                    <option value="Colonie Group 1">Colonie Group 1</option>
-                    <option value="Colonie Group 2">Colonie Group 2</option>
-                    <option value="Colonie Group 3">Colonie Group 3</option>
-                    <option value="Colonie Group 4">Colonie Group 4</option>
-                    <option value="Colonie Group 5">Colonie Group 5</option>
-                </select>
+                <div class="admin-dashboard">
+                    <!-- Left: Upload Photo -->
+                    <div class="admin-panel-section">
+                        <h3>Upload Picture</h3>
+                        <p style="font-size: 0.8rem; color:#666; margin-bottom:15px;">Send a picture permanently to the database.</p>
+                        <div class="form-group">
+                            <label>Select Group/Album</label>
+                            <select id="uploadTargetGroup"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Choose File</label>
+                            <input type="file" id="uploadFile" accept="image/*">
+                        </div>
+                        <button class="btn" id="btnUploadSubmit">Upload Image</button>
+                        <p id="uploadStatus" style="margin-top: 10px; font-weight:bold;"></p>
+                    </div>
 
-                <label>Choose Picture:</label>
-                <input type="file" id="imageUpload" accept="image/png, image/jpeg, image/webp">
-                
-                <button class="btn" id="uploadBtnText" onclick="saveImage()">Upload Picture</button>
-                <p id="uploadSuccess" style="color: green; display: none;">Picture uploaded to database successfully!</p>
-                <button class="btn" style="background-color: #666;" onclick="logoutAdmin()">Logout</button>
+                    <!-- Right: Manage Groups -->
+                    <div class="admin-panel-section">
+                        <h3>Manage Groups</h3>
+                        <p style="font-size: 0.8rem; color:#666; margin-bottom:15px;">Create, Edit, or Delete groups live.</p>
+                        
+                        <div style="background: #fff; padding: 15px; border-radius:10px; margin-bottom:15px;">
+                            <h4 style="margin-bottom:10px;">Create New Group</h4>
+                            <div class="form-group"><input type="text" id="newGroupName" placeholder="Name (e.g., Group 6)"></div>
+                            <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Badge (e.g., Ages 15-16, or July 2026)"></div>
+                            <div class="form-group">
+                                <select id="newGroupType">
+                                    <option value="regular">Main Group</option>
+                                    <option value="colonie">Summer Colonie</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline" id="btnCreateGroup" style="width:100%">Create</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer><p>&copy; 2026 MIDADE Mieh w Mieh</p></footer>
+    <!-- Edit Group Prompt Modal (Fable 5 style, no ugly browser prompts) -->
+    <div id="modalEdit" class="modal" style="z-index: 3000;">
+        <div class="modal-content" style="max-width: 400px; text-align:center;">
+            <span class="close-btn modal-close">&times;</span>
+            <h3 style="margin-bottom:15px;">Edit Group</h3>
+            <div class="form-group"><input type="text" id="editGroupName" placeholder="New Name"></div>
+            <div class="form-group"><input type="text" id="editGroupBadge" placeholder="New Badge/Date"></div>
+            <input type="hidden" id="editGroupId">
+            <button class="btn" id="btnSaveEdit">Save Changes</button>
+        </div>
+    </div>
 
-    <!-- Firebase System Integration -->
+    <!-- Core Script - No inline HTML handlers to prevent module bugs -->
     <script type="module">
-        // Import Firebase Functions from Google's Servers
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
-        // Your Exact Firebase Configuration
+        // --- 1. System Config ---
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
             authDomain: "midade-website.firebaseapp.com",
             projectId: "midade-website",
             storageBucket: "midade-website.firebasestorage.app",
             messagingSenderId: "50742520540",
-            appId: "1:50742520540:web:471125a0da58699ea32219",
-            measurementId: "G-KZX2KPFSXG"
+            appId: "1:50742520540:web:471125a0da58699ea32219"
         };
 
-        // Boot up the database
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        // --- Theme Toggle Logic ---
-        const themeBtn = document.getElementById('themeToggleBtn');
-        if(localStorage.getItem('midade_theme') === 'pink') {
-            document.body.classList.add('pink-theme');
+        // --- 2. State & Language Dictionary ---
+        let globalGroups = [];
+        let currentLang = localStorage.getItem('midade_lang') || 'en';
+        
+        const dictionary = {
+            en: {
+                app_title: "MIDADE Mieh w Mieh", app_subtitle: "International Movement of Apostolate of Children",
+                hero_title: "Welcome to MIDADE", hero_desc: "Empowering children through faith, friendship, and unforgettable memories.",
+                title_groups: "Our Groups", title_colonie: "Summer Colonie", btn_view: "View Album", 
+                admin_login: "Admin Login", admin_panel: "Admin Control Panel"
+            },
+            fr: {
+                app_title: "MIDADE Mieh w Mieh", app_subtitle: "Mouvement International d'Apostolat des Enfants",
+                hero_title: "Bienvenue au MIDADE", hero_desc: "Autonomiser les enfants par la foi, l'amitié et des souvenirs inoubliables.",
+                title_groups: "Nos Groupes", title_colonie: "Colonie d'été", btn_view: "Voir l'album",
+                admin_login: "Connexion Admin", admin_panel: "Panneau d'administration"
+            },
+            ar: {
+                app_title: "ميداد مية ومية", app_subtitle: "الحركة الدولية لرسالة الأطفال",
+                hero_title: "مرحباً بكم في ميداد", hero_desc: "تمكين الأطفال من خلال الإيمان والصداقة وذكريات لا تُنسى.",
+                title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", btn_view: "عرض الصور",
+                admin_login: "دخول المسؤول", admin_panel: "لوحة تحكم المسؤول"
+            }
+        };
+
+        // --- 3. UI Control Functions ---
+        
+        // Setup Language
+        function applyLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('midade_lang', lang);
+            document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('langSelect').value = lang;
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dictionary[lang][key]) el.textContent = dictionary[lang][key];
+            });
+            renderDOMGroups(); // Re-render groups to update button languages
         }
 
-        themeBtn.addEventListener('click', () => {
+        // Setup Theme
+        function toggleTheme() {
             document.body.classList.toggle('pink-theme');
-            if(document.body.classList.contains('pink-theme')) {
-                localStorage.setItem('midade_theme', 'pink');
-            } else {
-                localStorage.setItem('midade_theme', 'blue');
-            }
-        });
+            localStorage.setItem('midade_theme', document.body.classList.contains('pink-theme') ? 'pink' : 'blue');
+        }
 
-        // --- Global Functions (Attached to Window so HTML buttons can click them) ---
+        // Setup Admin Auth Check
+        function checkAuthState() {
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            if (isAdmin) {
+                document.body.classList.add('is-admin');
+                document.getElementById('adminLoginScreen').classList.add('hidden');
+                document.getElementById('adminDashboardScreen').classList.remove('hidden');
+            } else {
+                document.body.classList.remove('is-admin');
+                document.getElementById('adminLoginScreen').classList.remove('hidden');
+                document.getElementById('adminDashboardScreen').classList.add('hidden');
+            }
+            renderDOMGroups(); // Re-render to show/hide edit buttons on cards
+        }
+
+        // Modals
+        function openModal(id) { 
+            document.getElementById(id).style.display = 'flex'; 
+        }
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+        }
+
+        // --- 4. Database Core Functions ---
+
+        // Fetch everything on load
+        async function fetchAllData() {
+            try {
+                const snap = await getDocs(collection(db, "midade_groups_v2"));
+                globalGroups = [];
+                snap.forEach(doc => { globalGroups.push({ id: doc.id, ...doc.data() }); });
+                
+                // If Database is completely empty, inject initial setup
+                if (globalGroups.length === 0) {
+                    await seedInitialDatabase();
+                    return; // Seed will recall fetchAllData
+                }
+
+                renderDOMGroups();
+                populateAdminDropdown();
+            } catch (err) {
+                console.error("Firebase Read Error:", err);
+                alert("Database connection failed. Ensure Firebase Test Mode Rules are active.");
+            }
+        }
+
+        // Render Groups to Screen
+        function renderDOMGroups() {
+            const grpGrid = document.getElementById('groupsGrid');
+            const colGrid = document.getElementById('colonieGrid');
+            
+            document.getElementById('loaderGroups').classList.add('hidden');
+            document.getElementById('loaderColonie').classList.add('hidden');
+            
+            grpGrid.innerHTML = ''; colGrid.innerHTML = '';
+
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            const btnText = dictionary[currentLang].btn_view;
+
+            globalGroups.forEach(g => {
+                const adminControls = isAdmin ? `
+                    <div style="margin-top:15px; display:flex; gap:10px; justify-content:center;">
+                        <button class="btn btn-outline" style="padding:5px 10px; font-size:0.8rem;" data-edit="${g.id}">Edit</button>
+                        <button class="btn btn-danger" style="padding:5px 10px; font-size:0.8rem;" data-delete="${g.id}">Trash</button>
+                    </div>
+                ` : '';
+
+                const cardHTML = `
+                    <div class="card">
+                        <h3>${g.name}</h3>
+                        <span class="badge">${g.badge}</span><br>
+                        <button class="btn view-album-btn" data-id="${g.id}" data-name="${g.name}">${btnText}</button>
+                        ${adminControls}
+                    </div>
+                `;
+
+                if (g.type === 'regular') grpGrid.innerHTML += cardHTML;
+                else colGrid.innerHTML += cardHTML;
+            });
+
+            attachCardListeners();
+        }
+
+        // Bind dynamic buttons (Avoids module scope bugs)
+        function attachCardListeners() {
+            // View Album
+            document.querySelectorAll('.view-album-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => loadAlbumImages(e.target.dataset.id, e.target.dataset.name));
+            });
+            // Admin Edit
+            document.querySelectorAll('[data-edit]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const group = globalGroups.find(g => g.id === e.target.dataset.edit);
+                    document.getElementById('editGroupName').value = group.name;
+                    document.getElementById('editGroupBadge').value = group.badge;
+                    document.getElementById('editGroupId').value = group.id;
+                    openModal('modalEdit');
+                });
+            });
+            // Admin Delete
+            document.querySelectorAll('[data-delete]').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    if(confirm("Are you sure you want to completely delete this group?")) {
+                        await deleteDoc(doc(db, "midade_groups_v2", e.target.dataset.delete));
+                        fetchAllData();
+                    }
+                });
+            });
+        }
+
+        // --- 5. Image & Gallery Logic ---
         
-        window.closeModal = function(modalId) { 
-            document.getElementById(modalId).style.display = "none"; 
-        };
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) event.target.style.display = "none";
-        };
-
-        window.openAdmin = function() { 
-            document.getElementById('adminModal').style.display = "block"; 
-        };
-
-        window.checkLogin = function() {
-            const user = document.getElementById('adminUser').value;
-            const pass = document.getElementById('adminPass').value;
-            if (user === 'admin' && pass === 'midade2026') {
-                document.getElementById('loginScreen').classList.add('hidden');
-                document.getElementById('uploadScreen').classList.remove('hidden');
-                document.getElementById('loginError').style.display = 'none';
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
-        };
-
-        window.logoutAdmin = function() {
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('uploadScreen').classList.add('hidden');
-            document.getElementById('adminUser').value = '';
-            document.getElementById('adminPass').value = '';
-            window.closeModal('adminModal');
-        };
-
-        // --- Database Logic: Fetching Images ---
-        window.openAlbum = async function(albumName) {
-            document.getElementById('modalTitle').innerText = albumName;
+        async function loadAlbumImages(groupId, groupName) {
+            document.getElementById('galleryTitle').innerText = groupName;
             const grid = document.getElementById('galleryGrid');
-            grid.innerHTML = '<p style="color:#666;">Loading real images from database...</p>'; 
-            document.getElementById('albumModal').style.display = "block";
+            const loader = document.getElementById('galleryLoader');
+            
+            grid.innerHTML = '';
+            loader.classList.remove('hidden');
+            openModal('modalGallery');
 
             try {
-                // Search the database for pictures matching this album
-                const q = query(collection(db, "midade_albums"), where("albumName", "==", albumName));
-                const querySnapshot = await getDocs(q);
+                const q = query(collection(db, "midade_photos"), where("groupId", "==", groupId));
+                const snap = await getDocs(q);
+                loader.classList.add('hidden');
                 
-                grid.innerHTML = ''; // Clear loading text
-                
-                if (querySnapshot.empty) {
-                    grid.innerHTML = '<p>No pictures uploaded to this group yet.</p>';
+                if (snap.empty) {
+                    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center;">No pictures uploaded yet.</p>';
                 } else {
-                    querySnapshot.forEach((doc) => {
-                        const img = document.createElement('img');
-                        img.src = doc.data().imageUrl;
-                        grid.appendChild(img);
+                    snap.forEach(d => {
+                        grid.innerHTML += `<img src="${d.data().url}" loading="lazy">`;
                     });
                 }
-            } catch (error) {
-                grid.innerHTML = '<p style="color:red;">Error loading pictures. Make sure database Test Mode is enabled.</p>';
-                console.error("Firebase Error: ", error);
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = '<p style="color:red;">Failed to load photos.</p>';
             }
-        };
+        }
 
-        // --- Database Logic: Uploading Images ---
-        window.saveImage = async function() {
-            const fileInput = document.getElementById('imageUpload');
-            const albumName = document.getElementById('albumSelect').value;
-            const uploadBtnText = document.getElementById('uploadBtnText');
+        // --- 6. Admin Actions (Create, Edit, Upload) ---
 
-            if (fileInput.files.length === 0) {
-                alert("Please select a file first.");
-                return;
-            }
+        function populateAdminDropdown() {
+            const select = document.getElementById('uploadTargetGroup');
+            select.innerHTML = '<option value="">-- Choose Group --</option>';
+            globalGroups.forEach(g => {
+                select.innerHTML += `<option value="${g.id}">${g.name} (${g.badge})</option>`;
+            });
+        }
 
-            const file = fileInput.files[0];
-            uploadBtnText.innerText = "Uploading... Please wait";
-            uploadBtnText.style.opacity = "0.7";
+        async function createNewGroup() {
+            const name = document.getElementById('newGroupName').value;
+            const badge = document.getElementById('newGroupBadge').value;
+            const type = document.getElementById('newGroupType').value;
+            
+            if(!name || !badge) return alert("Please fill all fields");
+
+            document.getElementById('btnCreateGroup').innerText = "Creating...";
+            await addDoc(collection(db, "midade_groups_v2"), { name, badge, type });
+            
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('newGroupBadge').value = '';
+            document.getElementById('btnCreateGroup').innerText = "Create";
+            
+            fetchAllData(); // Reload UI
+        }
+
+        async function saveGroupEdit() {
+            const id = document.getElementById('editGroupId').value;
+            const name = document.getElementById('editGroupName').value;
+            const badge = document.getElementById('editGroupBadge').value;
+            
+            await updateDoc(doc(db, "midade_groups_v2", id), { name, badge });
+            closeAllModals();
+            fetchAllData();
+        }
+
+        async function handleImageUpload() {
+            const file = document.getElementById('uploadFile').files[0];
+            const groupId = document.getElementById('uploadTargetGroup').value;
+            const statusText = document.getElementById('uploadStatus');
+
+            if(!file || !groupId) return alert("Select a group and a file.");
+
+            document.getElementById('btnUploadSubmit').innerText = "Uploading... Wait";
+            statusText.style.color = "orange";
+            statusText.innerText = "Uploading image to cloud...";
 
             try {
-                // 1. Send the actual picture file to Firebase Storage
-                const storageRef = ref(storage, `midade_pictures/${Date.now()}_${file.name}`);
+                // 1. Upload File to Storage
+                const storageRef = ref(storage, `midade_2026/${Date.now()}_${file.name}`);
                 await uploadBytes(storageRef, file);
                 
-                // 2. Get the permanent internet link for that picture
-                const downloadURL = await getDownloadURL(storageRef);
+                // 2. Get Public URL
+                const url = await getDownloadURL(storageRef);
 
-                // 3. Save that link to the correct Group Album in Firestore
-                await addDoc(collection(db, "midade_albums"), {
-                    albumName: albumName,
-                    imageUrl: downloadURL,
+                // 3. Save to Firestore DB
+                await addDoc(collection(db, "midade_photos"), {
+                    groupId: groupId,
+                    url: url,
                     timestamp: Date.now()
                 });
 
-                document.getElementById('uploadSuccess').style.display = 'block';
-                setTimeout(() => { document.getElementById('uploadSuccess').style.display = 'none'; }, 4000);
-                fileInput.value = ''; // clear input
-            } catch (error) {
-                alert("Error uploading: " + error.message);
-                console.error(error);
+                statusText.style.color = "green";
+                statusText.innerText = "Success! Photo live for everyone.";
+                document.getElementById('uploadFile').value = '';
+            } catch (err) {
+                console.error(err);
+                statusText.style.color = "red";
+                statusText.innerText = "Error: " + err.message;
             }
+            document.getElementById('btnUploadSubmit').innerText = "Upload Image";
+        }
 
-            uploadBtnText.innerText = "Upload Picture";
-            uploadBtnText.style.opacity = "1";
-        };
+        // --- 7. Event Listeners Boot Sequence ---
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // Initialization Checkers
+            if (localStorage.getItem('midade_theme') === 'pink') document.body.classList.add('pink-theme');
+            applyLanguage(currentLang);
+            checkAuthState();
+            fetchAllData();
+
+            // Bind Top Level UI
+            document.getElementById('langSelect').addEventListener('change', (e) => applyLanguage(e.target.value));
+            document.getElementById('btnTheme').addEventListener('click', toggleTheme);
+            document.getElementById('btnAdmin').addEventListener('click', () => openModal('modalAdmin'));
+            
+            document.querySelectorAll('.modal-close').forEach(btn => {
+                btn.addEventListener('click', closeAllModals);
+            });
+            window.addEventListener('click', (e) => {
+                if(e.target.classList.contains('modal')) closeAllModals();
+            });
+
+            // Bind Admin Login
+            document.getElementById('btnLoginSubmit').addEventListener('click', () => {
+                const u = document.getElementById('adminUser').value;
+                const p = document.getElementById('adminPass').value;
+                if(u === 'admin' && p === 'midade2026') {
+                    localStorage.setItem('midade_auth', 'secure_token_true');
+                    checkAuthState();
+                } else {
+                    document.getElementById('loginError').classList.remove('hidden');
+                }
+            });
+            document.getElementById('btnLogout').addEventListener('click', () => {
+                localStorage.removeItem('midade_auth');
+                checkAuthState();
+            });
+
+            // Bind Admin Dash Actions
+            document.getElementById('btnCreateGroup').addEventListener('click', createNewGroup);
+            document.getElementById('btnSaveEdit').addEventListener('click', saveGroupEdit);
+            document.getElementById('btnUploadSubmit').addEventListener('click', handleImageUpload);
+        });
+
+        // --- 8. Database Seeder (Only runs once ever) ---
+        async function seedInitialDatabase() {
+            const defaults = [
+                { type: 'regular', name: 'Group 1', badge: 'Ages 3 - 7' },
+                { type: 'regular', name: 'Group 2', badge: 'Ages 7 - 8' },
+                { type: 'regular', name: 'Group 3', badge: 'Ages 9 - 10' },
+                { type: 'regular', name: 'Group 4', badge: 'Ages 11 - 12' },
+                { type: 'regular', name: 'Group 5', badge: 'Ages 13 - 14' },
+                { type: 'colonie', name: 'Colonie Group 1', badge: 'July 2026' },
+                { type: 'colonie', name: 'Colonie Group 2', badge: 'August 2026' },
+                { type: 'colonie', name: 'Colonie Group 3', badge: 'July 2026' },
+                { type: 'colonie', name: 'Colonie Group 4', badge: 'August 2026' },
+                { type: 'colonie', name: 'Colonie Group 5', badge: 'August 2026' }
+            ];
+            for (let d of defaults) { await addDoc(collection(db, "midade_groups_v2"), d); }
+            fetchAllData(); // Reload with new data
+        }
+
     </script>
 </body>
 </html>
