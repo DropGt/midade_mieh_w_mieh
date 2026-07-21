@@ -188,8 +188,8 @@
                 <label>Choose Picture:</label>
                 <input type="file" id="imageUpload" accept="image/png, image/jpeg, image/webp">
                 
-                <button class="btn" onclick="saveImage()">Upload Picture</button>
-                <p id="uploadSuccess" style="color: green; display: none;">Picture uploaded successfully!</p>
+                <button class="btn" id="uploadBtnText" onclick="saveImage()">Upload Picture</button>
+                <p id="uploadSuccess" style="color: green; display: none;">Picture uploaded to database successfully!</p>
                 <button class="btn" style="background-color: #666;" onclick="logoutAdmin()">Logout</button>
             </div>
         </div>
@@ -197,11 +197,31 @@
 
     <footer><p>&copy; 2026 MIDADE Mieh w Mieh</p></footer>
 
-    <script>
+    <!-- Firebase System Integration -->
+    <script type="module">
+        // Import Firebase Functions from Google's Servers
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+        // Your Exact Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
+            authDomain: "midade-website.firebaseapp.com",
+            projectId: "midade-website",
+            storageBucket: "midade-website.firebasestorage.app",
+            messagingSenderId: "50742520540",
+            appId: "1:50742520540:web:471125a0da58699ea32219",
+            measurementId: "G-KZX2KPFSXG"
+        };
+
+        // Boot up the database
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
         // --- Theme Toggle Logic ---
         const themeBtn = document.getElementById('themeToggleBtn');
-        
-        // Check saved theme on load
         if(localStorage.getItem('midade_theme') === 'pink') {
             document.body.classList.add('pink-theme');
         }
@@ -215,41 +235,23 @@
             }
         });
 
-        // --- Modal Controls ---
-        function closeModal(modalId) { document.getElementById(modalId).style.display = "none"; }
+        // --- Global Functions (Attached to Window so HTML buttons can click them) ---
+        
+        window.closeModal = function(modalId) { 
+            document.getElementById(modalId).style.display = "none"; 
+        };
+
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) event.target.style.display = "none";
-        }
+        };
 
-        // --- Gallery Logic ---
-        function openAlbum(albumName) {
-            document.getElementById('modalTitle').innerText = albumName;
-            const grid = document.getElementById('galleryGrid');
-            grid.innerHTML = ''; 
+        window.openAdmin = function() { 
+            document.getElementById('adminModal').style.display = "block"; 
+        };
 
-            // Load saved images from browser memory
-            const savedData = JSON.parse(localStorage.getItem('midade_images')) || {};
-            const albumImages = savedData[albumName] || [];
-
-            if (albumImages.length === 0) {
-                grid.innerHTML = '<p>No real pictures uploaded yet.</p>';
-            } else {
-                albumImages.forEach(imgSrc => {
-                    const img = document.createElement('img');
-                    img.src = imgSrc;
-                    grid.appendChild(img);
-                });
-            }
-            document.getElementById('albumModal').style.display = "block";
-        }
-
-        // --- Admin Logic ---
-        function openAdmin() { document.getElementById('adminModal').style.display = "block"; }
-
-        function checkLogin() {
+        window.checkLogin = function() {
             const user = document.getElementById('adminUser').value;
             const pass = document.getElementById('adminPass').value;
-
             if (user === 'admin' && pass === 'midade2026') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('uploadScreen').classList.remove('hidden');
@@ -257,19 +259,50 @@
             } else {
                 document.getElementById('loginError').style.display = 'block';
             }
-        }
+        };
 
-        function logoutAdmin() {
+        window.logoutAdmin = function() {
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('uploadScreen').classList.add('hidden');
             document.getElementById('adminUser').value = '';
             document.getElementById('adminPass').value = '';
-            closeModal('adminModal');
-        }
+            window.closeModal('adminModal');
+        };
 
-        function saveImage() {
+        // --- Database Logic: Fetching Images ---
+        window.openAlbum = async function(albumName) {
+            document.getElementById('modalTitle').innerText = albumName;
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '<p style="color:#666;">Loading real images from database...</p>'; 
+            document.getElementById('albumModal').style.display = "block";
+
+            try {
+                // Search the database for pictures matching this album
+                const q = query(collection(db, "midade_albums"), where("albumName", "==", albumName));
+                const querySnapshot = await getDocs(q);
+                
+                grid.innerHTML = ''; // Clear loading text
+                
+                if (querySnapshot.empty) {
+                    grid.innerHTML = '<p>No pictures uploaded to this group yet.</p>';
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const img = document.createElement('img');
+                        img.src = doc.data().imageUrl;
+                        grid.appendChild(img);
+                    });
+                }
+            } catch (error) {
+                grid.innerHTML = '<p style="color:red;">Error loading pictures. Make sure database Test Mode is enabled.</p>';
+                console.error("Firebase Error: ", error);
+            }
+        };
+
+        // --- Database Logic: Uploading Images ---
+        window.saveImage = async function() {
             const fileInput = document.getElementById('imageUpload');
             const albumName = document.getElementById('albumSelect').value;
+            const uploadBtnText = document.getElementById('uploadBtnText');
 
             if (fileInput.files.length === 0) {
                 alert("Please select a file first.");
@@ -277,25 +310,35 @@
             }
 
             const file = fileInput.files[0];
-            const reader = new FileReader();
+            uploadBtnText.innerText = "Uploading... Please wait";
+            uploadBtnText.style.opacity = "0.7";
 
-            // Convert image to Base64 string so it can be saved in LocalStorage
-            reader.onload = function(e) {
-                const base64Image = e.target.result;
+            try {
+                // 1. Send the actual picture file to Firebase Storage
+                const storageRef = ref(storage, `midade_pictures/${Date.now()}_${file.name}`);
+                await uploadBytes(storageRef, file);
                 
-                let savedData = JSON.parse(localStorage.getItem('midade_images')) || {};
-                if (!savedData[albumName]) savedData[albumName] = [];
-                
-                savedData[albumName].push(base64Image);
-                localStorage.setItem('midade_images', JSON.stringify(savedData));
+                // 2. Get the permanent internet link for that picture
+                const downloadURL = await getDownloadURL(storageRef);
+
+                // 3. Save that link to the correct Group Album in Firestore
+                await addDoc(collection(db, "midade_albums"), {
+                    albumName: albumName,
+                    imageUrl: downloadURL,
+                    timestamp: Date.now()
+                });
 
                 document.getElementById('uploadSuccess').style.display = 'block';
-                setTimeout(() => { document.getElementById('uploadSuccess').style.display = 'none'; }, 3000);
+                setTimeout(() => { document.getElementById('uploadSuccess').style.display = 'none'; }, 4000);
                 fileInput.value = ''; // clear input
-            };
+            } catch (error) {
+                alert("Error uploading: " + error.message);
+                console.error(error);
+            }
 
-            reader.readAsDataURL(file);
-        }
+            uploadBtnText.innerText = "Upload Picture";
+            uploadBtnText.style.opacity = "1";
+        };
     </script>
 </body>
 </html>
