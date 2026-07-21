@@ -78,7 +78,7 @@
         .btn-danger { background: #dc3545; } .btn-danger:hover { background: #b02a37; }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
 
-        /* Modals (Glassmorphism) */
+        /* Modals */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: var(--bg-card); width: 90%; max-width: 1000px; border-radius: 25px; padding: 30px; max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.4s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
@@ -117,7 +117,7 @@
 </head>
 <body>
 
-    <!-- Floating Buttons -->
+    <!-- Floating Controls -->
     <div class="controls-panel">
         <button class="btn-float" id="btnTheme" title="Change Theme">🎨</button>
         <button class="btn-float" id="btnAdmin" title="Admin Panel">🔒</button>
@@ -138,7 +138,6 @@
                 <option value="fr">Français</option>
                 <option value="ar">العربية</option>
             </select>
-            <!-- Logout Button (Only visible if admin) -->
             <button class="btn btn-danger admin-only" id="btnLogout" style="padding: 5px 15px; margin-left: 10px; margin-top:0;">Logout</button>
         </div>
     </header>
@@ -160,8 +159,6 @@
     <div id="colonieGrid" class="grid"></div>
 
     <!-- Modals -->
-    
-    <!-- 1. Gallery Modal -->
     <div id="modalGallery" class="modal">
         <div class="modal-content">
             <span class="close-btn modal-close">&times;</span>
@@ -171,33 +168,25 @@
         </div>
     </div>
 
-    <!-- 2. Admin Modal -->
     <div id="modalAdmin" class="modal">
         <div class="modal-content">
             <span class="close-btn modal-close">&times;</span>
             
-            <!-- Login Screen -->
             <div id="adminLoginScreen" class="admin-box">
                 <h2 style="margin-bottom: 20px;" data-i18n="admin_login">Admin Login</h2>
-                <div class="form-group">
-                    <input type="text" id="adminUser" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="adminPass" placeholder="Password">
-                </div>
+                <div class="form-group"><input type="text" id="adminUser" placeholder="Username"></div>
+                <div class="form-group"><input type="password" id="adminPass" placeholder="Password"></div>
                 <button class="btn" id="btnLoginSubmit">Login</button>
                 <p id="loginError" style="color: red; margin-top: 10px;" class="hidden">Access Denied.</p>
             </div>
 
-            <!-- Dashboard Screen (Hidden until logged in) -->
             <div id="adminDashboardScreen" class="hidden">
                 <h2 style="margin-bottom: 20px; text-align:center;" data-i18n="admin_panel">Admin Control Panel</h2>
                 
                 <div class="admin-dashboard">
-                    <!-- Left: Upload Photo -->
                     <div class="admin-panel-section">
                         <h3>Upload Picture</h3>
-                        <p style="font-size: 0.8rem; color:#666; margin-bottom:15px;">Send a picture permanently to the database.</p>
+                        <p style="font-size: 0.8rem; color:#666; margin-bottom:15px;">Send a picture directly to database.</p>
                         <div class="form-group">
                             <label>Select Group/Album</label>
                             <select id="uploadTargetGroup"></select>
@@ -210,7 +199,6 @@
                         <p id="uploadStatus" style="margin-top: 10px; font-weight:bold;"></p>
                     </div>
 
-                    <!-- Right: Manage Groups -->
                     <div class="admin-panel-section">
                         <h3>Manage Groups</h3>
                         <p style="font-size: 0.8rem; color:#666; margin-bottom:15px;">Create, Edit, or Delete groups live.</p>
@@ -218,7 +206,7 @@
                         <div style="background: #fff; padding: 15px; border-radius:10px; margin-bottom:15px;">
                             <h4 style="margin-bottom:10px;">Create New Group</h4>
                             <div class="form-group"><input type="text" id="newGroupName" placeholder="Name (e.g., Group 6)"></div>
-                            <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Badge (e.g., Ages 15-16, or July 2026)"></div>
+                            <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Badge (e.g., Ages 15-16)"></div>
                             <div class="form-group">
                                 <select id="newGroupType">
                                     <option value="regular">Main Group</option>
@@ -233,7 +221,6 @@
         </div>
     </div>
 
-    <!-- Edit Group Prompt Modal (Fable 5 style, no ugly browser prompts) -->
     <div id="modalEdit" class="modal" style="z-index: 3000;">
         <div class="modal-content" style="max-width: 400px; text-align:center;">
             <span class="close-btn modal-close">&times;</span>
@@ -245,13 +232,11 @@
         </div>
     </div>
 
-    <!-- Core Script - No inline HTML handlers to prevent module bugs -->
+    <!-- Core Script (Firestore-Only Image Storage) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-        // --- 1. System Config ---
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
             authDomain: "midade-website.firebaseapp.com",
@@ -263,9 +248,7 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        // --- 2. State & Language Dictionary ---
         let globalGroups = [];
         let currentLang = localStorage.getItem('midade_lang') || 'en';
         
@@ -290,9 +273,6 @@
             }
         };
 
-        // --- 3. UI Control Functions ---
-        
-        // Setup Language
         function applyLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('midade_lang', lang);
@@ -303,16 +283,14 @@
                 const key = el.getAttribute('data-i18n');
                 if (dictionary[lang][key]) el.textContent = dictionary[lang][key];
             });
-            renderDOMGroups(); // Re-render groups to update button languages
+            renderDOMGroups();
         }
 
-        // Setup Theme
         function toggleTheme() {
             document.body.classList.toggle('pink-theme');
             localStorage.setItem('midade_theme', document.body.classList.contains('pink-theme') ? 'pink' : 'blue');
         }
 
-        // Setup Admin Auth Check
         function checkAuthState() {
             const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
             if (isAdmin) {
@@ -324,30 +302,21 @@
                 document.getElementById('adminLoginScreen').classList.remove('hidden');
                 document.getElementById('adminDashboardScreen').classList.add('hidden');
             }
-            renderDOMGroups(); // Re-render to show/hide edit buttons on cards
+            renderDOMGroups();
         }
 
-        // Modals
-        function openModal(id) { 
-            document.getElementById(id).style.display = 'flex'; 
-        }
-        function closeAllModals() {
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
 
-        // --- 4. Database Core Functions ---
-
-        // Fetch everything on load
         async function fetchAllData() {
             try {
                 const snap = await getDocs(collection(db, "midade_groups_v2"));
                 globalGroups = [];
                 snap.forEach(doc => { globalGroups.push({ id: doc.id, ...doc.data() }); });
                 
-                // If Database is completely empty, inject initial setup
                 if (globalGroups.length === 0) {
                     await seedInitialDatabase();
-                    return; // Seed will recall fetchAllData
+                    return;
                 }
 
                 renderDOMGroups();
@@ -358,7 +327,6 @@
             }
         }
 
-        // Render Groups to Screen
         function renderDOMGroups() {
             const grpGrid = document.getElementById('groupsGrid');
             const colGrid = document.getElementById('colonieGrid');
@@ -395,13 +363,10 @@
             attachCardListeners();
         }
 
-        // Bind dynamic buttons (Avoids module scope bugs)
         function attachCardListeners() {
-            // View Album
             document.querySelectorAll('.view-album-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => loadAlbumImages(e.target.dataset.id, e.target.dataset.name));
             });
-            // Admin Edit
             document.querySelectorAll('[data-edit]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const group = globalGroups.find(g => g.id === e.target.dataset.edit);
@@ -411,7 +376,6 @@
                     openModal('modalEdit');
                 });
             });
-            // Admin Delete
             document.querySelectorAll('[data-delete]').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     if(confirm("Are you sure you want to completely delete this group?")) {
@@ -422,8 +386,6 @@
             });
         }
 
-        // --- 5. Image & Gallery Logic ---
-        
         async function loadAlbumImages(groupId, groupName) {
             document.getElementById('galleryTitle').innerText = groupName;
             const grid = document.getElementById('galleryGrid');
@@ -451,8 +413,6 @@
             }
         }
 
-        // --- 6. Admin Actions (Create, Edit, Upload) ---
-
         function populateAdminDropdown() {
             const select = document.getElementById('uploadTargetGroup');
             select.innerHTML = '<option value="">-- Choose Group --</option>';
@@ -475,7 +435,7 @@
             document.getElementById('newGroupBadge').value = '';
             document.getElementById('btnCreateGroup').innerText = "Create";
             
-            fetchAllData(); // Reload UI
+            fetchAllData();
         }
 
         async function saveGroupEdit() {
@@ -488,53 +448,48 @@
             fetchAllData();
         }
 
-        async function handleImageUpload() {
-            const file = document.getElementById('uploadFile').files[0];
+        // --- Firestore Direct Image Upload (No Storage Required) ---
+        function handleImageUpload() {
+            const fileInput = document.getElementById('uploadFile');
+            const file = fileInput.files[0];
             const groupId = document.getElementById('uploadTargetGroup').value;
             const statusText = document.getElementById('uploadStatus');
 
             if(!file || !groupId) return alert("Select a group and a file.");
 
-            document.getElementById('btnUploadSubmit').innerText = "Uploading... Wait";
+            document.getElementById('btnUploadSubmit').innerText = "Processing...";
             statusText.style.color = "orange";
-            statusText.innerText = "Uploading image to cloud...";
+            statusText.innerText = "Converting and saving image...";
 
-            try {
-                // 1. Upload File to Storage
-                const storageRef = ref(storage, `midade_2026/${Date.now()}_${file.name}`);
-                await uploadBytes(storageRef, file);
-                
-                // 2. Get Public URL
-                const url = await getDownloadURL(storageRef);
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Data = e.target.result;
+                try {
+                    await addDoc(collection(db, "midade_photos"), {
+                        groupId: groupId,
+                        url: base64Data,
+                        timestamp: Date.now()
+                    });
 
-                // 3. Save to Firestore DB
-                await addDoc(collection(db, "midade_photos"), {
-                    groupId: groupId,
-                    url: url,
-                    timestamp: Date.now()
-                });
-
-                statusText.style.color = "green";
-                statusText.innerText = "Success! Photo live for everyone.";
-                document.getElementById('uploadFile').value = '';
-            } catch (err) {
-                console.error(err);
-                statusText.style.color = "red";
-                statusText.innerText = "Error: " + err.message;
-            }
-            document.getElementById('btnUploadSubmit').innerText = "Upload Image";
+                    statusText.style.color = "green";
+                    statusText.innerText = "Success! Photo live for everyone.";
+                    fileInput.value = '';
+                } catch (err) {
+                    console.error(err);
+                    statusText.style.color = "red";
+                    statusText.innerText = "Error: " + err.message;
+                }
+                document.getElementById('btnUploadSubmit').innerText = "Upload Image";
+            };
+            reader.readAsDataURL(file);
         }
 
-        // --- 7. Event Listeners Boot Sequence ---
         document.addEventListener("DOMContentLoaded", () => {
-            
-            // Initialization Checkers
             if (localStorage.getItem('midade_theme') === 'pink') document.body.classList.add('pink-theme');
             applyLanguage(currentLang);
             checkAuthState();
             fetchAllData();
 
-            // Bind Top Level UI
             document.getElementById('langSelect').addEventListener('change', (e) => applyLanguage(e.target.value));
             document.getElementById('btnTheme').addEventListener('click', toggleTheme);
             document.getElementById('btnAdmin').addEventListener('click', () => openModal('modalAdmin'));
@@ -546,7 +501,6 @@
                 if(e.target.classList.contains('modal')) closeAllModals();
             });
 
-            // Bind Admin Login
             document.getElementById('btnLoginSubmit').addEventListener('click', () => {
                 const u = document.getElementById('adminUser').value;
                 const p = document.getElementById('adminPass').value;
@@ -562,13 +516,11 @@
                 checkAuthState();
             });
 
-            // Bind Admin Dash Actions
             document.getElementById('btnCreateGroup').addEventListener('click', createNewGroup);
             document.getElementById('btnSaveEdit').addEventListener('click', saveGroupEdit);
             document.getElementById('btnUploadSubmit').addEventListener('click', handleImageUpload);
         });
 
-        // --- 8. Database Seeder (Only runs once ever) ---
         async function seedInitialDatabase() {
             const defaults = [
                 { type: 'regular', name: 'Group 1', badge: 'Ages 3 - 7' },
@@ -583,9 +535,8 @@
                 { type: 'colonie', name: 'Colonie Group 5', badge: 'August 2026' }
             ];
             for (let d of defaults) { await addDoc(collection(db, "midade_groups_v2"), d); }
-            fetchAllData(); // Reload with new data
+            fetchAllData();
         }
-
     </script>
 </body>
 </html>
