@@ -6,7 +6,7 @@
     <title>MIDADE Mieh w Mieh</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Modern Glassmorphism & Aurora Variables */
+        /* Modern Variables */
         :root {
             --blob-1: #007aff; --blob-2: #00d4ff; --blob-3: #7b2cbf;
             --bg-base: #f4f7fb; 
@@ -18,27 +18,11 @@
             --primary-btn: linear-gradient(135deg, #007aff, #005bb5);
         }
         
-        body.pink-theme {
-            --blob-1: #ff2d55; --blob-2: #ffa07a; --blob-3: #d81b60;
-            --bg-base: #fff0f5;
-            --primary-btn: linear-gradient(135deg, #ff2d55, #d81b60);
-        }
-
-        body.orange-theme {
-            --blob-1: #ff9500; --blob-2: #ffcc00; --blob-3: #ff3b30;
-            --bg-base: #fff8f0;
-            --primary-btn: linear-gradient(135deg, #ff9500, #ff5e00);
-        }
+        body.pink-theme { --blob-1: #ff2d55; --blob-2: #ffa07a; --blob-3: #d81b60; --bg-base: #fff0f5; --primary-btn: linear-gradient(135deg, #ff2d55, #d81b60); }
+        body.orange-theme { --blob-1: #ff9500; --blob-2: #ffcc00; --blob-3: #ff3b30; --bg-base: #fff8f0; --primary-btn: linear-gradient(135deg, #ff9500, #ff5e00); }
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family: 'Outfit', sans-serif; color: var(--text-main); 
-            overflow-x: hidden; min-height: 100vh; padding-bottom: 80px;
-            background: var(--bg-base); transition: background 0.5s ease;
-            font-size: 14px; 
-        }
-        
+        body { font-family: 'Outfit', sans-serif; color: var(--text-main); overflow-x: hidden; min-height: 100vh; padding-bottom: 80px; background: var(--bg-base); transition: background 0.5s ease; font-size: 14px; }
         body[dir="rtl"] { font-family: 'Cairo', sans-serif; }
 
         /* Animated Aurora Background */
@@ -47,149 +31,83 @@
         .blob-1 { top: -10%; left: -10%; width: 40vw; height: 40vw; background: var(--blob-1); animation-delay: 0s; }
         .blob-2 { bottom: 10%; right: -10%; width: 35vw; height: 35vw; background: var(--blob-2); animation-delay: -2s; }
         .blob-3 { top: 40%; left: 40%; width: 25vw; height: 25vw; background: var(--blob-3); animation-delay: -4s; }
-        
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 30px) scale(1.05); } }
 
-        /* Floating Pill Header */
-        header {
-            margin: 15px auto; width: 94%; max-width: 1000px;
-            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            border-radius: var(--radius-pill); display: flex; justify-content: space-between; 
-            align-items: center; padding: 8px 15px; position: sticky; top: 15px; z-index: 100;
-        }
+        /* Floating Header */
+        header { margin: 15px auto; width: 94%; max-width: 1000px; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); border-radius: var(--radius-pill); display: flex; justify-content: space-between; align-items: center; padding: 8px 15px; position: sticky; top: 15px; z-index: 100; }
         .logo-wrap { display: flex; align-items: center; gap: 10px; }
         .logo-wrap img { height: 35px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .logo-text h1 { font-size: 1.1rem; font-weight: 800; background: var(--primary-btn); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
         .logo-text p { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        
         .header-controls { display: flex; align-items: center; gap: 8px; }
-        .lang-select { 
-            background: rgba(255,255,255,0.7); border: none; padding: 6px 10px; 
-            border-radius: var(--radius-pill); font-family: inherit; font-weight: 700; font-size: 0.85rem;
-            color: var(--text-main); cursor: pointer; outline: none; box-shadow: inset 0 2px 4px rgba(255,255,255,0.8);
-        }
-        .ig-btn {
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: white; border: none; border-radius: 50%; width: 32px; height: 32px;
-            display: flex; align-items: center; justify-content: center; text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.3s; font-size: 1.1rem;
-        }
-        .ig-btn:hover { transform: scale(1.1); }
+        .lang-select { background: rgba(255,255,255,0.7); border: none; padding: 6px 10px; border-radius: var(--radius-pill); font-family: inherit; font-weight: 700; font-size: 0.85rem; color: var(--text-main); cursor: pointer; outline: none; }
+        .ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.3s; font-size: 1.1rem; }
 
-        /* Compact Grid & Glass Cards */
-        .section-header { text-align: center; font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin: 35px 0 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; padding: 0 15px; max-width: 1000px; margin: 0 auto; }
+        /* Hero Video Section */
+        .video-container { width: 94%; max-width: 1000px; margin: 20px auto; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid white; position: relative; background: #000; }
+        .video-container video { width: 100%; height: auto; max-height: 400px; object-fit: cover; display: block; }
         
-        .card { 
-            background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border);
-            border-radius: var(--radius-card); padding: 20px 15px; text-align: center; 
-            box-shadow: var(--glass-shadow); transition: all 0.3s ease; position: relative; overflow: hidden;
-        }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-color: rgba(255,255,255,1); }
+        /* Grid & Cards */
+        .section-header { text-align: center; font-size: 1.6rem; font-weight: 800; margin: 35px 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; padding: 0 15px; max-width: 1000px; margin: 0 auto; }
+        .card { background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: var(--radius-card); padding: 20px 15px; text-align: center; box-shadow: var(--glass-shadow); transition: all 0.3s ease; position: relative; overflow: hidden; }
         .card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
-        .card .badge { display: inline-block; background: rgba(255,255,255,0.8); color: var(--text-main); padding: 4px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
+        .card .badge { display: inline-block; background: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
         .stars-display { font-size: 0.9rem; color: #ff9500; font-weight: 800; margin-bottom: 15px; display: block; }
         
-        /* Leader Card */
         .leader-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .leader-name { font-weight: 800; font-size: 1.1rem; }
         .leader-role { color: var(--text-muted); font-size: 0.85rem; font-weight: 700; background: rgba(0,0,0,0.05); padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px;}
 
-        /* Modern Compact Buttons */
-        .btn { 
-            background: var(--primary-btn); color: white; border: none; padding: 10px 18px; 
-            border-radius: var(--radius-pill); font-size: 0.9rem; cursor: pointer; 
-            font-weight: 700; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); filter: brightness(1.1); }
+        /* Buttons & Dock */
+        .btn { background: var(--primary-btn); color: white; border: none; padding: 10px 18px; border-radius: var(--radius-pill); font-size: 0.9rem; cursor: pointer; font-weight: 700; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn-outline { background: transparent; border: 2px solid rgba(0,0,0,0.1); color: var(--text-main); box-shadow: none; padding: 8px 18px; }
-        
-        .floating-ticket-btn { 
-            position: fixed; bottom: 85px; right: 20px; background: var(--primary-btn); 
-            color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 1.5rem; 
-            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; 
-            z-index: 999; display: flex; align-items: center; justify-content: center; transition: 0.3s; 
-        }
-        .floating-ticket-btn:hover { transform: scale(1.1) rotate(10deg); }
-
-        /* Floating App Dock */
-        .dock {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: var(--radius-pill); padding: 8px 20px; display: flex; gap: 20px; z-index: 1000;
-        }
-        .dock-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--text-main); transition: 0.3s; }
+        .floating-ticket-btn { position: fixed; bottom: 85px; right: 20px; background: var(--primary-btn); color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 1.5rem; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 999; display: flex; align-items: center; justify-content: center; }
+        .dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: var(--radius-pill); padding: 8px 20px; display: flex; gap: 20px; z-index: 1000; }
+        .dock-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--text-main); }
         .dock-icon { font-size: 1.2rem; background: white; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .dock-label { font-size: 0.65rem; font-weight: 700; }
 
-        /* Modals & Layouts */
+        /* Modals & Albums */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
-        .modal-content { 
-            background: rgba(255,255,255,0.9); border: 1px solid var(--glass-border);
-            width: 100%; max-width: 700px; border-radius: 25px; padding: 25px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; position: relative;
-        }
+        .modal-content { background: rgba(255,255,255,0.9); border: 1px solid var(--glass-border); width: 100%; max-width: 700px; border-radius: 25px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; position: relative; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; z-index: 10; }
         body[dir="rtl"] .close-btn { right: auto; left: 15px; }
 
-        /* Gallery Grid & Skeletons */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
         .photo-wrapper { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; background: rgba(0,0,0,0.05); }
         .gallery-grid img { width: 100%; height: 100%; object-fit: cover; animation: fadeIn 0.4s ease; }
-        
         .skeleton-loader { width: 100%; height: 100%; background: linear-gradient(90deg, #eee 25%, #e0e0e0 50%, #eee 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         .delete-photo-btn { position:absolute; top:5px; right:5px; background:red; color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; font-weight:bold; }
 
-        /* Interactive Advanced Lightbox */
-        #modalLightbox { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); }
-        .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
-        .lightbox-img-wrap { transition: transform 0.1s ease-out; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-        #lightboxImg { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease; user-select: none; -webkit-user-drag: none; }
+        /* Ticket Live Chat UI */
+        .chat-box { background: white; border-radius: 15px; height: 350px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--glass-border); }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.02); }
+        .chat-bubble { max-width: 80%; padding: 10px 15px; border-radius: 15px; font-size: 0.9rem; position: relative; }
+        .chat-bubble.ai { background: linear-gradient(135deg, #7b2cbf, #9d4edd); color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .chat-bubble.user { background: var(--blob-1); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .chat-bubble.admin { background: #ff9500; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .chat-sender { font-size: 0.7rem; font-weight: 800; margin-bottom: 3px; opacity: 0.8; }
+        .chat-img-wrap { position: relative; display: inline-block; margin-top: 5px; }
+        .chat-img { max-width: 100%; border-radius: 10px; cursor: pointer; border: 2px solid rgba(255,255,255,0.3); }
+        .chat-del-img { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; font-weight: bold; cursor: pointer; }
+        .chat-input-area { display: flex; padding: 10px; gap: 8px; border-top: 1px solid rgba(0,0,0,0.05); background: white; align-items: center; }
+        .chat-input-area input[type="text"] { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+        .chat-btn { background: var(--blob-1); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; }
         
-        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px); z-index: 3600; transition: 0.3s; }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
-        #lightboxPrev { left: 20px; }
-        #lightboxNext { right: 20px; }
-        .lightbox-counter { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; z-index: 3600;}
-
-        /* Form & Reviews */
-        .review-card { background: rgba(255,255,255,0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px; margin-bottom: 12px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
-        .form-group input, .form-group select, .form-group textarea { 
-            width: 100%; padding: 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.5); 
-            background: rgba(255,255,255,0.7); font-size: 0.9rem; font-family: inherit; outline: none; 
-        }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        
-        /* Album Tabs */
-        .album-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: var(--radius-pill); }
-        .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: var(--radius-pill); font-weight: 700; cursor: pointer; transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
-        .tab-btn.active { background: white; color: var(--text-main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-
         .hidden { display: none !important; }
         .loader { border: 3px solid rgba(0,0,0,0.05); border-top: 3px solid var(--blob-1); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Admin Block */
-        .admin-block { background: rgba(0,0,0,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .admin-block h3 { margin-bottom: 10px; font-size: 1.1rem; }
         
-        /* Ticket Card */
-        .ticket-card { background: white; padding: 12px; border-radius: 10px; border-left: 4px solid var(--blob-1); margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
-            .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; }
-            #lightboxPrev { left: 10px; }
-            #lightboxNext { right: 10px; }
-        }
+        .admin-block { background: rgba(0,0,0,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .ticket-card { background: white; padding: 12px; border-radius: 10px; border-left: 4px solid var(--blob-1); margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .ticket-card:hover { background: #f0f8ff; }
+        
+        .album-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: var(--radius-pill); }
+        .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: var(--radius-pill); font-weight: 700; cursor: pointer; color: var(--text-muted); }
+        .tab-btn.active { background: white; color: var(--text-main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
@@ -202,7 +120,7 @@
 
     <header>
         <div class="logo-wrap">
-            <img src="OIP.webp" alt="MIDADE Logo">
+            <img src="OIP.webp" alt="MIDADE Logo" onerror="this.src='https://via.placeholder.com/35'">
             <div class="logo-text">
                 <h1 data-i18n="app_title">MIDADE</h1>
                 <p data-i18n="app_subtitle">Mieh w Mieh</p>
@@ -218,22 +136,21 @@
         </div>
     </header>
 
-    <!-- Groups Section -->
+    <!-- Video Hero Section -->
+    <div class="video-container">
+        <!-- REPLACE 'video.mp4' WITH YOUR ACTUAL VIDEO LINK -->
+        <video id="heroVideo" src="video.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <h2 class="section-header" data-i18n="title_groups">Our Groups</h2>
-    <div id="loaderGroups" class="loader"></div>
-    <div id="groupsGrid" class="grid"></div>
+    <div id="groupsGrid" class="grid"><div class="loader"></div></div>
 
-    <!-- Leaders Section -->
     <h2 class="section-header" data-i18n="title_leaders">Our Leaders</h2>
-    <div id="loaderLeaders" class="loader"></div>
-    <div id="leadersGrid" class="grid"></div>
+    <div id="leadersGrid" class="grid"><div class="loader"></div></div>
 
-    <!-- Colonie Section -->
     <h2 class="section-header" data-i18n="title_colonie">Summer Colonie</h2>
-    <div id="loaderColonie" class="loader"></div>
-    <div id="colonieGrid" class="grid"></div>
+    <div id="colonieGrid" class="grid"><div class="loader"></div></div>
 
-    <!-- Floating Ticket Button -->
     <button class="floating-ticket-btn" id="btnOpenTicket">💬</button>
 
     <div class="dock">
@@ -248,81 +165,52 @@
         </button>
     </div>
 
-    <!-- TICKET MODAL -->
+    <!-- TICKET LIVE CHAT MODAL -->
     <div id="modalTicket" class="modal" style="z-index: 2500;">
-        <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-content" style="max-width: 450px; padding: 15px;">
             <button class="close-btn modal-close">&times;</button>
-            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 15px;" data-i18n="ticket_title">Contact Admin</h2>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Have a complaint, suggestion, or question? Send us a ticket.</p>
-            <div class="form-group"><input type="text" id="tickName" placeholder="Your Name" required></div>
-            <div class="form-group">
-                <select id="tickSubject">
-                    <option value="Suggestion">💡 Suggestion</option>
-                    <option value="Complaint">⚠️ Complaint</option>
-                    <option value="Question">❓ Question</option>
-                </select>
+            <h2 style="font-size: 1.3rem; margin-bottom: 10px;" id="chatHeaderTitle" data-i18n="ticket_title">Support Chat</h2>
+            
+            <div id="chatClosedMsg" class="hidden" style="background: #ffe5e5; color: red; padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 10px; font-weight: bold;">
+                This ticket has been closed by the Admin.
             </div>
-            <div class="form-group"><textarea id="tickMessage" placeholder="Type your message here..." required></textarea></div>
-            <button class="btn" id="btnSubmitTicket">Send Ticket</button>
+
+            <div class="chat-box">
+                <div class="chat-messages" id="chatMessagesView">
+                    <!-- Messages go here -->
+                </div>
+                <div class="chat-input-area" id="chatInputArea">
+                    <input type="file" id="chatFileInput" accept="image/*" class="hidden">
+                    <!-- Admin Image Attach Button (Hidden for normal users) -->
+                    <button class="chat-btn hidden" id="chatBtnAttach" style="background: #e2e8f0; color: black;">📎</button>
+                    <input type="text" id="chatTextInput" placeholder="Type your message...">
+                    <button class="chat-btn" id="chatBtnSend">➤</button>
+                </div>
+            </div>
+            <!-- Admin Only: Close Ticket Button -->
+            <button class="btn hidden" id="btnAdminCloseTicket" style="background: #ff3b30; margin-top: 10px;">❌ Close Ticket</button>
         </div>
     </div>
 
-    <!-- FLUID ALBUM & REVIEW MODAL -->
+    <!-- ALBUM MODAL (WITH CHUNKING) -->
     <div id="modalGallery" class="modal">
         <div class="modal-content">
             <button class="close-btn modal-close">&times;</button>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h2 id="galleryTitle" style="font-size: 1.5rem; font-weight: 800;">Album</h2>
-                <span id="galleryCountBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); background: rgba(0,0,0,0.05); padding: 4px 12px; border-radius: 15px;">...</span>
+                <span id="galleryCountBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); background: rgba(0,0,0,0.05); padding: 4px 12px; border-radius: 15px;">Loading...</span>
             </div>
-
-            <!-- TABS -->
             <div class="album-tabs">
                 <button class="tab-btn active" id="tabPhotos" data-i18n="tab_photos">📸 Photos</button>
                 <button class="tab-btn" id="tabReviews" data-i18n="tab_reviews">⭐ Reviews</button>
             </div>
             
-            <!-- PHOTOS TAB CONTENT -->
             <div id="galleryGrid" class="gallery-grid"></div>
+            <button class="btn btn-outline hidden" id="btnLoadMorePhotos" style="margin-top: 10px;">⬇️ Load More</button>
 
-            <!-- REVIEWS TAB CONTENT -->
             <div id="reviewsContainer" class="hidden">
-                <button class="btn" id="btnOpenWriteReview" style="margin-bottom: 15px;" data-i18n="btn_write_review">✏️ Write a Review</button>
                 <div id="reviewsList"></div>
             </div>
-        </div>
-    </div>
-
-    <!-- WRITE REVIEW MODAL -->
-    <div id="modalWriteReview" class="modal" style="z-index: 2500;">
-        <div class="modal-content" style="max-width: 400px;">
-            <button class="close-btn modal-close">&times;</button>
-            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 15px;" data-i18n="write_review_title">Add Review</h2>
-            <div class="form-group"><input type="text" id="revFirstName" placeholder="First Name" required></div>
-            <div class="form-group"><input type="text" id="revLastName" placeholder="Last Name" required></div>
-            <div class="form-group">
-                <label>Rating (Stars)</label>
-                <select id="revStars">
-                    <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
-                    <option value="4">⭐⭐⭐⭐ (4/5)</option>
-                    <option value="3">⭐⭐⭐ (3/5)</option>
-                    <option value="2">⭐⭐ (2/5)</option>
-                    <option value="1">⭐ (1/5)</option>
-                </select>
-            </div>
-            <div class="form-group"><textarea id="revDesc" placeholder="Describe your experience..." required></textarea></div>
-            <button class="btn" id="btnSubmitReview">Submit</button>
-        </div>
-    </div>
-
-    <!-- ADVANCED LIGHTBOX -->
-    <div id="modalLightbox" class="modal" style="z-index: 3500; padding: 0;">
-        <div class="lightbox-container" id="lightboxContainer">
-            <button class="close-btn" id="lightboxClose" style="top: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white;">&times;</button>
-            <button class="lightbox-nav" id="lightboxPrev">&#10094;</button>
-            <div class="lightbox-img-wrap" id="lightboxWrap"><img id="lightboxImg" src=""></div>
-            <button class="lightbox-nav" id="lightboxNext">&#10095;</button>
-            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
         </div>
     </div>
 
@@ -333,58 +221,35 @@
             
             <div id="adminLoginScreen">
                 <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 15px;">Admin Login</h2>
-                <div class="form-group"><input type="text" id="adminUser" placeholder="Username"></div>
-                <div class="form-group"><input type="password" id="adminPass" placeholder="Password"></div>
+                <div style="margin-bottom:10px;"><input type="text" id="adminUser" placeholder="Username" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;"></div>
+                <div style="margin-bottom:10px;"><input type="password" id="adminPass" placeholder="Password" style="width:100%; padding:10px; border-radius:10px; border:1px solid #ccc;"></div>
                 <button class="btn" id="btnLoginSubmit">Login</button>
-                <p id="loginError" style="color: red; margin-top: 10px; font-weight: bold;" class="hidden">Access Denied.</p>
             </div>
             
             <div id="adminDashboardScreen" class="hidden">
-                <h2 style="margin-bottom: 15px;">Dashboard</h2>
+                <h2>Dashboard</h2>
                 
-                <!-- Fast Upload -->
+                <div class="admin-block">
+                    <h3>💬 Active Support Tickets</h3>
+                    <div id="adminTicketsList" style="max-height: 150px; overflow-y: auto; margin-top: 10px;">Loading...</div>
+                </div>
+
                 <div class="admin-block">
                     <h3>📸 Fast Batch Upload</h3>
-                    <div class="form-group"><select id="uploadTargetGroup"></select></div>
-                    <div class="form-group"><input type="file" id="uploadFile" accept="image/*" multiple></div>
+                    <select id="uploadTargetGroup" style="width:100%; padding:10px; margin-bottom:10px; border-radius:10px;"></select>
+                    <input type="file" id="uploadFile" accept="image/*" multiple style="margin-bottom:10px;">
                     <button class="btn" id="btnUploadSubmit">Compress & Upload</button>
-                    <p id="uploadProgressText" style="margin-top:10px; font-weight:bold;"></p>
+                    <p id="uploadProgressText" style="margin-top:5px; font-weight:bold;"></p>
                 </div>
 
-                <!-- Add Leader -->
-                <div class="admin-block">
-                    <h3>🎖️ Add New Leader</h3>
-                    <div class="form-group"><input type="text" id="newLeaderName" placeholder="Leader Name"></div>
-                    <div class="form-group"><input type="text" id="newLeaderRole" placeholder="Role (e.g. Chief, Assistant)"></div>
-                    <div class="form-group"><label>Profile Picture (Optional)</label><input type="file" id="newLeaderPic" accept="image/*"></div>
-                    <button class="btn btn-outline" id="btnCreateLeader">Add Leader</button>
-                </div>
-
-                <!-- Tickets Viewer -->
-                <div class="admin-block">
-                    <h3>💬 Support Tickets</h3>
-                    <div id="adminTicketsList" style="max-height: 200px; overflow-y: auto;">Loading...</div>
-                </div>
-
-                <!-- Add Group -->
-                <div class="admin-block">
-                    <h3>➕ New Group</h3>
-                    <div class="form-group"><input type="text" id="newGroupName" placeholder="Name"></div>
-                    <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Subtitle"></div>
-                    <div class="form-group">
-                        <select id="newGroupType"><option value="regular">Regular</option><option value="colonie">Colonie</option></select>
-                    </div>
-                    <button class="btn btn-outline" id="btnCreateGroup">Create Group</button>
-                </div>
-
-                <button class="btn" style="background:#ff3b30; margin-top: 10px;" id="btnLogout">Logout</button>
+                <button class="btn" style="background:#ff3b30;" id="btnLogout">Logout</button>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, orderBy, limit, startAfter, onSnapshot, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
@@ -398,25 +263,33 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let globalGroups = []; let globalReviews = []; let globalLeaders = []; let globalTickets = [];
+        let globalGroups = []; let globalLeaders = []; 
         let currentLang = localStorage.getItem('midade_lang') || 'en';
         let currentTheme = localStorage.getItem('midade_theme') || 'blue';
-        let activeGroupId = null; let currentAlbumPhotos = []; let currentPhotoIndex = 0;
-        let activeLoadSessionId = 0; // Ensures bad wifi sequential loading resets if modal closed
+        let activeGroupId = null; 
+
+        // Pagination Variables for Album Fix
+        let currentAlbumPhotos = []; 
+        let lastVisiblePhotoDoc = null;
+        let isFetchingPhotos = false;
+        let activeLoadSessionId = 0;
+
+        // Chat Variables
+        let currentChatId = null;
+        let chatUnsubscribe = null;
+        let adminChatName = null;
 
         const dictionary = {
-            en: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Our Groups", title_colonie: "Summer Colonie", title_leaders: "Our Leaders", nav_home: "Home", nav_theme: "Theme", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Reviews", btn_write_review: "✏️ Write a Review", write_review_title: "Add Review", ticket_title: "Contact Admin" },
-            fr: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Nos Groupes", title_colonie: "Colonie d'été", title_leaders: "Nos Dirigeants", nav_home: "Accueil", nav_theme: "Thème", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Avis", btn_write_review: "✏️ Écrire un avis", write_review_title: "Ajouter un avis", ticket_title: "Contacter l'Admin" },
-            ar: { app_title: "MIDADE", app_subtitle: "مية ومية", title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", title_leaders: "قادتنا", nav_home: "الرئيسية", nav_theme: "المظهر", nav_admin: "الإدارة", tab_photos: "📸 صور", tab_reviews: "⭐ تقييمات", btn_write_review: "✏️ أضف تقييم", write_review_title: "إضافة تقييم", ticket_title: "تواصل مع الإدارة" }
+            en: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Our Groups", title_colonie: "Summer Colonie", title_leaders: "Our Leaders", nav_home: "Home", nav_theme: "Theme", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Reviews", ticket_title: "Support Chat" },
+            fr: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Nos Groupes", title_colonie: "Colonie d'été", title_leaders: "Nos Dirigeants", nav_home: "Accueil", nav_theme: "Thème", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Avis", ticket_title: "Chat de Support" },
+            ar: { app_title: "MIDADE", app_subtitle: "مية ومية", title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", title_leaders: "قادتنا", nav_home: "الرئيسية", nav_theme: "المظهر", nav_admin: "الإدارة", tab_photos: "📸 صور", tab_reviews: "⭐ تقييمات", ticket_title: "محادثة الدعم" }
         };
 
         function applyLanguage(lang) {
             currentLang = lang; localStorage.setItem('midade_lang', lang);
             document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             document.getElementById('langSelect').value = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                if (dictionary[lang][el.getAttribute('data-i18n')]) el.textContent = dictionary[lang][el.getAttribute('data-i18n')];
-            });
+            document.querySelectorAll('[data-i18n]').forEach(el => { if(dictionary[lang][el.getAttribute('data-i18n')]) el.textContent = dictionary[lang][el.getAttribute('data-i18n')]; });
         }
 
         function cycleTheme() {
@@ -427,249 +300,318 @@
             localStorage.setItem('midade_theme', currentTheme);
         }
 
-        function applyStoredTheme() {
-            if(currentTheme === 'pink') document.body.classList.add('pink-theme');
-            if(currentTheme === 'orange') document.body.classList.add('orange-theme');
-        }
-
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeAllModals() { 
             document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
-            document.getElementById('lightboxImg').style.transform = 'scale(1)'; 
-            activeLoadSessionId++; // Abort any ongoing image sequences
+            activeLoadSessionId++; 
+            if(chatUnsubscribe) { chatUnsubscribe(); chatUnsubscribe = null; }
         }
 
         async function fetchAllData() {
             try {
-                // Fetch Groups
                 const grpSnap = await getDocs(collection(db, "midade_groups_v2"));
                 globalGroups = []; grpSnap.forEach(d => globalGroups.push({ id: d.id, ...d.data() }));
-                
-                // Fetch Reviews
-                const revSnap = await getDocs(collection(db, "midade_reviews"));
-                globalReviews = []; revSnap.forEach(d => globalReviews.push({ id: d.id, ...d.data() }));
-
-                // Fetch Leaders
                 const ldrSnap = await getDocs(collection(db, "midade_leaders"));
                 globalLeaders = []; ldrSnap.forEach(d => globalLeaders.push({ id: d.id, ...d.data() }));
-
                 renderDOMGroups(); renderDOMLeaders(); populateAdminDropdown();
             } catch (err) { console.error(err); }
         }
 
         function renderDOMGroups() {
-            const grpGrid = document.getElementById('groupsGrid');
-            const colGrid = document.getElementById('colonieGrid');
-            document.getElementById('loaderGroups').classList.add('hidden');
-            document.getElementById('loaderColonie').classList.add('hidden');
+            const grpGrid = document.getElementById('groupsGrid'); const colGrid = document.getElementById('colonieGrid');
             grpGrid.innerHTML = ''; colGrid.innerHTML = '';
-
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
-
             globalGroups.forEach(g => {
-                const groupReviews = globalReviews.filter(r => r.groupId === g.id);
-                const avgStars = groupReviews.length > 0 ? `⭐ ${(groupReviews.reduce((a,c)=>a+parseInt(c.stars),0)/groupReviews.length).toFixed(1)} (${groupReviews.length})` : "No reviews";
-                const adminHTML = isAdmin ? `<button class="btn btn-outline" data-delgrp="${g.id}" style="color:red; font-size:0.8rem; margin-top:5px; padding:5px;">Delete Group</button>` : '';
-
-                const html = `
-                    <div class="card">
-                        <h3>${g.name}</h3><span class="badge">${g.badge}</span>
-                        <div class="stars-display">${avgStars}</div>
-                        <button class="btn view-album-btn" data-id="${g.id}" data-name="${g.name}">Open Album</button>
-                        ${adminHTML}
-                    </div>`;
+                const html = `<div class="card"><h3>${g.name}</h3><span class="badge">${g.badge}</span><br><button class="btn view-album-btn" data-id="${g.id}" data-name="${g.name}">Open Album</button></div>`;
                 if (g.type === 'regular') grpGrid.innerHTML += html; else colGrid.innerHTML += html;
             });
-
-            document.querySelectorAll('.view-album-btn').forEach(b => b.addEventListener('click', e => loadAlbumImages(e.target.dataset.id, e.target.dataset.name)));
-            if(isAdmin) document.querySelectorAll('[data-delgrp]').forEach(b => b.addEventListener('click', async e => {
-                if(confirm("Delete group?")) { await deleteDoc(doc(db, "midade_groups_v2", e.currentTarget.dataset.delgrp)); fetchAllData(); }
-            }));
+            document.querySelectorAll('.view-album-btn').forEach(b => b.addEventListener('click', e => initiateAlbumLoad(e.target.dataset.id, e.target.dataset.name)));
         }
 
         function renderDOMLeaders() {
-            const ldrGrid = document.getElementById('leadersGrid');
-            document.getElementById('loaderLeaders').classList.add('hidden');
-            ldrGrid.innerHTML = '';
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
-
+            const ldrGrid = document.getElementById('leadersGrid'); ldrGrid.innerHTML = '';
             globalLeaders.forEach(l => {
                 const imgUrl = l.pic || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
-                const adminHTML = isAdmin ? `<br><button class="btn btn-outline" data-delldr="${l.id}" style="color:red; font-size:0.7rem; padding:3px; margin-top:5px;">Remove</button>` : '';
-                ldrGrid.innerHTML += `
-                    <div class="card leader-card">
-                        <img src="${imgUrl}" alt="Leader">
-                        <div class="leader-name">${l.name}</div>
-                        <div class="leader-role">${l.role}</div>
-                        ${adminHTML}
-                    </div>`;
+                ldrGrid.innerHTML += `<div class="card leader-card"><img src="${imgUrl}"><div class="leader-name">${l.name}</div><div class="leader-role">${l.role}</div></div>`;
             });
-
-            if(isAdmin) document.querySelectorAll('[data-delldr]').forEach(b => b.addEventListener('click', async e => {
-                if(confirm("Remove leader?")) { await deleteDoc(doc(db, "midade_leaders", e.currentTarget.dataset.delldr)); fetchAllData(); }
-            }));
         }
 
-        // --- SEQUENTIAL IMAGE LOADING (Anti-Lag) ---
-        async function loadAlbumImages(groupId, groupName) {
-            activeGroupId = groupId;
+        // ==========================================
+        // PAGINATED SEQUENTIAL ALBUM FIX (The "Takes Ages" Fix)
+        // ==========================================
+        async function initiateAlbumLoad(groupId, groupName) {
+            activeGroupId = groupId; currentAlbumPhotos = []; lastVisiblePhotoDoc = null;
             document.getElementById('galleryTitle').innerText = groupName;
-            document.getElementById('tabPhotos').click(); 
-            
+            document.getElementById('galleryGrid').innerHTML = '';
+            document.getElementById('btnLoadMorePhotos').classList.add('hidden');
+            openModal('modalGallery');
+            await fetchAlbumChunk();
+        }
+
+        async function fetchAlbumChunk() {
+            if (isFetchingPhotos) return;
+            isFetchingPhotos = true; activeLoadSessionId++; const session = activeLoadSessionId;
             const grid = document.getElementById('galleryGrid');
-            const countBadge = document.getElementById('galleryCountBadge');
+            const loadBtn = document.getElementById('btnLoadMorePhotos');
             const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
             
-            grid.innerHTML = '<div class="loader" style="grid-column:1/-1;"></div>'; countBadge.innerText = "...";
-            openModal('modalGallery');
-            activeLoadSessionId++; // Start a new sequence ID
-            const session = activeLoadSessionId;
+            // Show spinning loader inside grid
+            const tempLoader = document.createElement('div'); tempLoader.className = 'loader'; tempLoader.style.gridColumn = "1/-1";
+            grid.appendChild(tempLoader); loadBtn.classList.add('hidden');
 
             try {
-                const snap = await getDocs(query(collection(db, "midade_photos"), where("groupId", "==", groupId)));
-                if (session !== activeLoadSessionId) return; // Modal was closed during fetch
-                
-                currentAlbumPhotos = [];
-                snap.forEach(d => currentAlbumPhotos.push({ id: d.id, ...d.data() }));
-                countBadge.innerText = `${currentAlbumPhotos.length} Pics`;
-                
-                if (currentAlbumPhotos.length === 0) {
-                    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:gray;">Album is empty.</p>';
-                } else {
-                    grid.innerHTML = '';
-                    // 1. Create Layout with Skeletons immediately
-                    currentAlbumPhotos.forEach((data, index) => {
-                        grid.innerHTML += `
-                            <div class="photo-wrapper" id="pw-${index}">
-                                <div class="skeleton-loader" id="skel-${index}"></div>
-                            </div>`;
+                // IMPORTANT: Fetch ONLY 8 pictures at a time to save network!
+                let q = query(collection(db, "midade_photos"), where("groupId", "==", activeGroupId), limit(8));
+                if (lastVisiblePhotoDoc) {
+                    q = query(collection(db, "midade_photos"), where("groupId", "==", activeGroupId), startAfter(lastVisiblePhotoDoc), limit(8));
+                }
+
+                const snap = await getDocs(q);
+                if (session !== activeLoadSessionId) { isFetchingPhotos = false; return; } // Abort if modal closed
+                tempLoader.remove();
+
+                if (snap.empty && currentAlbumPhotos.length === 0) {
+                    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center;">Album is empty.</p>';
+                    isFetchingPhotos = false; return;
+                }
+
+                if (!snap.empty) {
+                    lastVisiblePhotoDoc = snap.docs[snap.docs.length - 1];
+                    const chunkData = [];
+                    snap.forEach(d => chunkData.push({ id: d.id, ...d.data() }));
+                    
+                    // Create Skeletons for chunk
+                    chunkData.forEach((data, i) => {
+                        const globalIdx = currentAlbumPhotos.length + i;
+                        grid.innerHTML += `<div class="photo-wrapper" id="pw-${globalIdx}"><div class="skeleton-loader" id="skel-${globalIdx}"></div></div>`;
                     });
 
-                    // 2. Sequential Recursive Loader
-                    function loadSequentialImage(idx) {
-                        if (session !== activeLoadSessionId || idx >= currentAlbumPhotos.length) return; // Stop if aborted or done
+                    // Sequentially replace skeletons with real images
+                    function loadSequentialChunk(localIdx) {
+                        if (session !== activeLoadSessionId || localIdx >= chunkData.length) {
+                            // Finished chunk
+                            currentAlbumPhotos.push(...chunkData);
+                            isFetchingPhotos = false;
+                            if (snap.docs.length === 8) loadBtn.classList.remove('hidden'); // Show Load More if we got full batch
+                            return;
+                        }
 
-                        const img = new Image();
-                        img.src = currentAlbumPhotos[idx].url;
-                        
+                        const globalIdx = currentAlbumPhotos.length + localIdx;
+                        const img = new Image(); img.src = chunkData[localIdx].url;
                         img.onload = () => {
                             if (session !== activeLoadSessionId) return;
-                            const wrap = document.getElementById(`pw-${idx}`);
+                            const wrap = document.getElementById(`pw-${globalIdx}`);
                             if (wrap) {
-                                document.getElementById(`skel-${idx}`)?.remove(); // Remove skeleton
-                                wrap.appendChild(img); // Inject fully loaded image
-                                
-                                // Add Admin Delete Button
+                                document.getElementById(`skel-${globalIdx}`)?.remove();
+                                wrap.appendChild(img);
                                 if (isAdmin) {
-                                    const delBtn = document.createElement('button');
-                                    delBtn.className = 'delete-photo-btn'; delBtn.innerText = 'X';
+                                    const delBtn = document.createElement('button'); delBtn.className = 'delete-photo-btn'; delBtn.innerText = 'X';
                                     delBtn.onclick = async (e) => {
                                         e.stopPropagation();
-                                        if(confirm("Delete photo?")) { await deleteDoc(doc(db, "midade_photos", currentAlbumPhotos[idx].id)); loadAlbumImages(groupId, groupName); }
+                                        if(confirm("Delete photo?")) { await deleteDoc(doc(db, "midade_photos", chunkData[localIdx].id)); wrap.remove(); }
                                     };
                                     wrap.appendChild(delBtn);
                                 }
-
-                                // Click to open lightbox
-                                wrap.onclick = (e) => { if(e.target.tagName !== 'BUTTON') openLightbox(idx); };
                             }
-                            // Ask for next image only after THIS one is done downloading
-                            loadSequentialImage(idx + 1);
+                            loadSequentialChunk(localIdx + 1); // Only fetch next AFTER this completes
                         };
-                        
-                        img.onerror = () => loadSequentialImage(idx + 1); // If error, skip and load next
+                        img.onerror = () => loadSequentialChunk(localIdx + 1);
                     }
-
-                    // Kick off the sequence
-                    loadSequentialImage(0);
+                    loadSequentialChunk(0);
+                } else {
+                    isFetchingPhotos = false; // No more photos
                 }
-            } catch (err) { grid.innerHTML = '<p style="color:red;">Error loading.</p>'; }
+            } catch (err) { tempLoader.remove(); isFetchingPhotos = false; console.error(err); }
         }
 
-        // TABS LOGIC
-        document.getElementById('tabPhotos').addEventListener('click', () => {
-            document.getElementById('tabPhotos').classList.add('active'); document.getElementById('tabReviews').classList.remove('active');
-            document.getElementById('galleryGrid').classList.remove('hidden'); document.getElementById('reviewsContainer').classList.add('hidden');
-        });
-        document.getElementById('tabReviews').addEventListener('click', () => {
-            document.getElementById('tabReviews').classList.add('active'); document.getElementById('tabPhotos').classList.remove('active');
-            document.getElementById('reviewsContainer').classList.remove('hidden'); document.getElementById('galleryGrid').classList.add('hidden');
-            renderReviews();
+        document.getElementById('btnLoadMorePhotos').addEventListener('click', fetchAlbumChunk);
+
+        // ==========================================
+        // REAL-TIME CHAT & TICKET SYSTEM
+        // ==========================================
+        function generateId() { return Math.random().toString(36).substr(2, 9); }
+
+        document.getElementById('btnOpenTicket').addEventListener('click', () => {
+            document.getElementById('chatBtnAttach').classList.add('hidden'); // Users can't attach, only admins
+            document.getElementById('btnAdminCloseTicket').classList.add('hidden');
+            
+            // Check if user already has an active chat
+            let savedChatId = localStorage.getItem('midade_chat_id');
+            if (!savedChatId) {
+                savedChatId = 'chat_' + generateId();
+                localStorage.setItem('midade_chat_id', savedChatId);
+            }
+            openChatWindow(savedChatId, 'user');
         });
 
-        // REVIEWS
-        function renderReviews() {
-            const list = document.getElementById('reviewsList');
-            const groupReviews = globalReviews.filter(r => r.groupId === activeGroupId).sort((a,b) => b.timestamp - a.timestamp);
-            list.innerHTML = groupReviews.length === 0 ? '<p style="color:gray;text-align:center;">No reviews yet.</p>' : '';
-            groupReviews.forEach(r => {
-                list.innerHTML += `
-                    <div class="review-card">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
-                            <strong>${r.firstName} ${r.lastName}</strong><span style="color:#ff9500;">${'⭐'.repeat(parseInt(r.stars))}</span>
+        async function openChatWindow(chatId, role) {
+            currentChatId = chatId;
+            document.getElementById('chatMessagesView').innerHTML = '<div class="loader"></div>';
+            document.getElementById('chatTextInput').value = '';
+            document.getElementById('chatClosedMsg').classList.add('hidden');
+            document.getElementById('chatInputArea').classList.remove('hidden');
+            openModal('modalTicket');
+
+            // If Admin, show special buttons
+            if(role === 'admin') {
+                document.getElementById('chatBtnAttach').classList.remove('hidden');
+                document.getElementById('btnAdminCloseTicket').classList.remove('hidden');
+            }
+
+            // Real-time Listener
+            if(chatUnsubscribe) chatUnsubscribe();
+            
+            // Listen to Chat Document for Status
+            const chatDocRef = doc(db, 'midade_chats', chatId);
+            
+            // Listen to Messages
+            const q = query(collection(db, `midade_chats/${chatId}/messages`), orderBy('timestamp', 'asc'));
+            chatUnsubscribe = onSnapshot(q, (snapshot) => {
+                const view = document.getElementById('chatMessagesView');
+                if (view.innerHTML.includes('loader')) view.innerHTML = '';
+                
+                let isFirstTime = snapshot.empty;
+                view.innerHTML = '';
+                
+                snapshot.forEach(docSnap => {
+                    const msg = docSnap.data();
+                    let bubbleClass = 'user';
+                    if (msg.sender === 'AI') bubbleClass = 'ai';
+                    else if (msg.sender !== 'user') bubbleClass = 'admin'; // Admin name
+
+                    const delBtnHTML = (role === 'admin' && msg.img) ? `<button class="chat-del-img" data-msgid="${docSnap.id}">X</button>` : '';
+                    const imgHTML = msg.img ? `<div class="chat-img-wrap"><img src="${msg.img}" class="chat-img">${delBtnHTML}</div>` : '';
+                    const textHTML = msg.text ? `<div>${msg.text}</div>` : '';
+                    
+                    view.innerHTML += `
+                        <div class="chat-bubble ${bubbleClass}">
+                            <div class="chat-sender">${msg.sender === 'user' ? 'You' : msg.sender}</div>
+                            ${textHTML}
+                            ${imgHTML}
                         </div>
-                        <p style="color:var(--text-muted); font-size:0.85rem;">${r.description}</p>
-                    </div>`;
+                    `;
+                });
+
+                // Attach delete events for admins
+                if(role === 'admin') {
+                    document.querySelectorAll('.chat-del-img').forEach(btn => {
+                        btn.onclick = async (e) => {
+                            if(confirm("Delete image?")) await deleteDoc(doc(db, `midade_chats/${chatId}/messages`, e.target.dataset.msgid));
+                        };
+                    });
+                }
+
+                view.scrollTop = view.scrollHeight; // Auto scroll down
+            });
+
+            // Check if closed
+            onSnapshot(chatDocRef, (docSnap) => {
+                if(docSnap.exists() && docSnap.data().status === 'closed') {
+                    document.getElementById('chatClosedMsg').classList.remove('hidden');
+                    document.getElementById('chatInputArea').classList.add('hidden');
+                    document.getElementById('btnAdminCloseTicket').classList.add('hidden');
+                }
             });
         }
 
-        document.getElementById('btnOpenWriteReview').addEventListener('click', () => {
-            document.getElementById('revFirstName').value = ''; document.getElementById('revLastName').value = ''; document.getElementById('revDesc').value = '';
-            openModal('modalWriteReview');
-        });
+        // Send Message
+        document.getElementById('chatBtnSend').addEventListener('click', async () => sendChatMessage());
+        document.getElementById('chatTextInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendChatMessage(); });
 
-        document.getElementById('btnSubmitReview').addEventListener('click', async () => {
-            const btn = document.getElementById('btnSubmitReview');
-            const data = { groupId: activeGroupId, firstName: document.getElementById('revFirstName').value, lastName: document.getElementById('revLastName').value, stars: document.getElementById('revStars').value, description: document.getElementById('revDesc').value, timestamp: Date.now() };
-            if(!data.firstName || !data.lastName || !data.description) return alert("Fill all fields");
+        async function sendChatMessage(imgBase64 = null) {
+            const text = document.getElementById('chatTextInput').value.trim();
+            if(!text && !imgBase64) return;
             
-            btn.innerText = "Submitting..."; btn.disabled = true;
-            await addDoc(collection(db, "midade_reviews"), data);
-            btn.innerText = "Submit"; btn.disabled = false;
-            document.getElementById('modalWriteReview').style.display = 'none';
-            await fetchAllData(); renderReviews();
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            const senderName = isAdmin ? adminChatName : 'user';
+            
+            document.getElementById('chatTextInput').value = '';
+
+            // Ensure Chat Doc Exists
+            const chatDocRef = doc(db, 'midade_chats', currentChatId);
+            await setDoc(chatDocRef, { status: 'open', lastActive: Date.now() }, { merge: true });
+
+            // Add Message
+            const msgsRef = collection(db, `midade_chats/${currentChatId}/messages`);
+            await addDoc(msgsRef, { sender: senderName, text: text, img: imgBase64 || null, timestamp: Date.now() });
+
+            // Auto-Responder Trigger (If user sends first message)
+            if(!isAdmin) {
+                const snap = await getDocs(msgsRef);
+                if(snap.size === 1) { // It was the first message
+                    const aiText = currentLang === 'ar' ? "سيقوم قائد أو مرافق (morefe2) بالرد على هذه المحادثة." : "A leader or morefe2 will take this chat.";
+                    setTimeout(async () => {
+                        await addDoc(msgsRef, { sender: 'AI', text: aiText, img: null, timestamp: Date.now() });
+                    }, 1000);
+                }
+            }
+        }
+
+        // Admin Attach Picture in Chat
+        document.getElementById('chatBtnAttach').addEventListener('click', () => document.getElementById('chatFileInput').click());
+        document.getElementById('chatFileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0]; if(!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = new Image();
+                img.onload = async () => {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width, h = img.height; const MAX = 600;
+                    if(w > MAX) { h = Math.round((h*MAX)/w); w = MAX; }
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    sendChatMessage(canvas.toDataURL("image/jpeg", 0.6));
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
         });
 
-        // TICKET CHAT
-        document.getElementById('btnOpenTicket').addEventListener('click', () => {
-            document.getElementById('tickName').value = ''; document.getElementById('tickMessage').value = '';
-            openModal('modalTicket');
-        });
-        document.getElementById('btnSubmitTicket').addEventListener('click', async () => {
-            const btn = document.getElementById('btnSubmitTicket');
-            const data = { name: document.getElementById('tickName').value, subject: document.getElementById('tickSubject').value, message: document.getElementById('tickMessage').value, timestamp: Date.now() };
-            if(!data.name || !data.message) return alert("Fill all fields");
-
-            btn.innerText = "Sending..."; btn.disabled = true;
-            await addDoc(collection(db, "midade_tickets"), data);
-            btn.innerText = "Send Ticket"; btn.disabled = false;
-            document.getElementById('modalTicket').style.display = 'none';
-            alert("Ticket sent successfully to Admin!");
+        // Admin Close Ticket
+        document.getElementById('btnAdminCloseTicket').addEventListener('click', async () => {
+            if(confirm("Are you sure you want to close this ticket?")) {
+                await updateDoc(doc(db, 'midade_chats', currentChatId), { status: 'closed' });
+                document.getElementById('btnAdminCloseTicket').classList.add('hidden');
+            }
         });
 
-        // ADMIN FEATURES
+        // Admin Dashboard: Fetch Active Tickets
+        async function fetchActiveTickets() {
+            const list = document.getElementById('adminTicketsList'); list.innerHTML = "Loading...";
+            const q = query(collection(db, "midade_chats"), where("status", "==", "open"), orderBy("lastActive", "desc"));
+            const snap = await getDocs(q);
+            list.innerHTML = snap.empty ? "No active tickets." : '';
+            
+            snap.forEach(d => {
+                const t = d.data();
+                const div = document.createElement('div'); div.className = 'ticket-card';
+                div.innerHTML = `<div><strong>Ticket: ${d.id.substring(5,10)}</strong><br><small style="color:gray;">Active recently</small></div> <button class="btn" style="width:auto; padding:5px 10px;">Take</button>`;
+                div.onclick = () => {
+                    if(!adminChatName) {
+                        const name = prompt("Enter your First and Last Name to take this ticket:");
+                        if(!name) return; adminChatName = name;
+                    }
+                    openChatWindow(d.id, 'admin');
+                };
+                list.appendChild(div);
+            });
+        }
+
+        // ==========================================
+        // ADMIN PANEL GENERAL
+        // ==========================================
         function populateAdminDropdown() {
             const sel = document.getElementById('uploadTargetGroup'); sel.innerHTML = '<option value="">-- Choose Group --</option>';
             globalGroups.forEach(g => sel.innerHTML += `<option value="${g.id}">${g.name}</option>`);
         }
 
-        async function fetchTickets() {
-            const list = document.getElementById('adminTicketsList'); list.innerHTML = "Loading...";
-            const snap = await getDocs(collection(db, "midade_tickets"));
-            let html = '';
-            snap.forEach(d => {
-                const t = d.data();
-                html += `<div class="ticket-card"><strong>${t.subject} - ${t.name}</strong><p style="font-size:0.8rem; color:gray; margin-top:5px;">${t.message}</p></div>`;
-            });
-            list.innerHTML = html === '' ? "No tickets." : html;
-        }
-
         document.getElementById('btnAdminPanel').addEventListener('click', () => {
             if(localStorage.getItem('midade_auth') === 'secure_token_true') {
-                document.getElementById('adminLoginScreen').classList.add('hidden'); document.getElementById('adminDashboardScreen').classList.remove('hidden');
-                fetchTickets();
+                document.getElementById('adminLoginScreen').classList.add('hidden'); 
+                document.getElementById('adminDashboardScreen').classList.remove('hidden');
+                fetchActiveTickets();
             } else {
-                document.getElementById('adminLoginScreen').classList.remove('hidden'); document.getElementById('adminDashboardScreen').classList.add('hidden');
+                document.getElementById('adminLoginScreen').classList.remove('hidden'); 
+                document.getElementById('adminDashboardScreen').classList.add('hidden');
             }
             openModal('modalAdmin');
         });
@@ -677,10 +619,10 @@
         document.getElementById('btnLoginSubmit').addEventListener('click', () => {
             if(document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'midade2026') {
                 localStorage.setItem('midade_auth', 'secure_token_true'); document.getElementById('btnAdminPanel').click();
-            } else document.getElementById('loginError').classList.remove('hidden');
+            } else alert("Access Denied");
         });
 
-        document.getElementById('btnLogout').addEventListener('click', () => { localStorage.removeItem('midade_auth'); closeAllModals(); fetchAllData(); });
+        document.getElementById('btnLogout').addEventListener('click', () => { localStorage.removeItem('midade_auth'); adminChatName = null; closeAllModals(); fetchAllData(); });
 
         document.getElementById('btnUploadSubmit').addEventListener('click', async () => {
             const files = document.getElementById('uploadFile').files; const groupId = document.getElementById('uploadTargetGroup').value;
@@ -710,51 +652,15 @@
             setTimeout(() => { pText.innerText = ""; btn.disabled = false; document.getElementById('uploadFile').value=''; }, 3000);
         });
 
-        document.getElementById('btnCreateGroup').addEventListener('click', async () => {
-            const name = document.getElementById('newGroupName').value; const badge = document.getElementById('newGroupBadge').value; const type = document.getElementById('newGroupType').value;
-            if(!name) return; await addDoc(collection(db, "midade_groups_v2"), { name, badge, type }); fetchAllData(); alert("Group Created");
-        });
-
-        document.getElementById('btnCreateLeader').addEventListener('click', async () => {
-            const name = document.getElementById('newLeaderName').value; const role = document.getElementById('newLeaderRole').value; const file = document.getElementById('newLeaderPic').files[0];
-            if(!name) return alert("Need name");
-            const btn = document.getElementById('btnCreateLeader'); btn.innerText = "Adding..."; btn.disabled = true;
-            let picBase64 = "";
-            if(file) {
-                picBase64 = await new Promise(res => {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const img = new Image(); img.onload = () => {
-                            const canvas = document.createElement('canvas'); canvas.width = 150; canvas.height = 150; // Force small square
-                            canvas.getContext('2d').drawImage(img, 0, 0, 150, 150); res(canvas.toDataURL("image/jpeg", 0.7));
-                        }; img.src = e.target.result;
-                    }; reader.readAsDataURL(file);
-                });
-            }
-            await addDoc(collection(db, "midade_leaders"), { name, role, pic: picBase64 });
-            fetchAllData(); btn.innerText = "Add Leader"; btn.disabled = false; alert("Leader Added");
-        });
-
-        // LIGHTBOX
-        const lightboxImg = document.getElementById('lightboxImg');
-        function openLightbox(index) {
-            currentPhotoIndex = index; updateLightboxView(); openModal('modalLightbox');
-        }
-        function updateLightboxView() {
-            lightboxImg.src = currentAlbumPhotos[currentPhotoIndex].url;
-            document.getElementById('lightboxCounter').innerText = `${currentPhotoIndex + 1} / ${currentAlbumPhotos.length}`;
-        }
-        document.getElementById('lightboxPrev').addEventListener('click', () => { currentPhotoIndex = (currentPhotoIndex > 0) ? currentPhotoIndex - 1 : currentAlbumPhotos.length - 1; updateLightboxView(); });
-        document.getElementById('lightboxNext').addEventListener('click', () => { currentPhotoIndex = (currentPhotoIndex < currentAlbumPhotos.length - 1) ? currentPhotoIndex + 1 : 0; updateLightboxView(); });
-
         // INIT
         document.addEventListener("DOMContentLoaded", () => {
-            applyStoredTheme(); applyLanguage(currentLang); fetchAllData();
+            if(currentTheme === 'pink') document.body.classList.add('pink-theme');
+            if(currentTheme === 'orange') document.body.classList.add('orange-theme');
+            applyLanguage(currentLang); fetchAllData();
             document.getElementById('btnThemeToggle').addEventListener('click', cycleTheme);
             document.getElementById('langSelect').addEventListener('change', e => applyLanguage(e.target.value));
             document.querySelectorAll('.modal-close').forEach(b => b.addEventListener('click', closeAllModals));
-            document.getElementById('lightboxClose').addEventListener('click', () => document.getElementById('modalLightbox').style.display='none');
-            window.addEventListener('click', e => { if(e.target.classList.contains('modal') && e.target.id !== 'modalLightbox') closeAllModals(); });
+            window.addEventListener('click', e => { if(e.target.classList.contains('modal')) closeAllModals(); });
         });
     </script>
 </body>
