@@ -134,21 +134,22 @@
         }
         @keyframes modalPop { from { opacity: 0; transform: scale(0.9) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        .close-btn { position: absolute; top: 25px; right: 25px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+        .close-btn { position: absolute; top: 25px; right: 25px; background: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; z-index: 10; }
         body[dir="rtl"] .close-btn { right: auto; left: 25px; }
         .close-btn:hover { transform: rotate(90deg) scale(1.1); background: #f1f5f9; }
 
-        /* Gallery Grid */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
-        .photo-wrapper { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; }
-        .photo-wrapper:hover { transform: scale(1.05); z-index: 5; }
+        /* Gallery Grid & Zoom Effect */
+        .gallery-header-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
+        .photo-wrapper { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 1; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; cursor: zoom-in; }
+        .photo-wrapper:hover { transform: scale(1.05); z-index: 5; box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
         .gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
         
         /* Modern Delete Button for Admin */
         .delete-photo-btn {
             position: absolute; top: 10px; right: 10px; background: rgba(255, 255, 255, 0.9); color: #ff3b30;
             border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; z-index: 6;
         }
         .delete-photo-btn:hover { background: #ff3b30; color: white; transform: scale(1.1); }
 
@@ -253,9 +254,29 @@
     <div id="modalGallery" class="modal">
         <div class="modal-content">
             <button class="close-btn modal-close">&times;</button>
-            <h2 id="galleryTitle" style="font-size: 2rem; font-weight: 800; margin-bottom: 20px;">Album</h2>
-            <div id="galleryLoader" class="loader hidden"></div>
+            <div class="gallery-header-row">
+                <h2 id="galleryTitle" style="font-size: 1.8rem; font-weight: 800;">Album</h2>
+                <span id="galleryCountBadge" style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.7); padding: 5px 15px; border-radius: 20px;">Counting photos...</span>
+            </div>
+            
+            <!-- Live Album Loading Progress Bar -->
+            <div id="albumProgressContainer" class="progress-container hidden">
+                <div class="progress-track">
+                    <div id="albumProgressBar" class="progress-fill"></div>
+                </div>
+                <p id="albumProgressText" class="progress-text">Loading pictures...</p>
+            </div>
+
+            <div id="galleryLoader" class="loader"></div>
             <div id="galleryGrid" class="gallery-grid"></div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX ZOOM MODAL -->
+    <div id="modalLightbox" class="modal" style="z-index: 3500; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px);">
+        <div style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 30px;">
+            <button class="close-btn" id="lightboxClose" style="top: 30px; right: 30px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">&times;</button>
+            <img id="lightboxImg" src="" style="max-width: 90vw; max-height: 85vh; border-radius: 20px; object-fit: contain; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: modalPop 0.3s ease;">
         </div>
     </div>
 
@@ -472,36 +493,93 @@
             });
         }
 
+        // ALBUM OPEN WITH LIVE IMAGE LOADING PROGRESS BAR
         async function loadAlbumImages(groupId, groupName) {
             document.getElementById('galleryTitle').innerText = groupName;
             const grid = document.getElementById('galleryGrid');
             const loader = document.getElementById('galleryLoader');
+            const countBadge = document.getElementById('galleryCountBadge');
+            
+            const progressContainer = document.getElementById('albumProgressContainer');
+            const progressBar = document.getElementById('albumProgressBar');
+            const progressText = document.getElementById('albumProgressText');
+
             const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
             
-            grid.innerHTML = ''; loader.classList.remove('hidden'); openModal('modalGallery');
+            grid.innerHTML = ''; 
+            loader.classList.remove('hidden');
+            progressContainer.classList.add('hidden');
+            countBadge.innerText = "Counting photos...";
+            openModal('modalGallery');
 
             try {
                 const q = query(collection(db, "midade_photos"), where("groupId", "==", groupId));
                 const snap = await getDocs(q);
                 loader.classList.add('hidden');
                 
+                const totalCount = snap.size;
+                countBadge.innerText = totalCount === 1 ? `1 picture total` : `${totalCount} pictures total`;
+
                 if (snap.empty) {
                     grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); font-weight:600;">No memories uploaded here yet.</p>';
                 } else {
+                    // Initialize progress bar tracker for loading images
+                    progressContainer.classList.remove('hidden');
+                    progressBar.style.width = '0%';
+                    progressText.innerText = `Loading pictures: 0 / ${totalCount} (0%)`;
+
+                    let loadedCount = 0;
+
                     snap.forEach(d => {
                         const data = d.data();
                         const deleteBtnHTML = isAdmin ? `<button class="delete-photo-btn" data-photoid="${d.id}" title="Delete Photo">🗑️</button>` : '';
+                        
                         grid.innerHTML += `
-                            <div class="photo-wrapper">
-                                <img src="${data.url}" loading="lazy">
+                            <div class="photo-wrapper" data-imgsrc="${data.url}">
+                                <img src="${data.url}" alt="Album Photo" class="album-img-item">
                                 ${deleteBtnHTML}
                             </div>
                         `;
                     });
 
+                    // Track actual image load events to fill up the progress bar
+                    const imageElements = grid.querySelectorAll('.album-img-item');
+                    imageElements.forEach(img => {
+                        const updateProgress = () => {
+                            loadedCount++;
+                            const pct = Math.round((loadedCount / totalCount) * 100);
+                            progressBar.style.width = `${pct}%`;
+                            progressText.innerText = `Loading pictures: ${loadedCount} / ${totalCount} (${pct}%)`;
+
+                            if (loadedCount === totalCount) {
+                                setTimeout(() => {
+                                    progressContainer.classList.add('hidden');
+                                }, 600);
+                            }
+                        };
+
+                        if (img.complete) {
+                            updateProgress();
+                        } else {
+                            img.onload = updateProgress;
+                            img.onerror = updateProgress; // count even if an error occurs so it doesn't freeze
+                        }
+                    });
+
+                    // Attach Lightbox Zoom Click
+                    document.querySelectorAll('.photo-wrapper').forEach(wrapper => {
+                        wrapper.addEventListener('click', (e) => {
+                            if (e.target.closest('.delete-photo-btn')) return;
+                            const imgSrc = wrapper.getAttribute('data-imgsrc');
+                            document.getElementById('lightboxImg').src = imgSrc;
+                            openModal('modalLightbox');
+                        });
+                    });
+
                     if (isAdmin) {
                         document.querySelectorAll('.delete-photo-btn').forEach(btn => {
                             btn.addEventListener('click', async (e) => {
+                                e.stopPropagation();
                                 if(confirm("Permanently delete this photo?")) {
                                     await deleteDoc(doc(db, "midade_photos", e.currentTarget.dataset.photoid));
                                     loadAlbumImages(groupId, groupName); 
@@ -510,7 +588,12 @@
                         });
                     }
                 }
-            } catch (err) { grid.innerHTML = '<p style="color:red; text-align:center;">Error loading photos.</p>'; }
+            } catch (err) { 
+                loader.classList.add('hidden');
+                progressContainer.classList.add('hidden');
+                countBadge.innerText = "Error loading count";
+                grid.innerHTML = '<p style="color:red; text-align:center;">Error loading photos.</p>'; 
+            }
         }
 
         function populateAdminDropdown() {
@@ -584,7 +667,6 @@
             submitBtn.style.opacity = "1";
             fileInput.value = '';
 
-            // Auto-hide progress bar after 4 seconds
             setTimeout(() => {
                 progressContainer.classList.add('hidden');
                 progressBar.style.width = '0%';
@@ -598,7 +680,7 @@
                     const img = new Image();
                     img.onload = async function() {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // Constrain width to optimize size
+                        const MAX_WIDTH = 800;
                         let width = img.width;
                         let height = img.height;
 
@@ -612,7 +694,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        // Compress quality to 70% JPEG format
                         const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
 
                         try {
@@ -643,7 +724,14 @@
             document.getElementById('btnAdminPanel').addEventListener('click', () => openModal('modalAdmin'));
             
             document.querySelectorAll('.modal-close').forEach(btn => btn.addEventListener('click', closeAllModals));
-            window.addEventListener('click', (e) => { if(e.target.classList.contains('modal')) closeAllModals(); });
+            
+            document.getElementById('lightboxClose').addEventListener('click', () => {
+                document.getElementById('modalLightbox').style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => { 
+                if(e.target.classList.contains('modal')) closeAllModals(); 
+            });
 
             document.getElementById('btnLoginSubmit').addEventListener('click', () => {
                 if(document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'midade2026') {
