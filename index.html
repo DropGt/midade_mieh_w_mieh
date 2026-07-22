@@ -289,8 +289,8 @@
             <div id="adminLoginScreen">
                 <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px;" data-i18n="admin_panel">Admin Access</h2>
                 <p style="color: var(--text-muted); font-weight: 600; margin-bottom: 25px;">Secure management dashboard.</p>
-                <div class="form-group"><input type="email" id="adminUser" placeholder="Email" autocomplete="username"></div>
-                <div class="form-group"><input type="password" id="adminPass" placeholder="Password" autocomplete="current-password"></div>
+                <div class="form-group"><input type="text" id="adminUser" placeholder="Username"></div>
+                <div class="form-group"><input type="password" id="adminPass" placeholder="Password"></div>
                 <button class="btn" id="btnLoginSubmit">Login Securely</button>
                 <p id="loginError" style="color: #ff3b30; margin-top: 15px; font-weight: 700; text-align: center;" class="hidden">Access Denied.</p>
             </div>
@@ -357,9 +357,8 @@
     <!-- Logic Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, setDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
@@ -372,14 +371,7 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const auth = getAuth(app);
         const storage = getStorage(app);
-
-        let isAdminUser = false;
-        onAuthStateChanged(auth, (user) => {
-            isAdminUser = !!user;
-            updateAdminUI();
-        });
 
         let globalGroups = [];
         let currentLang = localStorage.getItem('midade_lang') || 'en';
@@ -422,8 +414,9 @@
             localStorage.setItem('midade_theme', document.body.classList.contains('pink-theme') ? 'pink' : 'blue');
         }
 
-        function updateAdminUI() {
-            if (isAdminUser) {
+        function checkAuthState() {
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            if (isAdmin) {
                 document.body.classList.add('is-admin');
                 document.getElementById('adminLoginScreen').classList.add('hidden');
                 document.getElementById('adminDashboardScreen').classList.remove('hidden');
@@ -454,7 +447,7 @@
             document.getElementById('loaderColonie').classList.add('hidden');
             grpGrid.innerHTML = ''; colGrid.innerHTML = '';
 
-            const isAdmin = isAdminUser;
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
             const btnText = dictionary[currentLang].btn_view;
 
             globalGroups.forEach(g => {
@@ -513,7 +506,7 @@
             const progressBar = document.getElementById('albumProgressBar');
             const progressText = document.getElementById('albumProgressText');
 
-            const isAdmin = isAdminUser;
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
             
             grid.innerHTML = ''; 
             loader.classList.remove('hidden');
@@ -532,7 +525,6 @@
                 if (snap.empty) {
                     grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--text-muted); font-weight:600;">No memories uploaded here yet.</p>';
                 } else {
-                    // Initialize progress bar tracker for loading images
                     progressContainer.classList.remove('hidden');
                     progressBar.style.width = '0%';
                     progressText.innerText = `Loading pictures: 0 / ${totalCount} (0%)`;
@@ -541,7 +533,7 @@
 
                     snap.forEach(d => {
                         const data = d.data();
-                        const deleteBtnHTML = isAdmin ? `<button class="delete-photo-btn" data-photoid="${d.id}" data-storagepath="${data.storagePath || ''}" title="Delete Photo">🗑️</button>` : '';
+                        const deleteBtnHTML = isAdmin ? `<button class="delete-photo-btn" data-photoid="${d.id}" title="Delete Photo">🗑️</button>` : '';
                         
                         grid.innerHTML += `
                             <div class="photo-wrapper" data-imgsrc="${data.url}">
@@ -551,7 +543,6 @@
                         `;
                     });
 
-                    // Track actual image load events to fill up the progress bar
                     const imageElements = grid.querySelectorAll('.album-img-item');
                     imageElements.forEach(img => {
                         const updateProgress = () => {
@@ -571,11 +562,10 @@
                             updateProgress();
                         } else {
                             img.onload = updateProgress;
-                            img.onerror = updateProgress; // count even if an error occurs so it doesn't freeze
+                            img.onerror = updateProgress;
                         }
                     });
 
-                    // Attach Lightbox Zoom Click
                     document.querySelectorAll('.photo-wrapper').forEach(wrapper => {
                         wrapper.addEventListener('click', (e) => {
                             if (e.target.closest('.delete-photo-btn')) return;
@@ -590,12 +580,7 @@
                             btn.addEventListener('click', async (e) => {
                                 e.stopPropagation();
                                 if(confirm("Permanently delete this photo?")) {
-                                    const photoId = e.currentTarget.dataset.photoid;
-                                    const storagePath = e.currentTarget.dataset.storagepath;
-                                    await deleteDoc(doc(db, "midade_photos", photoId));
-                                    if (storagePath) {
-                                        try { await deleteObject(ref(storage, storagePath)); } catch (cleanupErr) { console.error("Storage cleanup failed:", cleanupErr); }
-                                    }
+                                    await deleteDoc(doc(db, "midade_photos", e.currentTarget.dataset.photoid));
                                     loadAlbumImages(groupId, groupName); 
                                 }
                             });
@@ -639,7 +624,7 @@
             closeAllModals(); fetchAllData();
         }
 
-        // BATCH MULTI-UPLOAD WITH REAL-TIME PROGRESS BAR & COMPRESSION
+        // BATCH MULTI-UPLOAD WITH FIREBASE STORAGE & PROGRESS BAR
         async function handleMultipleImageUpload() {
             const fileInput = document.getElementById('uploadFile');
             const files = fileInput.files;
@@ -692,9 +677,9 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const img = new Image();
-                    img.onload = function() {
+                    img.onload = async function() {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800;
+                        const MAX_WIDTH = 1200; // Optimal Web resolution
                         let width = img.width;
                         let height = img.height;
 
@@ -709,27 +694,30 @@
                         ctx.drawImage(img, 0, 0, width, height);
 
                         canvas.toBlob(async (blob) => {
-                            if (!blob) { reject(new Error("Image compression failed")); return; }
+                            if (!blob) {
+                                reject(new Error("Canvas to Blob conversion failed"));
+                                return;
+                            }
+
                             try {
-                                // Pre-generate the Firestore doc ID so we can use it as the Storage filename too
-                                const photoDocRef = doc(collection(db, "midade_photos"));
-                                const storagePath = `photos/${groupId}/${photoDocRef.id}.jpg`;
-                                const fileStorageRef = ref(storage, storagePath);
+                                const fileName = `photos/${groupId}/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.jpg`;
+                                const storageRef = ref(storage, fileName);
 
-                                await uploadBytes(fileStorageRef, blob, { contentType: "image/jpeg" });
-                                const downloadUrl = await getDownloadURL(fileStorageRef);
+                                // Upload compressed blob to Firebase Storage
+                                const snapshot = await uploadBytes(storageRef, blob);
+                                const downloadURL = await getDownloadURL(snapshot.ref);
 
-                                await setDoc(photoDocRef, {
-                                    groupId: groupId,
-                                    url: downloadUrl,
-                                    storagePath: storagePath,
+                                // Store only the download URL and metadata in Firestore
+                                await addDoc(collection(db, "midade_photos"), {
+                                    groupId: groupId, 
+                                    url: downloadURL, 
                                     timestamp: Date.now()
                                 });
                                 resolve();
                             } catch (err) {
                                 reject(err);
                             }
-                        }, "image/jpeg", 0.7);
+                        }, 'image/jpeg', 0.8);
                     };
                     img.onerror = reject;
                     img.src = e.target.result;
@@ -741,7 +729,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem('midade_theme') === 'pink') document.body.classList.add('pink-theme');
-            applyLanguage(currentLang); fetchAllData();
+            applyLanguage(currentLang); checkAuthState(); fetchAllData();
 
             document.getElementById('langSelect').addEventListener('change', (e) => applyLanguage(e.target.value));
             document.getElementById('btnThemeToggle').addEventListener('click', toggleTheme);
@@ -757,20 +745,13 @@
                 if(e.target.classList.contains('modal')) closeAllModals(); 
             });
 
-            document.getElementById('btnLoginSubmit').addEventListener('click', async () => {
-                const email = document.getElementById('adminUser').value;
-                const pass = document.getElementById('adminPass').value;
-                document.getElementById('loginError').classList.add('hidden');
-                try {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                    // onAuthStateChanged fires automatically and updates the UI
-                } catch (err) {
-                    document.getElementById('loginError').classList.remove('hidden');
-                }
+            document.getElementById('btnLoginSubmit').addEventListener('click', () => {
+                if(document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'midade2026') {
+                    localStorage.setItem('midade_auth', 'secure_token_true'); checkAuthState();
+                } else { document.getElementById('loginError').classList.remove('hidden'); }
             });
-            document.getElementById('btnLogout').addEventListener('click', async () => {
-                await signOut(auth);
-                closeAllModals();
+            document.getElementById('btnLogout').addEventListener('click', () => {
+                localStorage.removeItem('midade_auth'); checkAuthState(); closeAllModals();
             });
 
             document.getElementById('btnCreateGroup').addEventListener('click', createNewGroup);
