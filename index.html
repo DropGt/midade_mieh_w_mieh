@@ -109,7 +109,7 @@
         .btn-outline:hover { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.2); }
         .admin-controls-group { display: flex; gap: 10px; margin-top: 15px; }
 
-        /* Floating App Dock (Bottom Navigation) */
+        /* Floating App Dock (Mac/iOS Style) */
         .dock {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
             background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
@@ -165,6 +165,12 @@
         .admin-bento { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
         .bento-box { background: rgba(255,255,255,0.5); border: 1px solid var(--glass-border); border-radius: 25px; padding: 25px; }
 
+        /* Progress Bar Styling */
+        .progress-container { margin-top: 15px; }
+        .progress-track { background: rgba(0,0,0,0.05); border-radius: 12px; overflow: hidden; height: 12px; width: 100%; border: 1px solid rgba(255,255,255,0.6); box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        .progress-fill { background: var(--primary-btn); width: 0%; height: 100%; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-text { text-align: center; font-size: 0.85rem; font-weight: 700; margin-top: 8px; color: var(--text-muted); }
+
         /* Utils */
         .hidden { display: none !important; }
         .admin-only { display: none; }
@@ -213,7 +219,7 @@
         <div class="video-card">
             <div class="video-wrapper">
                 <span class="video-badge" data-i18n="video_badge">Latest Highlight</span>
-                <video src="VID-20260722-WA0068.mp4" controls playsinline preload="metadata" poster="OIP.webp"></video>
+                <video src="VID-20260706-WA0031.mp4" controls playsinline preload="metadata" poster="OIP.webp"></video>
             </div>
         </div>
     </section>
@@ -273,19 +279,26 @@
                 <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 20px;">Dashboard</h2>
                 
                 <div class="admin-bento">
-                    <!-- Image Upload (With Compression) -->
+                    <!-- Multiple Image Upload with Progress Bar -->
                     <div class="bento-box">
-                        <h3 style="margin-bottom: 15px;">📸 Upload Photo</h3>
+                        <h3 style="margin-bottom: 15px;">📸 Batch Upload Photos</h3>
                         <div class="form-group">
                             <label>Select Album</label>
                             <select id="uploadTargetGroup"></select>
                         </div>
                         <div class="form-group">
-                            <label>Choose File</label>
-                            <input type="file" id="uploadFile" accept="image/*" style="padding: 12px;">
+                            <label>Choose Files (Multiple Enabled)</label>
+                            <input type="file" id="uploadFile" accept="image/*" multiple style="padding: 12px;">
                         </div>
-                        <button class="btn" id="btnUploadSubmit">Process & Upload</button>
-                        <p id="uploadStatus" style="margin-top: 15px; font-weight: 700; text-align: center; font-size: 0.9rem;"></p>
+                        <button class="btn" id="btnUploadSubmit">Process & Upload All</button>
+                        
+                        <!-- Upload Progress Bar Component -->
+                        <div id="uploadProgressContainer" class="progress-container hidden">
+                            <div class="progress-track">
+                                <div id="uploadProgressBar" class="progress-fill"></div>
+                            </div>
+                            <p id="uploadProgressText" class="progress-text">Preparing...</p>
+                        </div>
                     </div>
 
                     <!-- Create Group -->
@@ -529,54 +542,96 @@
             closeAllModals(); fetchAllData();
         }
 
-        // UPGRADED UPLOAD FUNCTION: Resizes image via Canvas before saving to prevent Firestore 1MB error
-        function handleImageUpload() {
+        // BATCH MULTI-UPLOAD WITH REAL-TIME PROGRESS BAR & COMPRESSION
+        async function handleMultipleImageUpload() {
             const fileInput = document.getElementById('uploadFile');
-            const file = fileInput.files[0];
+            const files = fileInput.files;
             const groupId = document.getElementById('uploadTargetGroup').value;
-            const statusText = document.getElementById('uploadStatus');
+            
+            const progressContainer = document.getElementById('uploadProgressContainer');
+            const progressBar = document.getElementById('uploadProgressBar');
+            const progressText = document.getElementById('uploadProgressText');
+            const submitBtn = document.getElementById('btnUploadSubmit');
 
-            if(!file || !groupId) return alert("Select group and file.");
+            if (!files.length || !groupId) return alert("Please select an album and at least one image file.");
 
-            document.getElementById('btnUploadSubmit').innerText = "Optimizing & Uploading...";
-            statusText.style.color = "#ff9500"; statusText.innerText = "Compressing photo...";
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = "0.6";
+            progressContainer.classList.remove('hidden');
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = async function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800; // Limits size
-                    let width = img.width;
-                    let height = img.height;
+            const total = files.length;
+            let completed = 0;
 
-                    if (width > MAX_WIDTH) {
-                        height = Math.round((height * MAX_WIDTH) / width);
-                        width = MAX_WIDTH;
-                    }
+            progressBar.style.width = '0%';
+            progressText.style.color = "var(--text-muted)";
+            progressText.innerText = `Processing 0 / ${total} (0%)`;
 
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // Compress to 70% quality JPEG
-                    const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
-
-                    try {
-                        await addDoc(collection(db, "midade_photos"), {
-                            groupId: groupId, url: compressedBase64, timestamp: Date.now()
-                        });
-                        statusText.style.color = "#34c759"; statusText.innerText = "Upload Success!";
-                        fileInput.value = '';
-                    } catch (err) {
-                        statusText.style.color = "#ff3b30"; statusText.innerText = "Error: File might still be too large.";
-                    }
-                    document.getElementById('btnUploadSubmit').innerText = "Process & Upload";
+            for (let i = 0; i < total; i++) {
+                try {
+                    await processAndUploadSingleFile(files[i], groupId);
+                } catch (err) {
+                    console.error("Failed to upload file index", i, err);
                 }
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+                completed++;
+                const percentage = Math.round((completed / total) * 100);
+                progressBar.style.width = `${percentage}%`;
+                progressText.innerText = `Processing ${completed} / ${total} (${percentage}%)`;
+            }
+
+            progressText.style.color = "#34c759";
+            progressText.innerText = `🎉 Successfully uploaded ${total} photo(s)!`;
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = "1";
+            fileInput.value = '';
+
+            // Auto-hide progress bar after 4 seconds
+            setTimeout(() => {
+                progressContainer.classList.add('hidden');
+                progressBar.style.width = '0%';
+            }, 4000);
+        }
+
+        function processAndUploadSingleFile(file, groupId) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = async function() {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // Constrain width to optimize size
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height = Math.round((height * MAX_WIDTH) / width);
+                            width = MAX_WIDTH;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // Compress quality to 70% JPEG format
+                        const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+                        try {
+                            await addDoc(collection(db, "midade_photos"), {
+                                groupId: groupId, 
+                                url: compressedBase64, 
+                                timestamp: Date.now()
+                            });
+                            resolve();
+                        } catch (err) {
+                            reject(err);
+                        }
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -601,7 +656,7 @@
 
             document.getElementById('btnCreateGroup').addEventListener('click', createNewGroup);
             document.getElementById('btnSaveEdit').addEventListener('click', saveGroupEdit);
-            document.getElementById('btnUploadSubmit').addEventListener('click', handleImageUpload);
+            document.getElementById('btnUploadSubmit').addEventListener('click', handleMultipleImageUpload);
         });
     </script>
 </body>
