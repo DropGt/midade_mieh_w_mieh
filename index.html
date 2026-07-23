@@ -40,26 +40,24 @@
         }
         body.gemini-theme .blob { animation: floatGemini 8s infinite alternate ease-in-out, pulseGemini 4s infinite alternate; }
 
-        /* NEW POP-ART THEME */
+        /* POP-ART THEME */
         body.popart-theme {
-            --blob-1: #ff007f; /* Magenta */
-            --blob-2: #00e5ff; /* Cyan */
-            --blob-3: #ffe600; /* Yellow */
-            --bg-base: #ffffff; /* Crisp comic white */
+            --blob-1: #ff007f;
+            --blob-2: #00e5ff;
+            --blob-3: #ffe600;
+            --bg-base: #ffffff;
             --glass-bg: #ffffff;
             --glass-border: #000000;
-            --glass-shadow: 8px 8px 0px 0px #000000; /* Hard block shadow */
+            --glass-shadow: 8px 8px 0px 0px #000000;
             --text-main: #000000;
             --text-muted: #333333;
-            --primary-btn: #ff007f; /* Solid Magenta */
-            --radius-card: 12px; /* Sharper corners */
+            --primary-btn: #ff007f;
+            --radius-card: 12px;
             --radius-pill: 8px;
-            /* Halftone pattern dots for background */
             background-image: radial-gradient(#d3d3d3 15%, transparent 16%);
             background-size: 20px 20px;
         }
 
-        /* Pop-Art Specific Overrides */
         body.popart-theme .card, body.popart-theme header, body.popart-theme .dock, 
         body.popart-theme .video-card, body.popart-theme .modal-content, body.popart-theme .bento-box {
             border: 3px solid #000; box-shadow: var(--glass-shadow); border-radius: var(--radius-card); background: #fff;
@@ -72,7 +70,7 @@
         body.popart-theme .btn-outline { background: #ffe600; color: #000; }
         body.popart-theme .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px 0px #000; }
         body.popart-theme .logo-text h1 { -webkit-text-fill-color: #ff007f; text-shadow: 2px 2px 0px #000; }
-        body.popart-theme .blob { filter: blur(30px); opacity: 0.9; } /* Less blur, more vibrant */
+        body.popart-theme .blob { filter: blur(30px); opacity: 0.9; }
 
         @keyframes floatGemini {
             0% { transform: translate(0, 0) scale(1) rotate(0deg); }
@@ -404,15 +402,17 @@
         <div class="modal-content">
             <button class="close-btn modal-close">&times;</button>
             
+            <!-- SECURE LOGIN SCREEN -->
             <div id="adminLoginScreen">
                 <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 10px;">Admin Access</h2>
-                <p style="color: var(--text-muted); font-weight: 600; margin-bottom: 25px;">Secure management dashboard.</p>
-                <div class="form-group"><input type="text" id="adminUser" placeholder="Username"></div>
+                <p style="color: var(--text-muted); font-weight: 600; margin-bottom: 25px;">Sign in with your Firebase Auth credentials.</p>
+                <div class="form-group"><input type="email" id="adminUser" placeholder="Admin Email (e.g. admin@midade.com)"></div>
                 <div class="form-group"><input type="password" id="adminPass" placeholder="Password"></div>
                 <button class="btn" id="btnLoginSubmit">Login Securely</button>
-                <p id="loginError" style="color: #ff3b30; margin-top: 15px; font-weight: 700; text-align: center;" class="hidden">Access Denied.</p>
+                <p id="loginError" style="color: #ff3b30; margin-top: 15px; font-weight: 700; text-align: center;" class="hidden">Invalid Email or Password.</p>
             </div>
 
+            <!-- DASHBOARD SCREEN -->
             <div id="adminDashboardScreen" class="hidden">
                 <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 20px;">Admin Control Panel</h2>
                 
@@ -468,11 +468,13 @@
         </div>
     </div>
 
-    <!-- Firebase Script -->
+    <!-- Firebase SDK Modules -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+        // ➔ SECURE AUTHENTICATION IMPORT:
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
@@ -486,7 +488,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
+        const auth = getAuth(app); // Initialized Auth
 
+        let currentUser = null;
         let globalGroups = [];
         let globalLeaders = [];
         let groupRatingsData = {}; 
@@ -496,7 +500,6 @@
         let selectedStarRating = 0;
         let currentLang = localStorage.getItem('midade_lang') || 'en';
         
-        // ➔ THEME UPDATE: Added 'popart' to array
         const themes = ['orange', 'blue', 'gemini', 'popart'];
         let currentThemeIndex = 0;
         
@@ -505,6 +508,23 @@
             fr: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Nos Groupes", title_colonie: "Colonie d'été", title_leaders: "Nos Responsables", btn_view: "Ouvrir l'album", admin_panel: "Accès Admin", video_badge: "À la une", nav_home: "Accueil", nav_theme: "Thème", nav_admin: "Admin", nav_ticket: "🎫 Ticket" },
             ar: { app_title: "ميداد", app_subtitle: "مية ومية", title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", title_leaders: "المسؤولون", btn_view: "فتح الألبوم", admin_panel: "دخول الإدارة", video_badge: "أحدث فيديو", nav_home: "الرئيسية", nav_theme: "المظهر", nav_admin: "الإدارة", nav_ticket: "🎫 تذكرة" }
         };
+
+        // ➔ REAL-TIME SECURE AUTH STATE LISTENER
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                document.body.classList.add('is-admin');
+                document.getElementById('adminLoginScreen').classList.add('hidden');
+                document.getElementById('adminDashboardScreen').classList.remove('hidden');
+                fetchAdminTickets();
+            } else {
+                document.body.classList.remove('is-admin');
+                document.getElementById('adminLoginScreen').classList.remove('hidden');
+                document.getElementById('adminDashboardScreen').classList.add('hidden');
+            }
+            renderDOMGroups(); 
+            renderLeaders();
+        });
 
         function applyLanguage(lang) {
             currentLang = lang;
@@ -519,7 +539,6 @@
             renderLeaders();
         }
 
-        // ➔ THEME UPDATE: Function now cycles through 4 themes
         function toggleTheme() {
             document.body.classList.remove('blue-theme', 'gemini-theme', 'popart-theme');
             currentThemeIndex = (currentThemeIndex + 1) % themes.length;
@@ -529,22 +548,6 @@
                 document.body.classList.add(`${newTheme}-theme`);
             }
             localStorage.setItem('midade_theme', newTheme);
-        }
-
-        function checkAuthState() {
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
-            if (isAdmin) {
-                document.body.classList.add('is-admin');
-                document.getElementById('adminLoginScreen').classList.add('hidden');
-                document.getElementById('adminDashboardScreen').classList.remove('hidden');
-                fetchAdminTickets();
-            } else {
-                document.body.classList.remove('is-admin');
-                document.getElementById('adminLoginScreen').classList.remove('hidden');
-                document.getElementById('adminDashboardScreen').classList.add('hidden');
-            }
-            renderDOMGroups(); 
-            renderLeaders();
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -578,7 +581,7 @@
             const grid = document.getElementById('leadersGrid');
             document.getElementById('loaderLeaders').classList.add('hidden');
             grid.innerHTML = '';
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            const isAdmin = currentUser !== null;
 
             globalLeaders.forEach(leader => {
                 const pfpSrc = (leader.imageUrl && leader.imageUrl.trim() !== '') ? leader.imageUrl : 'OIP.webp';
@@ -601,7 +604,7 @@
             document.getElementById('loaderColonie').classList.add('hidden');
             grpGrid.innerHTML = ''; colGrid.innerHTML = '';
 
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            const isAdmin = currentUser !== null;
             const btnText = dictionary[currentLang].btn_view;
 
             globalGroups.forEach(g => {
@@ -633,7 +636,7 @@
         async function loadAlbumGallery(groupId, groupName) {
             activeGalleryGroupId = groupId; document.getElementById('galleryTitle').innerText = groupName;
             const grid = document.getElementById('galleryGrid'); const loader = document.getElementById('galleryLoader'); const countBadge = document.getElementById('galleryCountBadge');
-            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            const isAdmin = currentUser !== null;
             
             grid.innerHTML = ''; loader.classList.remove('hidden'); countBadge.innerText = "Loading..."; openModal('modalGallery');
             currentAlbumImages = []; selectedStarRating = 0; updateStarSelectorUI(); document.getElementById('reviewText').value = '';
@@ -724,8 +727,6 @@
                 snap.forEach(d => {
                     const t = d.data();
                     const dateStr = new Date(t.timestamp).toLocaleDateString();
-                    
-                    // ➔ BUG FIX: Safety Fallback for missing `type` field so undefined doesn't crash the loop
                     const ticketType = t.type ? t.type.toUpperCase() : 'UNKNOWN';
                     
                     list.innerHTML += `
@@ -834,7 +835,7 @@
             currentThemeIndex = themes.indexOf(savedTheme) !== -1 ? themes.indexOf(savedTheme) : 0;
             if (themes[currentThemeIndex] !== 'orange') document.body.classList.add(`${themes[currentThemeIndex]}-theme`);
             
-            applyLanguage(currentLang); checkAuthState(); fetchAllData();
+            applyLanguage(currentLang); fetchAllData();
 
             document.getElementById('langSelect').addEventListener('change', (e) => applyLanguage(e.target.value));
             document.getElementById('btnThemeToggle').addEventListener('click', toggleTheme);
@@ -843,12 +844,29 @@
             document.querySelectorAll('.modal-close').forEach(b => b.addEventListener('click', closeAllModals));
             window.addEventListener('click', (e) => { if(e.target.classList.contains('modal')) closeAllModals(); });
 
-            document.getElementById('btnLoginSubmit').addEventListener('click', () => {
-                if(document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'midade2026') {
-                    localStorage.setItem('midade_auth', 'secure_token_true'); checkAuthState();
-                } else { document.getElementById('loginError').classList.remove('hidden'); }
+            // ➔ SECURE AUTHENTICATION LOGIN HANDLER
+            document.getElementById('btnLoginSubmit').addEventListener('click', async () => {
+                const email = document.getElementById('adminUser').value.trim();
+                const pass = document.getElementById('adminPass').value;
+                const errEl = document.getElementById('loginError');
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, pass);
+                    errEl.classList.add('hidden');
+                    document.getElementById('adminUser').value = '';
+                    document.getElementById('adminPass').value = '';
+                } catch (error) {
+                    console.error("Authentication Error:", error);
+                    errEl.textContent = "Invalid email or password.";
+                    errEl.classList.remove('hidden');
+                }
             });
-            document.getElementById('btnLogout').addEventListener('click', () => { localStorage.removeItem('midade_auth'); checkAuthState(); closeAllModals(); });
+
+            // ➔ SECURE LOGOUT HANDLER
+            document.getElementById('btnLogout').addEventListener('click', async () => {
+                await signOut(auth);
+                closeAllModals();
+            });
         });
     </script>
 </body>
