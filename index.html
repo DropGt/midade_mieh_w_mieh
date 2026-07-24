@@ -4,496 +4,387 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MIDADE Mieh w Mieh</title>
-    <link rel="icon" href="OIP.webp" type="image/webp">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        /* EMERALD THEME (Default) */
+        /* Modern Glassmorphism & Aurora Variables */
         :root {
-            --blob-1: #10b981; --blob-2: #34d399; --blob-3: #059669;
-            --bg-base: #f0fdf4; 
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.08);
-            --text-main: #064e3b; --text-muted: #475569;
-            --radius-pill: 50px; --radius-card: 20px;
-            --primary-btn: linear-gradient(135deg, #10b981, #059669);
-            --skeleton-bg: linear-gradient(90deg, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%);
+            --blob-1: #007aff; --blob-2: #00d4ff; --blob-3: #7b2cbf;
+            --bg-base: #f4f7fb; 
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.05);
+            --text-main: #0f172a; --text-muted: #64748b;
+            --radius-pill: 40px; --radius-card: 16px;
+            --primary-btn: linear-gradient(135deg, #007aff, #005bb5);
         }
         
-        /* CYBERPUNK THEME */
-        body.cyberpunk-theme {
-            --blob-1: #ff00ff; --blob-2: #00ffff; --blob-3: #ff0000;
-            --bg-base: #0a0a1a;
-            --glass-bg: rgba(10, 10, 26, 0.85);
-            --glass-border: rgba(0, 255, 255, 0.3);
-            --glass-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
-            --text-main: #00ffff; --text-muted: #ff77ff;
-            --primary-btn: linear-gradient(90deg, #ff00ff, #00ffff);
-            --radius-card: 4px; --radius-pill: 4px;
-            --skeleton-bg: linear-gradient(90deg, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%);
-        }
-        body.cyberpunk-theme .card, body.cyberpunk-theme header { border: 1px solid var(--blob-2); }
-        body.cyberpunk-theme .btn { text-transform: uppercase; letter-spacing: 2px; font-weight: 800; }
-
-        /* SUNSET THEME */
-        body.sunset-theme {
-            --blob-1: #ff4e50; --blob-2: #f9d423; --blob-3: #ff758c;
-            --bg-base: #fff5f5; 
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --glass-shadow: 0 12px 40px 0 rgba(255, 78, 80, 0.15);
-            --text-main: #2d3436; --text-muted: #636e72;
-            --primary-btn: linear-gradient(135deg, #ff4e50, #f9d423);
-            --skeleton-bg: linear-gradient(90deg, #ffe0e0 25%, #ffc0c0 50%, #ffe0e0 75%);
+        body.pink-theme {
+            --blob-1: #ff2d55; --blob-2: #ffa07a; --blob-3: #d81b60;
+            --bg-base: #fff0f5;
+            --primary-btn: linear-gradient(135deg, #ff2d55, #d81b60);
         }
 
-        /* MINIMAL THEME */
-        body.minimal-theme {
-            --blob-1: #e2e8f0; --blob-2: #cbd5e1; --blob-3: #f1f5f9;
-            --bg-base: #ffffff;
-            --glass-bg: #ffffff;
-            --glass-border: #e2e8f0;
-            --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            --text-main: #0f172a; --text-muted: #64748b;
-            --primary-btn: #0f172a;
-            --radius-card: 12px; --radius-pill: 8px;
-            --skeleton-bg: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-        }
-        body.minimal-theme .card::before { display: none; }
-
-        /* POP ART THEME */
-        body.popart-theme {
-            --blob-1: #ff007f; --blob-2: #ffe600; --blob-3: #00e5ff;
-            --bg-base: #fffdf0;
-            --glass-bg: #ffffff;
-            --glass-border: #000000;
-            --glass-shadow: 4px 4px 0px #000000;
-            --text-main: #000000; --text-muted: #222222;
-            --primary-btn: #ff007f;
-            --radius-card: 0px; --radius-pill: 0px;
-            --skeleton-bg: linear-gradient(90deg, #ffea00 25%, #ff007f 50%, #ffea00 75%);
-        }
-        body.popart-theme .card, body.popart-theme header, body.popart-theme .modal-content, body.popart-theme .bento-box {
-            border: 3px solid #000000;
-            box-shadow: 4px 4px 0px #000000;
-        }
-        body.popart-theme .card::before { display: none; }
-        body.popart-theme .btn {
-            border: 3px solid #000000;
-            box-shadow: 3px 3px 0px #000000;
-            text-transform: uppercase;
-            font-weight: 800;
-            background: #ffe600;
-            color: #000000;
-        }
-        body.popart-theme .btn:active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px #000000;
+        body.orange-theme {
+            --blob-1: #ff9500; --blob-2: #ffcc00; --blob-3: #ff3b30;
+            --bg-base: #fff8f0;
+            --primary-btn: linear-gradient(135deg, #ff9500, #ff5e00);
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body { 
             font-family: 'Outfit', sans-serif; color: var(--text-main); 
-            overflow-x: hidden; min-height: 100vh; padding-bottom: 60px;
-            background-color: var(--bg-base); transition: background 0.4s ease, color 0.4s ease;
+            overflow-x: hidden; min-height: 100vh; padding-bottom: 80px;
+            background: var(--bg-base); transition: background 0.5s ease;
+            font-size: 14px; 
         }
+        
         body[dir="rtl"] { font-family: 'Cairo', sans-serif; }
 
-        .mesh-bg {
-            position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background: linear-gradient(45deg, var(--blob-1), var(--blob-2), var(--blob-3));
-            background-size: 200% 200%;
-            animation: bgShift 12s ease infinite;
-            opacity: 0.12;
-        }
-        @keyframes bgShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* Animated Aurora Background */
+        .mesh-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; filter: blur(70px); border-radius: 50%; opacity: 0.4; animation: float 15s infinite alternate ease-in-out; }
+        .blob-1 { top: -10%; left: -10%; width: 40vw; height: 40vw; background: var(--blob-1); animation-delay: 0s; }
+        .blob-2 { bottom: 10%; right: -10%; width: 35vw; height: 35vw; background: var(--blob-2); animation-delay: -2s; }
+        .blob-3 { top: 40%; left: 40%; width: 25vw; height: 25vw; background: var(--blob-3); animation-delay: -4s; }
+        
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 30px) scale(1.05); } }
 
+        /* Floating Pill Header */
         header {
-            margin: 15px auto; width: 94%; max-width: 1200px;
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            margin: 15px auto; width: 94%; max-width: 1000px;
+            background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
             border-radius: var(--radius-pill); display: flex; justify-content: space-between; 
-            align-items: center; padding: 10px 20px; position: sticky; top: 15px; z-index: 100;
+            align-items: center; padding: 8px 15px; position: sticky; top: 15px; z-index: 100;
         }
-        .logo-wrap { display: flex; align-items: center; gap: 12px; }
-        .logo-wrap img { height: 42px; width: 42px; object-fit: cover; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .logo-text h1 { font-size: 1.2rem; font-weight: 800; background: var(--primary-btn); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
-        body.popart-theme .logo-text h1 { -webkit-text-fill-color: #ff007f; }
-        .logo-text p { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .logo-wrap { display: flex; align-items: center; gap: 10px; }
+        .logo-wrap img { height: 35px; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .logo-text h1 { font-size: 1.1rem; font-weight: 800; background: var(--primary-btn); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .logo-text p { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
         
-        .header-actions { display: flex; align-items: center; gap: 8px; }
-        .lang-select, .btn-ticket-header, .btn-hamburger { 
-            background: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.9); padding: 8px 12px; 
-            border-radius: var(--radius-pill); font-family: inherit; font-weight: 700; font-size: 0.8rem;
-            color: #1a1510; cursor: pointer; outline: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: 0.3s;
+        .header-controls { display: flex; align-items: center; gap: 8px; }
+        .lang-select { 
+            background: rgba(255,255,255,0.7); border: none; padding: 6px 10px; 
+            border-radius: var(--radius-pill); font-family: inherit; font-weight: 700; font-size: 0.85rem;
+            color: var(--text-main); cursor: pointer; outline: none; box-shadow: inset 0 2px 4px rgba(255,255,255,0.8);
         }
-        body.popart-theme .lang-select, body.popart-theme .btn-hamburger { background: #00e5ff; border: 2px solid #000; border-radius: 0; box-shadow: 2px 2px 0px #000; color: #000; }
-        body.cyberpunk-theme .lang-select, body.cyberpunk-theme .btn-hamburger { background: rgba(0,0,0,0.5); color: var(--blob-2); border-color: var(--blob-2); }
-        body.minimal-theme .lang-select, body.minimal-theme .btn-hamburger { border: 1px solid var(--glass-border); box-shadow: none; }
-        
-        .btn-ticket-header { background: var(--primary-btn); color: white; border: none; display: none; } 
-        @media (min-width: 600px) { .btn-ticket-header { display: block; } }
+        .ig-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white; border: none; border-radius: 50%; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center; text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.3s; font-size: 1.1rem;
+        }
+        .ig-btn:hover { transform: scale(1.1); }
 
-        .btn-hamburger { font-size: 1.2rem; display: flex; justify-content: center; align-items: center; padding: 6px 12px; }
-
-        .side-menu {
-            position: fixed; top: 0; left: -300px; width: 260px; height: 100vh;
-            background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-            border-right: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            z-index: 3000; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 60px 20px 20px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .side-menu.open { left: 0; }
-        .menu-item {
-            background: transparent; border: none; font-size: 1.1rem; font-weight: 700;
-            color: var(--text-main); display: flex; align-items: center; gap: 15px;
-            padding: 15px; cursor: pointer; border-radius: var(--radius-card); transition: 0.2s; text-align: left;
-        }
-        body.popart-theme .menu-item { border: 2px solid #000; margin-bottom: 5px; background: #fff; box-shadow: 2px 2px 0px #000; }
-        .menu-item:hover { background: rgba(0,0,0,0.05); color: var(--blob-1); }
-        
-        .close-menu { 
-            position: absolute; top: 15px; right: 15px; background: none; border: none; 
-            font-size: 2rem; color: var(--text-main); cursor: pointer; transition: 0.2s; 
-        }
-        .close-menu:hover { transform: rotate(90deg); }
-        .menu-overlay { 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2999; 
-            display: none; backdrop-filter: blur(4px); transition: 0.3s;
-        }
-        .menu-overlay.open { display: block; }
-
-        .video-section { max-width: 900px; margin: 30px auto; padding: 0 15px; }
-        .video-card { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-card); padding: 15px; box-shadow: var(--glass-shadow); }
-        .video-wrapper { width: 100%; aspect-ratio: 16/9; border-radius: calc(var(--radius-card) - 5px); overflow: hidden; background: #000; position: relative; }
-        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
-        .video-badge { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; }
-
-        .section-header { text-align: center; font-size: 2rem; font-weight: 800; color: var(--text-main); margin: 50px 0 25px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; padding: 0 15px; max-width: 1200px; margin: 0 auto; }
+        /* Compact Grid & Glass Cards */
+        .section-header { text-align: center; font-size: 1.6rem; font-weight: 800; color: var(--text-main); margin: 35px 0 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; padding: 0 15px; max-width: 1000px; margin: 0 auto; }
         
         .card { 
-            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: var(--radius-card); padding: 25px 20px; text-align: center; 
-            box-shadow: var(--glass-shadow); transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            background: var(--glass-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-card); padding: 20px 15px; text-align: center; 
+            box-shadow: var(--glass-shadow); transition: all 0.3s ease; position: relative; overflow: hidden;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        body.popart-theme .card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #000; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--primary-btn); opacity: 0.9; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-color: rgba(255,255,255,1); }
+        .card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 5px; }
+        .card .badge { display: inline-block; background: rgba(255,255,255,0.8); color: var(--text-main); padding: 4px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 700; margin-bottom: 10px; }
+        .stars-display { font-size: 0.9rem; color: #ff9500; font-weight: 800; margin-bottom: 15px; display: block; }
         
-        .leader-card { padding: 25px 15px; }
-        .leader-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        body.popart-theme .leader-img { border-radius: 0; border: 3px solid #000; box-shadow: 3px 3px 0px #000; }
-        .leader-role { color: var(--blob-1); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        /* Leader Card */
+        .leader-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .leader-name { font-weight: 800; font-size: 1.1rem; }
+        .leader-role { color: var(--text-muted); font-size: 0.85rem; font-weight: 700; background: rgba(0,0,0,0.05); padding: 3px 10px; border-radius: 12px; display: inline-block; margin-top: 5px;}
 
-        .card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 8px; }
-        .card .badge { display: inline-block; background: rgba(0,0,0,0.05); color: var(--text-main); padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 15px; }
-        body.popart-theme .card .badge { background: #00e5ff; border: 2px solid #000; border-radius: 0; color: #000; }
-        
-        .exterior-stars { display: flex; align-items: center; justify-content: center; gap: 5px; margin-bottom: 15px; background: rgba(0,0,0,0.03); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.05); }
-        body.popart-theme .exterior-stars { background: #fff; border: 2px solid #000; border-radius: 0; }
-        .star-gold { color: #f59e0b; font-size: 0.9rem; }
-        .star-score { font-size: 0.8rem; font-weight: 800; color: var(--text-main); }
-
+        /* Modern Compact Buttons */
         .btn { 
-            background: var(--primary-btn); color: white; border: none; padding: 12px 20px; 
-            border-radius: var(--radius-pill); font-size: 0.95rem; cursor: pointer; 
-            font-weight: 700; width: 100%; transition: 0.3s; 
+            background: var(--primary-btn); color: white; border: none; padding: 10px 18px; 
+            border-radius: var(--radius-pill); font-size: 0.9rem; cursor: pointer; 
+            font-weight: 700; width: 100%; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .btn:active { transform: translateY(2px); }
-        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
-        .btn-danger { background: linear-gradient(135deg, #ef4444, #b91c1c); }
-        body.popart-theme .btn-danger { background: #ff0055; color: #fff; }
-        .btn-outline { background: transparent; border: 2px solid rgba(0,0,0,0.1); color: var(--text-main); }
-        body.popart-theme .btn-outline { border: 2px solid #000; background: #fff; color: #000; box-shadow: 2px 2px 0px #000; }
-        .admin-controls-group { display: flex; gap: 8px; margin-top: 12px; width: 100%; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); filter: brightness(1.1); }
+        .btn-outline { background: transparent; border: 2px solid rgba(0,0,0,0.1); color: var(--text-main); box-shadow: none; padding: 8px 18px; }
+        
+        .floating-ticket-btn { 
+            position: fixed; bottom: 85px; right: 20px; background: var(--primary-btn); 
+            color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 1.5rem; 
+            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; 
+            z-index: 999; display: flex; align-items: center; justify-content: center; transition: 0.3s; 
+        }
+        .floating-ticket-btn:hover { transform: scale(1.1) rotate(10deg); }
 
-        .progress-container { margin-top: 15px; width: 100%; }
-        .progress-track { background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; height: 12px; width: 100%; }
-        body.popart-theme .progress-track { border: 2px solid #000; border-radius: 0; background: #fff; }
-        .progress-fill { background: var(--primary-btn); width: 0%; height: 100%; transition: width 0.3s ease; }
-        body.popart-theme .progress-fill { background: #00e5ff; }
-        .progress-text { text-align: center; font-size: 0.8rem; font-weight: 800; margin-top: 8px; color: var(--text-main); }
+        /* Floating App Dock */
+        .dock {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: var(--radius-pill); padding: 8px 20px; display: flex; gap: 20px; z-index: 1000;
+        }
+        .dock-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: var(--text-main); transition: 0.3s; }
+        .dock-icon { font-size: 1.2rem; background: white; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .dock-label { font-size: 0.65rem; font-weight: 700; }
 
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 4000; align-items: center; justify-content: center; padding: 15px; }
+        /* Modals & Layouts */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
         .modal-content { 
-            background: var(--bg-base); border: 1px solid var(--glass-border);
-            width: 100%; max-width: 800px; border-radius: var(--radius-card); padding: 25px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-height: 92vh; overflow-y: auto; position: relative;
+            background: rgba(255,255,255,0.9); border: 1px solid var(--glass-border);
+            width: 100%; max-width: 700px; border-radius: 25px; padding: 25px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 85vh; overflow-y: auto; position: relative;
         }
-        
-        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.05); color: var(--text-main); border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; z-index: 10; }
-        body.popart-theme .close-btn { border-radius: 0; background: #ff007f; color: #fff; border: 2px solid #000; }
-        
-        .gallery-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .gallery-grid { column-count: 2; column-gap: 12px; margin-top: 10px; }
-        @media (min-width: 768px) { .gallery-grid { column-count: 3; } }
-        
-        .photo-wrapper { position: relative; border-radius: 12px; overflow: hidden; margin-bottom: 12px; break-inside: avoid; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); min-height: 120px; }
-        body.popart-theme .photo-wrapper { border-radius: 0; border: 2px solid #000; box-shadow: 3px 3px 0px #000; }
-        
-        .skeleton-loading {
-            background: var(--skeleton-bg);
-            background-size: 200% 100%;
-            animation: skeletonLoading 1.5s infinite;
-        }
-        .skeleton-loading img { opacity: 0; }
-        @keyframes skeletonLoading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.08); cursor: pointer; z-index: 10; }
+        body[dir="rtl"] .close-btn { right: auto; left: 15px; }
 
-        .gallery-grid img { width: 100%; height: auto; display: block; transition: opacity 0.3s ease; }
+        /* Gallery Grid & Skeletons */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .photo-wrapper { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; box-shadow: 0 4px 10px rgba(0,0,0,0.05); cursor: pointer; background: rgba(0,0,0,0.05); }
+        .gallery-grid img { width: 100%; height: 100%; object-fit: cover; animation: fadeIn 0.4s ease; }
         
-        .delete-photo-btn { position: absolute; top: 8px; right: 8px; background: rgba(255, 255, 255, 0.9); color: #ef4444; border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 6; }
-        body.popart-theme .delete-photo-btn { border-radius: 0; background: #ff0000; color: #fff; border: 1px solid #000; }
+        .skeleton-loader { width: 100%; height: 100%; background: linear-gradient(90deg, #eee 25%, #e0e0e0 50%, #eee 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        #modalLightbox { background: rgba(0, 0, 0, 0.98); backdrop-filter: none; z-index: 5000; }
-        .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .lightbox-header { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; align-items: center; color: white; z-index: 10; }
-        .lightbox-counter { background: rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 700; }
-        .lightbox-close { background: rgba(255,255,255,0.15); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
-        .lightbox-img-wrap { width: 100%; height: 80vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #lightboxImg { max-width: 100vw; max-height: 80vh; object-fit: contain; }
-        .lightbox-controls { position: absolute; bottom: 30px; display: flex; gap: 20px; }
-        .lb-btn { background: rgba(255,255,255,0.15); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
+        .delete-photo-btn { position:absolute; top:5px; right:5px; background:red; color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; font-weight:bold; }
 
-        .reviews-container { margin-top: 30px; border-top: 2px solid rgba(0,0,0,0.05); padding-top: 20px; }
-        body.popart-theme .reviews-container { border-color: #000; }
-        .review-box-card { background: rgba(0,0,0,0.03); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(0,0,0,0.05); color: var(--text-main); }
-        body.popart-theme .review-box-card { background: #fff; border: 2px solid #000; border-radius: 0; box-shadow: 2px 2px 0px #000; }
-        .star-selector { display: flex; gap: 5px; font-size: 1.6rem; cursor: pointer; margin-bottom: 10px; }
-        .star-selector span { color: #d1d5db; transition: color 0.2s; }
-        .star-selector span.active { color: #f59e0b; }
+        /* Interactive Advanced Lightbox */
+        #modalLightbox { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); }
+        .lightbox-container { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+        .lightbox-img-wrap { transition: transform 0.1s ease-out; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+        #lightboxImg { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease; user-select: none; -webkit-user-drag: none; }
+        
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px); z-index: 3600; transition: 0.3s; }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+        #lightboxPrev { left: 20px; }
+        #lightboxNext { right: 20px; }
+        .lightbox-counter { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: white; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; font-weight: 700; font-size: 0.9rem; z-index: 3600;}
 
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 800; margin-bottom: 6px; }
+        /* Form & Reviews */
+        .review-card { background: rgba(255,255,255,0.6); border: 1px solid var(--glass-border); border-radius: 16px; padding: 15px; margin-bottom: 12px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
         .form-group input, .form-group select, .form-group textarea { 
-            width: 100%; padding: 12px; border-radius: 12px; border: 2px solid rgba(0,0,0,0.1); 
-            background: rgba(255,255,255,0.5); font-size: 0.95rem; font-family: inherit; font-weight: 600; 
-            outline: none; color: #1a1510;
+            width: 100%; padding: 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.5); 
+            background: rgba(255,255,255,0.7); font-size: 0.9rem; font-family: inherit; outline: none; 
         }
-        body.popart-theme .form-group input, body.popart-theme .form-group select, body.popart-theme .form-group textarea { border: 2px solid #000; border-radius: 0; background: #fff; box-shadow: 2px 2px 0px #000; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blob-1); background: white; }
+        .form-group textarea { resize: vertical; min-height: 80px; }
         
-        .admin-bento { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-top: 15px; }
-        .bento-box { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); border-radius: 16px; padding: 20px; }
-        body.popart-theme .bento-box { background: #fff; border: 2px solid #000; border-radius: 0; box-shadow: 3px 3px 0px #000; }
+        /* Album Tabs */
+        .album-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: var(--radius-pill); }
+        .tab-btn { flex: 1; padding: 8px; border: none; background: transparent; border-radius: var(--radius-pill); font-weight: 700; cursor: pointer; transition: 0.3s; color: var(--text-muted); font-size: 0.9rem; }
+        .tab-btn.active { background: white; color: var(--text-main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
 
         .hidden { display: none !important; }
-        .loader { border: 3px solid rgba(0,0,0,0.05); border-top: 3px solid var(--blob-1); border-radius: 50%; width: 35px; height: 35px; animation: spin 1s linear infinite; margin: 30px auto; }
+        .loader { border: 3px solid rgba(0,0,0,0.05); border-top: 3px solid var(--blob-1); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 30px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Admin Block */
+        .admin-block { background: rgba(0,0,0,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .admin-block h3 { margin-bottom: 10px; font-size: 1.1rem; }
+        
+        /* Ticket Card */
+        .ticket-card { background: white; padding: 12px; border-radius: 10px; border-left: 4px solid var(--blob-1); margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+            .lightbox-nav { width: 35px; height: 35px; font-size: 1.2rem; }
+            #lightboxPrev { left: 10px; }
+            #lightboxNext { right: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="mesh-bg"></div>
+    <div class="mesh-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
 
     <header>
         <div class="logo-wrap">
             <img src="OIP.webp" alt="MIDADE Logo">
             <div class="logo-text">
-                <h1 data-i18n="app_title">MIDADE Mieh w Mieh</h1>
-                <p data-i18n="app_subtitle">Apostolat Des Enfants</p>
+                <h1 data-i18n="app_title">MIDADE</h1>
+                <p data-i18n="app_subtitle">Mieh w Mieh</p>
             </div>
         </div>
-        <div class="header-actions">
-            <button class="btn-ticket-header" id="btnOpenTicketModal" data-i18n="nav_ticket">🎫 Ticket</button>
+        <div class="header-controls">
+            <a href="https://www.instagram.com/" target="_blank" class="ig-btn" title="Visit our Instagram">📸</a>
             <select id="langSelect" class="lang-select">
-                <option value="en">EN</option>
-                <option value="fr">FR</option>
-                <option value="ar">AR</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+                <option value="ar">العربية</option>
             </select>
-            <button class="btn-hamburger" id="btnHamburger">☰</button>
         </div>
     </header>
 
-    <!-- Sidebar Menu -->
-    <div class="menu-overlay" id="menuOverlay"></div>
-    <div class="side-menu" id="sideMenu">
-        <button class="close-menu" id="btnCloseMenu">&times;</button>
-        <button class="menu-item" id="btnMenuHome">
-            <span style="font-size:1.4rem;">🏠</span> <span data-i18n="nav_home">Home</span>
-        </button>
-        <button class="menu-item" id="btnMenuTheme">
-            <span style="font-size:1.4rem;">🎨</span> <span data-i18n="nav_theme">Theme</span>
-        </button>
-        <button class="menu-item" id="btnMenuTicket">
-            <span style="font-size:1.4rem;">🎫</span> <span data-i18n="nav_ticket">Ticket</span>
-        </button>
-        <button class="menu-item" id="btnMenuAdmin">
-            <span style="font-size:1.4rem;">⚙️</span> <span data-i18n="nav_admin">Admin Access</span>
-        </button>
-    </div>
-
-    <section class="video-section">
-        <div class="video-card">
-            <div class="video-wrapper">
-                <span class="video-badge" data-i18n="video_badge">Daily Highlight</span>
-                <video src="VID-20260722-WA0068.mp4" controls playsinline preload="metadata" poster="OIP.webp"></video>
-            </div>
-        </div>
-    </section>
-
+    <!-- Groups Section -->
     <h2 class="section-header" data-i18n="title_groups">Our Groups</h2>
     <div id="loaderGroups" class="loader"></div>
     <div id="groupsGrid" class="grid"></div>
 
-    <h2 class="section-header" data-i18n="title_colonie">Summer Colonie</h2>
-    <div id="loaderColonie" class="loader"></div>
-    <div id="colonieGrid" class="grid"></div>
-
+    <!-- Leaders Section -->
     <h2 class="section-header" data-i18n="title_leaders">Our Leaders</h2>
     <div id="loaderLeaders" class="loader"></div>
     <div id="leadersGrid" class="grid"></div>
 
-    <!-- Ticket Modal -->
-    <div id="modalTicket" class="modal">
-        <div class="modal-content" style="max-width: 500px;">
+    <!-- Colonie Section -->
+    <h2 class="section-header" data-i18n="title_colonie">Summer Colonie</h2>
+    <div id="loaderColonie" class="loader"></div>
+    <div id="colonieGrid" class="grid"></div>
+
+    <!-- Floating Ticket Button -->
+    <button class="floating-ticket-btn" id="btnOpenTicket">💬</button>
+
+    <div class="dock">
+        <button class="dock-item" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <div class="dock-icon">🏠</div><span class="dock-label" data-i18n="nav_home">Home</span>
+        </button>
+        <button class="dock-item" id="btnThemeToggle">
+            <div class="dock-icon">🎨</div><span class="dock-label" data-i18n="nav_theme">Theme</span>
+        </button>
+        <button class="dock-item" id="btnAdminPanel">
+            <div class="dock-icon">⚙️</div><span class="dock-label" data-i18n="nav_admin">Admin</span>
+        </button>
+    </div>
+
+    <!-- TICKET MODAL -->
+    <div id="modalTicket" class="modal" style="z-index: 2500;">
+        <div class="modal-content" style="max-width: 400px;">
             <button class="close-btn modal-close">&times;</button>
-            <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">Support Ticket</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600; margin-bottom: 20px;">Send a question, complaint, or suggestion directly to the team.</p>
-            
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 15px;" data-i18n="ticket_title">Contact Admin</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Have a complaint, suggestion, or question? Send us a ticket.</p>
+            <div class="form-group"><input type="text" id="tickName" placeholder="Your Name" required></div>
             <div class="form-group">
-                <label>Ticket Type</label>
-                <select id="ticketType">
-                    <option value="Question">Question</option>
-                    <option value="Complaint">Complaint</option>
-                    <option value="Suggestion">Suggestion</option>
+                <select id="tickSubject">
+                    <option value="Suggestion">💡 Suggestion</option>
+                    <option value="Complaint">⚠️ Complaint</option>
+                    <option value="Question">❓ Question</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>Description / Details</label>
-                <textarea id="ticketMessage" rows="4" placeholder="Type your message here..."></textarea>
-            </div>
-            <button class="btn" id="btnSubmitTicket">Submit Ticket</button>
+            <div class="form-group"><textarea id="tickMessage" placeholder="Type your message here..." required></textarea></div>
+            <button class="btn" id="btnSubmitTicket">Send Ticket</button>
         </div>
     </div>
 
-    <!-- Gallery & Review Modal -->
+    <!-- FLUID ALBUM & REVIEW MODAL -->
     <div id="modalGallery" class="modal">
         <div class="modal-content">
             <button class="close-btn modal-close">&times;</button>
-            <div class="gallery-header-row">
-                <h2 id="galleryTitle" style="font-size: 1.6rem; font-weight: 800;">Album</h2>
-                <span id="galleryCountBadge" style="font-size: 0.8rem; font-weight: 800; color: var(--text-muted); background: rgba(0,0,0,0.05); padding: 5px 12px; border-radius: 20px;">0 Photos</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 id="galleryTitle" style="font-size: 1.5rem; font-weight: 800;">Album</h2>
+                <span id="galleryCountBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); background: rgba(0,0,0,0.05); padding: 4px 12px; border-radius: 15px;">...</span>
             </div>
-            <div id="galleryLoader" class="loader"></div>
+
+            <!-- TABS -->
+            <div class="album-tabs">
+                <button class="tab-btn active" id="tabPhotos" data-i18n="tab_photos">📸 Photos</button>
+                <button class="tab-btn" id="tabReviews" data-i18n="tab_reviews">⭐ Reviews</button>
+            </div>
+            
+            <!-- PHOTOS TAB CONTENT -->
             <div id="galleryGrid" class="gallery-grid"></div>
 
-            <div class="reviews-container">
-                <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Parent Reviews & Feedback</h3>
-                
-                <div class="review-box-card">
-                    <h4 style="font-size: 1rem; font-weight: 800; margin-bottom: 8px;">Leave a Review</h4>
-                    <div class="star-selector" id="starSelector">
-                        <span data-val="1">★</span><span data-val="2">★</span><span data-val="3">★</span><span data-val="4">★</span><span data-val="5">★</span>
-                    </div>
-                    <div class="form-group"><textarea id="reviewText" rows="2" placeholder="Write your experience here..."></textarea></div>
-                    <button class="btn" id="btnPostReview" style="padding: 10px 20px; width: auto;">Post Review</button>
-                </div>
-
-                <div id="albumReviewsList"></div>
+            <!-- REVIEWS TAB CONTENT -->
+            <div id="reviewsContainer" class="hidden">
+                <button class="btn" id="btnOpenWriteReview" style="margin-bottom: 15px;" data-i18n="btn_write_review">✏️ Write a Review</button>
+                <div id="reviewsList"></div>
             </div>
         </div>
     </div>
 
-    <!-- Lightbox -->
-    <div id="modalLightbox" class="modal">
-        <div class="lightbox-container">
-            <div class="lightbox-header">
-                <div class="lightbox-counter" id="lbCounter">1 / 1</div>
-                <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <!-- WRITE REVIEW MODAL -->
+    <div id="modalWriteReview" class="modal" style="z-index: 2500;">
+        <div class="modal-content" style="max-width: 400px;">
+            <button class="close-btn modal-close">&times;</button>
+            <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 15px;" data-i18n="write_review_title">Add Review</h2>
+            <div class="form-group"><input type="text" id="revFirstName" placeholder="First Name" required></div>
+            <div class="form-group"><input type="text" id="revLastName" placeholder="Last Name" required></div>
+            <div class="form-group">
+                <label>Rating (Stars)</label>
+                <select id="revStars">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                    <option value="3">⭐⭐⭐ (3/5)</option>
+                    <option value="2">⭐⭐ (2/5)</option>
+                    <option value="1">⭐ (1/5)</option>
+                </select>
             </div>
-            <div class="lightbox-img-wrap" id="lbImgWrap"><img id="lightboxImg" src=""></div>
-            <div class="lightbox-controls">
-                <button class="lb-btn" id="lbPrev">❮</button>
-                <button class="lb-btn" id="lbNext">❯</button>
-            </div>
+            <div class="form-group"><textarea id="revDesc" placeholder="Describe your experience..." required></textarea></div>
+            <button class="btn" id="btnSubmitReview">Submit</button>
         </div>
     </div>
 
-    <!-- Admin Panel Modal -->
+    <!-- ADVANCED LIGHTBOX -->
+    <div id="modalLightbox" class="modal" style="z-index: 3500; padding: 0;">
+        <div class="lightbox-container" id="lightboxContainer">
+            <button class="close-btn" id="lightboxClose" style="top: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white;">&times;</button>
+            <button class="lightbox-nav" id="lightboxPrev">&#10094;</button>
+            <div class="lightbox-img-wrap" id="lightboxWrap"><img id="lightboxImg" src=""></div>
+            <button class="lightbox-nav" id="lightboxNext">&#10095;</button>
+            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+        </div>
+    </div>
+
+    <!-- ADMIN MODAL -->
     <div id="modalAdmin" class="modal">
         <div class="modal-content">
             <button class="close-btn modal-close">&times;</button>
             
-            <!-- SECURE LOGIN SCREEN -->
             <div id="adminLoginScreen">
-                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 10px;">Admin Access</h2>
-                <div class="form-group"><input type="email" id="adminUser" placeholder="Admin Email"></div>
+                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 15px;">Admin Login</h2>
+                <div class="form-group"><input type="text" id="adminUser" placeholder="Username"></div>
                 <div class="form-group"><input type="password" id="adminPass" placeholder="Password"></div>
-                <button class="btn" id="btnLoginSubmit">Login Securely</button>
-                <p id="loginError" style="color: #ef4444; margin-top: 15px; font-size: 0.9rem; font-weight: 700; text-align: center;" class="hidden">Invalid Email or Password.</p>
+                <button class="btn" id="btnLoginSubmit">Login</button>
+                <p id="loginError" style="color: red; margin-top: 10px; font-weight: bold;" class="hidden">Access Denied.</p>
             </div>
-
-            <!-- DASHBOARD SCREEN -->
+            
             <div id="adminDashboardScreen" class="hidden">
-                <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 15px;">Admin Control Panel</h2>
+                <h2 style="margin-bottom: 15px;">Dashboard</h2>
                 
-                <div class="admin-bento">
-                    <div class="bento-box">
-                        <h3 style="margin-bottom: 12px; font-size: 1.1rem;">📸 Batch Upload Photos</h3>
-                        <div class="form-group"><label>Select Album</label><select id="uploadTargetGroup"></select></div>
-                        <div class="form-group"><label>Choose Files</label><input type="file" id="uploadFile" accept="image/*" multiple style="padding: 10px;"></div>
-                        <button class="btn" id="btnUploadSubmit">Process & Upload</button>
-                        
-                        <div id="uploadProgressContainer" class="progress-container hidden">
-                            <div class="progress-track"><div id="uploadProgressBar" class="progress-fill"></div></div>
-                            <p id="uploadProgressText" class="progress-text">Preparing...</p>
-                        </div>
-                    </div>
-
-                    <div class="bento-box">
-                        <h3 style="margin-bottom: 12px; font-size: 1.1rem;">👤 Add New Leader</h3>
-                        <div class="form-group"><input type="text" id="newLeaderName" placeholder="Leader Name"></div>
-                        <div class="form-group"><input type="text" id="newLeaderRole" placeholder="Role (e.g., Guide)"></div>
-                        <div class="form-group"><label>Profile Picture</label><input type="file" id="newLeaderImage" accept="image/*" style="padding: 10px;"></div>
-                        <button class="btn btn-outline" id="btnCreateLeader">Add Leader</button>
-                    </div>
-
-                    <div class="bento-box">
-                        <h3 style="margin-bottom: 12px; font-size: 1.1rem;">➕ Create Album/Group</h3>
-                        <div class="form-group"><input type="text" id="newGroupName" placeholder="Name (e.g., Group 6)"></div>
-                        <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Subtitle/Date"></div>
-                        <div class="form-group"><select id="newGroupType"><option value="regular">Main Group</option><option value="colonie">Summer Colonie</option></select></div>
-                        <button class="btn btn-outline" id="btnCreateGroup">Create Album</button>
-                    </div>
+                <!-- Fast Upload -->
+                <div class="admin-block">
+                    <h3>📸 Fast Batch Upload</h3>
+                    <div class="form-group"><select id="uploadTargetGroup"></select></div>
+                    <div class="form-group"><input type="file" id="uploadFile" accept="image/*" multiple></div>
+                    <button class="btn" id="btnUploadSubmit">Compress & Upload</button>
+                    <p id="uploadProgressText" style="margin-top:10px; font-weight:bold;"></p>
                 </div>
 
-                <div class="bento-box" style="margin-top: 15px;">
-                    <h3 style="margin-bottom: 12px; font-size: 1.1rem;">🎫 User Support Tickets</h3>
-                    <div id="adminTicketsList" style="max-height: 200px; overflow-y: auto;"><p style="color: var(--text-muted); font-size:0.9rem;">Loading tickets...</p></div>
+                <!-- Add Leader -->
+                <div class="admin-block">
+                    <h3>🎖️ Add New Leader</h3>
+                    <div class="form-group"><input type="text" id="newLeaderName" placeholder="Leader Name"></div>
+                    <div class="form-group"><input type="text" id="newLeaderRole" placeholder="Role (e.g. Chief, Assistant)"></div>
+                    <div class="form-group"><label>Profile Picture (Optional)</label><input type="file" id="newLeaderPic" accept="image/*"></div>
+                    <button class="btn btn-outline" id="btnCreateLeader">Add Leader</button>
                 </div>
-                
-                <button class="btn btn-danger" id="btnLogout" style="margin-top: 20px;">End Session</button>
+
+                <!-- Tickets Viewer -->
+                <div class="admin-block">
+                    <h3>💬 Support Tickets</h3>
+                    <div id="adminTicketsList" style="max-height: 200px; overflow-y: auto;">Loading...</div>
+                </div>
+
+                <!-- Add Group -->
+                <div class="admin-block">
+                    <h3>➕ New Group</h3>
+                    <div class="form-group"><input type="text" id="newGroupName" placeholder="Name"></div>
+                    <div class="form-group"><input type="text" id="newGroupBadge" placeholder="Subtitle"></div>
+                    <div class="form-group">
+                        <select id="newGroupType"><option value="regular">Regular</option><option value="colonie">Colonie</option></select>
+                    </div>
+                    <button class="btn btn-outline" id="btnCreateGroup">Create Group</button>
+                </div>
+
+                <button class="btn" style="background:#ff3b30; margin-top: 10px;" id="btnLogout">Logout</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Edit Album Modal -->
-    <div id="modalEdit" class="modal" style="z-index: 3000;">
-        <div class="modal-content" style="max-width: 400px;">
-            <button class="close-btn modal-close">&times;</button>
-            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 15px;">Edit Album</h2>
-            <div class="form-group"><input type="text" id="editGroupName" placeholder="New Name"></div>
-            <div class="form-group"><input type="text" id="editGroupBadge" placeholder="New Badge/Date"></div>
-            <input type="hidden" id="editGroupId">
-            <button class="btn" id="btnSaveEdit">Save Changes</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC92mwScr08PHQBa9P65PsJLe4dMm58IO8",
@@ -506,113 +397,64 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
-        const auth = getAuth(app);
 
-        let currentUser = null;
-        let globalGroups = [];
-        let globalLeaders = [];
-        let groupRatingsData = {}; 
-        let currentAlbumImages = [];
-        let currentImageIndex = 0;
-        let activeGalleryGroupId = null;
-        let selectedStarRating = 0;
+        let globalGroups = []; let globalReviews = []; let globalLeaders = []; let globalTickets = [];
         let currentLang = localStorage.getItem('midade_lang') || 'en';
-        
-        const themes = ['emerald', 'cyberpunk', 'sunset', 'minimal', 'popart'];
-        let currentThemeIndex = 0;
-        
+        let currentTheme = localStorage.getItem('midade_theme') || 'blue';
+        let activeGroupId = null; let currentAlbumPhotos = []; let currentPhotoIndex = 0;
+        let activeLoadSessionId = 0; // Ensures bad wifi sequential loading resets if modal closed
+
         const dictionary = {
-            en: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Our Groups", title_colonie: "Summer Colonie", title_leaders: "Our Leaders", btn_view: "Open Album", admin_panel: "Admin Access", video_badge: "Daily Highlight", nav_home: "Home", nav_theme: "Theme", nav_admin: "Admin", nav_ticket: "Ticket" },
-            fr: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Nos Groupes", title_colonie: "Colonie d'été", title_leaders: "Nos Responsables", btn_view: "Ouvrir l'album", admin_panel: "Accès Admin", video_badge: "À la une", nav_home: "Accueil", nav_theme: "Thème", nav_admin: "Admin", nav_ticket: "Ticket" },
-            ar: { app_title: "MIDADE", app_subtitle: "مية ومية", title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", title_leaders: "المسؤولون", btn_view: "فتح الألبوم", admin_panel: "دخول الإدارة", video_badge: "أحدث فيديو", nav_home: "الرئيسية", nav_theme: "المظهر", nav_admin: "الإدارة", nav_ticket: "تذكرة" }
+            en: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Our Groups", title_colonie: "Summer Colonie", title_leaders: "Our Leaders", nav_home: "Home", nav_theme: "Theme", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Reviews", btn_write_review: "✏️ Write a Review", write_review_title: "Add Review", ticket_title: "Contact Admin" },
+            fr: { app_title: "MIDADE", app_subtitle: "Mieh w Mieh", title_groups: "Nos Groupes", title_colonie: "Colonie d'été", title_leaders: "Nos Dirigeants", nav_home: "Accueil", nav_theme: "Thème", nav_admin: "Admin", tab_photos: "📸 Photos", tab_reviews: "⭐ Avis", btn_write_review: "✏️ Écrire un avis", write_review_title: "Ajouter un avis", ticket_title: "Contacter l'Admin" },
+            ar: { app_title: "MIDADE", app_subtitle: "مية ومية", title_groups: "مجموعاتنا", title_colonie: "المخيم الصيفي", title_leaders: "قادتنا", nav_home: "الرئيسية", nav_theme: "المظهر", nav_admin: "الإدارة", tab_photos: "📸 صور", tab_reviews: "⭐ تقييمات", btn_write_review: "✏️ أضف تقييم", write_review_title: "إضافة تقييم", ticket_title: "تواصل مع الإدارة" }
         };
 
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) {
-                document.body.classList.add('is-admin');
-                document.getElementById('adminLoginScreen').classList.add('hidden');
-                document.getElementById('adminDashboardScreen').classList.remove('hidden');
-                fetchAdminTickets();
-            } else {
-                document.body.classList.remove('is-admin');
-                document.getElementById('adminLoginScreen').classList.remove('hidden');
-                document.getElementById('adminDashboardScreen').classList.add('hidden');
-            }
-            renderDOMGroups(); 
-            renderLeaders();
-        });
-
         function applyLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('midade_lang', lang);
+            currentLang = lang; localStorage.setItem('midade_lang', lang);
             document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             document.getElementById('langSelect').value = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dictionary[lang][key]) el.textContent = dictionary[lang][key];
+                if (dictionary[lang][el.getAttribute('data-i18n')]) el.textContent = dictionary[lang][el.getAttribute('data-i18n')];
             });
-            renderDOMGroups();
-            renderLeaders();
         }
 
-        function toggleTheme() {
-            document.body.classList.remove('cyberpunk-theme', 'sunset-theme', 'minimal-theme', 'popart-theme');
-            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-            const newTheme = themes[currentThemeIndex];
-            if (newTheme !== 'emerald') {
-                document.body.classList.add(`${newTheme}-theme`);
-            }
-            localStorage.setItem('midade_theme', newTheme);
+        function cycleTheme() {
+            document.body.classList.remove('pink-theme', 'orange-theme');
+            if(currentTheme === 'blue') { currentTheme = 'pink'; document.body.classList.add('pink-theme'); }
+            else if(currentTheme === 'pink') { currentTheme = 'orange'; document.body.classList.add('orange-theme'); }
+            else currentTheme = 'blue';
+            localStorage.setItem('midade_theme', currentTheme);
+        }
+
+        function applyStoredTheme() {
+            if(currentTheme === 'pink') document.body.classList.add('pink-theme');
+            if(currentTheme === 'orange') document.body.classList.add('orange-theme');
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeAllModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
-        function closeSidebar() { document.getElementById('sideMenu').classList.remove('open'); document.getElementById('menuOverlay').classList.remove('open'); }
+        function closeAllModals() { 
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
+            document.getElementById('lightboxImg').style.transform = 'scale(1)'; 
+            activeLoadSessionId++; // Abort any ongoing image sequences
+        }
 
         async function fetchAllData() {
             try {
-                const snapReviews = await getDocs(collection(db, "midade_reviews"));
-                groupRatingsData = {};
-                snapReviews.forEach(doc => {
-                    const r = doc.data();
-                    if (!groupRatingsData[r.groupId]) groupRatingsData[r.groupId] = { sum: 0, count: 0 };
-                    groupRatingsData[r.groupId].sum += Number(r.stars);
-                    groupRatingsData[r.groupId].count += 1;
-                });
+                // Fetch Groups
+                const grpSnap = await getDocs(collection(db, "midade_groups_v2"));
+                globalGroups = []; grpSnap.forEach(d => globalGroups.push({ id: d.id, ...d.data() }));
+                
+                // Fetch Reviews
+                const revSnap = await getDocs(collection(db, "midade_reviews"));
+                globalReviews = []; revSnap.forEach(d => globalReviews.push({ id: d.id, ...d.data() }));
 
-                const snapGroups = await getDocs(collection(db, "midade_groups_v2"));
-                globalGroups = [];
-                snapGroups.forEach(doc => { globalGroups.push({ id: doc.id, ...doc.data() }); });
-                renderDOMGroups(); 
-                populateAdminDropdown();
+                // Fetch Leaders
+                const ldrSnap = await getDocs(collection(db, "midade_leaders"));
+                globalLeaders = []; ldrSnap.forEach(d => globalLeaders.push({ id: d.id, ...d.data() }));
 
-                const snapLeaders = await getDocs(collection(db, "midade_leaders"));
-                globalLeaders = [];
-                snapLeaders.forEach(doc => { globalLeaders.push({ id: doc.id, ...doc.data() }); });
-                renderLeaders();
+                renderDOMGroups(); renderDOMLeaders(); populateAdminDropdown();
             } catch (err) { console.error(err); }
-        }
-
-        function renderLeaders() {
-            const grid = document.getElementById('leadersGrid');
-            document.getElementById('loaderLeaders').classList.add('hidden');
-            grid.innerHTML = '';
-            const isAdmin = currentUser !== null;
-
-            globalLeaders.forEach(leader => {
-                const pfpSrc = (leader.imageUrl && leader.imageUrl.trim() !== '') ? leader.imageUrl : 'OIP.webp';
-                const adminControls = isAdmin ? `<div class="admin-controls-group" style="justify-content:center;"><button class="btn btn-outline" style="padding:6px; font-size:0.8rem; color:#ef4444; border-color:rgba(239,68,68,0.3);" onclick="deleteLeader('${leader.id}')">🗑️ Remove</button></div>` : '';
-                grid.innerHTML += `<div class="card leader-card"><img src="${pfpSrc}" class="leader-img" alt="${leader.name}"><div class="leader-role">${leader.role}</div><h3>${leader.name}</h3>${adminControls}</div>`;
-            });
-        }
-
-        window.deleteLeader = async function(id) {
-            if(confirm("Remove this leader?")) {
-                await deleteDoc(doc(db, "midade_leaders", id));
-                fetchAllData();
-            }
         }
 
         function renderDOMGroups() {
@@ -622,344 +464,297 @@
             document.getElementById('loaderColonie').classList.add('hidden');
             grpGrid.innerHTML = ''; colGrid.innerHTML = '';
 
-            const isAdmin = currentUser !== null;
-            const btnText = dictionary[currentLang].btn_view;
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
 
             globalGroups.forEach(g => {
-                let starDisplay = `<span style="font-size:0.75rem; color:var(--text-muted);">No reviews yet</span>`;
-                if (groupRatingsData[g.id] && groupRatingsData[g.id].count > 0) {
-                    const avg = (groupRatingsData[g.id].sum / groupRatingsData[g.id].count).toFixed(1);
-                    starDisplay = `<div class="exterior-stars"><span class="star-gold">★</span><span class="star-score">${avg}</span><span style="font-size:0.7rem; color:var(--text-muted);">(${groupRatingsData[g.id].count})</span></div>`;
-                }
+                const groupReviews = globalReviews.filter(r => r.groupId === g.id);
+                const avgStars = groupReviews.length > 0 ? `⭐ ${(groupReviews.reduce((a,c)=>a+parseInt(c.stars),0)/groupReviews.length).toFixed(1)} (${groupReviews.length})` : "No reviews";
+                const adminHTML = isAdmin ? `<button class="btn btn-outline" data-delgrp="${g.id}" style="color:red; font-size:0.8rem; margin-top:5px; padding:5px;">Delete Group</button>` : '';
 
-                const adminControls = isAdmin ? `<div class="admin-controls-group"><button class="btn btn-outline" style="padding:8px; font-size:1rem;" data-edit="${g.id}" title="Edit">✏️</button><button class="btn btn-outline" style="padding:8px; font-size:1rem; color:#ef4444; border-color:rgba(239,68,68,0.3);" data-delete="${g.id}" title="Delete">🗑️</button></div>` : '';
-
-                const cardHTML = `<div class="card"><div><h3>${g.name}</h3><span class="badge">${g.badge}</span>${starDisplay}</div><div style="width: 100%;"><button class="btn view-album-btn" data-id="${g.id}" data-name="${g.name}">${btnText}</button>${adminControls}</div></div>`;
-                if (g.type === 'regular') grpGrid.innerHTML += cardHTML; else colGrid.innerHTML += cardHTML;
+                const html = `
+                    <div class="card">
+                        <h3>${g.name}</h3><span class="badge">${g.badge}</span>
+                        <div class="stars-display">${avgStars}</div>
+                        <button class="btn view-album-btn" data-id="${g.id}" data-name="${g.name}">Open Album</button>
+                        ${adminHTML}
+                    </div>`;
+                if (g.type === 'regular') grpGrid.innerHTML += html; else colGrid.innerHTML += html;
             });
-            attachCardListeners();
+
+            document.querySelectorAll('.view-album-btn').forEach(b => b.addEventListener('click', e => loadAlbumImages(e.target.dataset.id, e.target.dataset.name)));
+            if(isAdmin) document.querySelectorAll('[data-delgrp]').forEach(b => b.addEventListener('click', async e => {
+                if(confirm("Delete group?")) { await deleteDoc(doc(db, "midade_groups_v2", e.currentTarget.dataset.delgrp)); fetchAllData(); }
+            }));
         }
 
-        function attachCardListeners() {
-            document.querySelectorAll('.view-album-btn').forEach(btn => { btn.addEventListener('click', (e) => loadAlbumGallery(e.target.dataset.id, e.target.dataset.name)); });
-            document.querySelectorAll('[data-edit]').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const group = globalGroups.find(g => g.id === e.currentTarget.dataset.edit);
-                    document.getElementById('editGroupName').value = group.name; document.getElementById('editGroupBadge').value = group.badge; document.getElementById('editGroupId').value = group.id; openModal('modalEdit');
-                });
+        function renderDOMLeaders() {
+            const ldrGrid = document.getElementById('leadersGrid');
+            document.getElementById('loaderLeaders').classList.add('hidden');
+            ldrGrid.innerHTML = '';
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+
+            globalLeaders.forEach(l => {
+                const imgUrl = l.pic || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';
+                const adminHTML = isAdmin ? `<br><button class="btn btn-outline" data-delldr="${l.id}" style="color:red; font-size:0.7rem; padding:3px; margin-top:5px;">Remove</button>` : '';
+                ldrGrid.innerHTML += `
+                    <div class="card leader-card">
+                        <img src="${imgUrl}" alt="Leader">
+                        <div class="leader-name">${l.name}</div>
+                        <div class="leader-role">${l.role}</div>
+                        ${adminHTML}
+                    </div>`;
             });
-            document.querySelectorAll('[data-delete]').forEach(btn => { btn.addEventListener('click', async (e) => { if(confirm("Delete this entire group/album?")) { await deleteDoc(doc(db, "midade_groups_v2", e.currentTarget.dataset.delete)); fetchAllData(); }}); });
+
+            if(isAdmin) document.querySelectorAll('[data-delldr]').forEach(b => b.addEventListener('click', async e => {
+                if(confirm("Remove leader?")) { await deleteDoc(doc(db, "midade_leaders", e.currentTarget.dataset.delldr)); fetchAllData(); }
+            }));
         }
 
-        async function loadAlbumGallery(groupId, groupName) {
-            activeGalleryGroupId = groupId; document.getElementById('galleryTitle').innerText = groupName;
-            const grid = document.getElementById('galleryGrid'); const loader = document.getElementById('galleryLoader'); const countBadge = document.getElementById('galleryCountBadge');
-            const isAdmin = currentUser !== null;
+        // --- SEQUENTIAL IMAGE LOADING (Anti-Lag) ---
+        async function loadAlbumImages(groupId, groupName) {
+            activeGroupId = groupId;
+            document.getElementById('galleryTitle').innerText = groupName;
+            document.getElementById('tabPhotos').click(); 
             
-            grid.innerHTML = ''; loader.classList.remove('hidden'); countBadge.innerText = "Loading..."; openModal('modalGallery');
-            currentAlbumImages = []; selectedStarRating = 0; updateStarSelectorUI(); document.getElementById('reviewText').value = '';
+            const grid = document.getElementById('galleryGrid');
+            const countBadge = document.getElementById('galleryCountBadge');
+            const isAdmin = localStorage.getItem('midade_auth') === 'secure_token_true';
+            
+            grid.innerHTML = '<div class="loader" style="grid-column:1/-1;"></div>'; countBadge.innerText = "...";
+            openModal('modalGallery');
+            activeLoadSessionId++; // Start a new sequence ID
+            const session = activeLoadSessionId;
 
             try {
-                const q = query(collection(db, "midade_photos"), where("groupId", "==", groupId));
-                const snap = await getDocs(q); loader.classList.add('hidden'); countBadge.innerText = `${snap.size} Photos`;
-
-                if (snap.empty) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; font-size: 0.9rem; font-weight:700; color:var(--text-muted);">No photos uploaded here yet.</p>'; } 
-                else {
-                    snap.forEach(d => {
-                        const data = d.data(); currentAlbumImages.push({ url: data.url, id: d.id });
-                        const index = currentAlbumImages.length - 1;
-                        const deleteBtn = isAdmin ? `<button class="delete-photo-btn" data-photoid="${d.id}" title="Delete">🗑️</button>` : '';
-                        
+                const snap = await getDocs(query(collection(db, "midade_photos"), where("groupId", "==", groupId)));
+                if (session !== activeLoadSessionId) return; // Modal was closed during fetch
+                
+                currentAlbumPhotos = [];
+                snap.forEach(d => currentAlbumPhotos.push({ id: d.id, ...d.data() }));
+                countBadge.innerText = `${currentAlbumPhotos.length} Pics`;
+                
+                if (currentAlbumPhotos.length === 0) {
+                    grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:gray;">Album is empty.</p>';
+                } else {
+                    grid.innerHTML = '';
+                    // 1. Create Layout with Skeletons immediately
+                    currentAlbumPhotos.forEach((data, index) => {
                         grid.innerHTML += `
-                            <div class="photo-wrapper skeleton-loading" onclick="openLightbox(${index}, event)">
-                                <img src="${data.url}" loading="lazy" decoding="async" alt="Album Photo" onload="this.parentElement.classList.remove('skeleton-loading'); this.style.opacity = '1';">
-                                ${deleteBtn}
-                            </div>
-                        `;
+                            <div class="photo-wrapper" id="pw-${index}">
+                                <div class="skeleton-loader" id="skel-${index}"></div>
+                            </div>`;
                     });
 
-                    if (isAdmin) {
-                        document.querySelectorAll('.delete-photo-btn').forEach(btn => {
-                            btn.addEventListener('click', async (e) => {
-                                e.stopPropagation(); if(confirm("Permanently delete this photo?")) { await deleteDoc(doc(db, "midade_photos", e.currentTarget.dataset.photoid)); loadAlbumGallery(groupId, groupName); }
-                            });
-                        });
+                    // 2. Sequential Recursive Loader
+                    function loadSequentialImage(idx) {
+                        if (session !== activeLoadSessionId || idx >= currentAlbumPhotos.length) return; // Stop if aborted or done
+
+                        const img = new Image();
+                        img.src = currentAlbumPhotos[idx].url;
+                        
+                        img.onload = () => {
+                            if (session !== activeLoadSessionId) return;
+                            const wrap = document.getElementById(`pw-${idx}`);
+                            if (wrap) {
+                                document.getElementById(`skel-${idx}`)?.remove(); // Remove skeleton
+                                wrap.appendChild(img); // Inject fully loaded image
+                                
+                                // Add Admin Delete Button
+                                if (isAdmin) {
+                                    const delBtn = document.createElement('button');
+                                    delBtn.className = 'delete-photo-btn'; delBtn.innerText = 'X';
+                                    delBtn.onclick = async (e) => {
+                                        e.stopPropagation();
+                                        if(confirm("Delete photo?")) { await deleteDoc(doc(db, "midade_photos", currentAlbumPhotos[idx].id)); loadAlbumImages(groupId, groupName); }
+                                    };
+                                    wrap.appendChild(delBtn);
+                                }
+
+                                // Click to open lightbox
+                                wrap.onclick = (e) => { if(e.target.tagName !== 'BUTTON') openLightbox(idx); };
+                            }
+                            // Ask for next image only after THIS one is done downloading
+                            loadSequentialImage(idx + 1);
+                        };
+                        
+                        img.onerror = () => loadSequentialImage(idx + 1); // If error, skip and load next
                     }
+
+                    // Kick off the sequence
+                    loadSequentialImage(0);
                 }
-            } catch (err) { loader.classList.add('hidden'); countBadge.innerText = "Error"; }
-            fetchAlbumReviews(groupId);
+            } catch (err) { grid.innerHTML = '<p style="color:red;">Error loading.</p>'; }
         }
 
-        async function fetchAlbumReviews(groupId) {
-            const list = document.getElementById('albumReviewsList'); list.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Loading reviews...</p>';
-            try {
-                const q = query(collection(db, "midade_reviews"), where("groupId", "==", groupId)); const snap = await getDocs(q); list.innerHTML = '';
-                if(snap.empty) { list.innerHTML = '<p style="color: var(--text-muted); font-size:0.85rem;">No reviews yet. Be the first parent to share your review!</p>'; return; }
-                snap.forEach(d => {
-                    const r = d.data(); const dateStr = new Date(r.timestamp).toLocaleDateString(); const starsStr = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
-                    list.innerHTML += `<div class="review-box-card"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;"><span style="color:#f59e0b; font-size:1rem; letter-spacing:1px;">${starsStr}</span><span style="font-size:0.7rem; color:var(--text-muted);">${dateStr}</span></div><p style="font-size:0.9rem; font-weight:600;">${r.desc}</p></div>`;
-                });
-            } catch(e) { list.innerHTML = '<p style="color:red; font-size:0.9rem;">Error loading reviews.</p>'; }
-        }
+        // TABS LOGIC
+        document.getElementById('tabPhotos').addEventListener('click', () => {
+            document.getElementById('tabPhotos').classList.add('active'); document.getElementById('tabReviews').classList.remove('active');
+            document.getElementById('galleryGrid').classList.remove('hidden'); document.getElementById('reviewsContainer').classList.add('hidden');
+        });
+        document.getElementById('tabReviews').addEventListener('click', () => {
+            document.getElementById('tabReviews').classList.add('active'); document.getElementById('tabPhotos').classList.remove('active');
+            document.getElementById('reviewsContainer').classList.remove('hidden'); document.getElementById('galleryGrid').classList.add('hidden');
+            renderReviews();
+        });
 
-        document.querySelectorAll('#starSelector span').forEach(star => { star.addEventListener('click', (e) => { selectedStarRating = parseInt(e.target.getAttribute('data-val')); updateStarSelectorUI(); }); });
-
-        function updateStarSelectorUI() {
-            document.querySelectorAll('#starSelector span').forEach(star => {
-                const val = parseInt(star.getAttribute('data-val'));
-                if(val <= selectedStarRating) star.classList.add('active'); else star.classList.remove('active');
+        // REVIEWS
+        function renderReviews() {
+            const list = document.getElementById('reviewsList');
+            const groupReviews = globalReviews.filter(r => r.groupId === activeGroupId).sort((a,b) => b.timestamp - a.timestamp);
+            list.innerHTML = groupReviews.length === 0 ? '<p style="color:gray;text-align:center;">No reviews yet.</p>' : '';
+            groupReviews.forEach(r => {
+                list.innerHTML += `
+                    <div class="review-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                            <strong>${r.firstName} ${r.lastName}</strong><span style="color:#ff9500;">${'⭐'.repeat(parseInt(r.stars))}</span>
+                        </div>
+                        <p style="color:var(--text-muted); font-size:0.85rem;">${r.description}</p>
+                    </div>`;
             });
         }
 
-        document.getElementById('btnPostReview').addEventListener('click', async () => {
-            const desc = document.getElementById('reviewText').value.trim();
-            if(selectedStarRating === 0) return alert("Please select a star rating."); if(!desc) return alert("Review description is required.");
-            const btn = document.getElementById('btnPostReview'); btn.disabled = true; btn.innerText = "Posting...";
-
-            try {
-                await addDoc(collection(db, "midade_reviews"), { groupId: activeGalleryGroupId, stars: selectedStarRating, desc: desc, timestamp: Date.now() });
-                document.getElementById('reviewText').value = ''; selectedStarRating = 0; updateStarSelectorUI(); fetchAlbumReviews(activeGalleryGroupId); fetchAllData(); 
-            } catch(e) { alert("Failed to post review."); }
-            btn.disabled = false; btn.innerText = "Post Review";
+        document.getElementById('btnOpenWriteReview').addEventListener('click', () => {
+            document.getElementById('revFirstName').value = ''; document.getElementById('revLastName').value = ''; document.getElementById('revDesc').value = '';
+            openModal('modalWriteReview');
         });
 
-        document.getElementById('btnHamburger').addEventListener('click', () => {
-            document.getElementById('sideMenu').classList.add('open');
-            document.getElementById('menuOverlay').classList.add('open');
+        document.getElementById('btnSubmitReview').addEventListener('click', async () => {
+            const btn = document.getElementById('btnSubmitReview');
+            const data = { groupId: activeGroupId, firstName: document.getElementById('revFirstName').value, lastName: document.getElementById('revLastName').value, stars: document.getElementById('revStars').value, description: document.getElementById('revDesc').value, timestamp: Date.now() };
+            if(!data.firstName || !data.lastName || !data.description) return alert("Fill all fields");
+            
+            btn.innerText = "Submitting..."; btn.disabled = true;
+            await addDoc(collection(db, "midade_reviews"), data);
+            btn.innerText = "Submit"; btn.disabled = false;
+            document.getElementById('modalWriteReview').style.display = 'none';
+            await fetchAllData(); renderReviews();
         });
-        document.getElementById('btnCloseMenu').addEventListener('click', closeSidebar);
-        document.getElementById('menuOverlay').addEventListener('click', closeSidebar);
-        
-        document.getElementById('btnMenuHome').addEventListener('click', () => { window.scrollTo({top:0, behavior:'smooth'}); closeSidebar(); });
-        document.getElementById('btnMenuTheme').addEventListener('click', () => { toggleTheme(); closeSidebar(); });
-        document.getElementById('btnMenuTicket').addEventListener('click', () => { openModal('modalTicket'); closeSidebar(); });
-        document.getElementById('btnMenuAdmin').addEventListener('click', () => { openModal('modalAdmin'); closeSidebar(); });
-        
-        document.getElementById('btnOpenTicketModal').addEventListener('click', () => openModal('modalTicket'));
-        
+
+        // TICKET CHAT
+        document.getElementById('btnOpenTicket').addEventListener('click', () => {
+            document.getElementById('tickName').value = ''; document.getElementById('tickMessage').value = '';
+            openModal('modalTicket');
+        });
         document.getElementById('btnSubmitTicket').addEventListener('click', async () => {
-            const type = document.getElementById('ticketType').value; const message = document.getElementById('ticketMessage').value.trim();
-            if(!message) return alert("Please enter message details.");
-            const btn = document.getElementById('btnSubmitTicket'); btn.disabled = true; btn.innerText = "Submitting...";
+            const btn = document.getElementById('btnSubmitTicket');
+            const data = { name: document.getElementById('tickName').value, subject: document.getElementById('tickSubject').value, message: document.getElementById('tickMessage').value, timestamp: Date.now() };
+            if(!data.name || !data.message) return alert("Fill all fields");
 
-            try {
-                await addDoc(collection(db, "midade_tickets"), { type, message, timestamp: Date.now(), status: 'Pending' });
-                alert("Ticket successfully sent to administration!"); closeAllModals();
-            } catch(e) { alert("Error submitting ticket."); }
-            btn.disabled = false; btn.innerText = "Submit Ticket";
+            btn.innerText = "Sending..."; btn.disabled = true;
+            await addDoc(collection(db, "midade_tickets"), data);
+            btn.innerText = "Send Ticket"; btn.disabled = false;
+            document.getElementById('modalTicket').style.display = 'none';
+            alert("Ticket sent successfully to Admin!");
         });
 
-        async function fetchAdminTickets() {
-            const list = document.getElementById('adminTicketsList');
-            list.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Loading tickets...</p>';
-            try {
-                const snap = await getDocs(collection(db, "midade_tickets"));
-                list.innerHTML = '';
-                if(snap.empty) {
-                    list.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">No tickets submitted yet.</p>';
-                    return;
-                }
-                snap.forEach(d => {
-                    const t = d.data();
-                    const dateStr = new Date(t.timestamp).toLocaleDateString();
-                    const ticketType = t.type ? t.type.toUpperCase() : 'UNKNOWN';
-                    
-                    list.innerHTML += `
-                        <div style="background:rgba(0,0,0,0.03); padding:12px; border-radius:12px; margin-bottom:10px; border:1px solid rgba(0,0,0,0.05);">
-                            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:800; color:var(--blob-1); margin-bottom:4px;">
-                                <span>[${ticketType}]</span>
-                                <span style="color:var(--text-muted);">${dateStr}</span>
-                            </div>
-                            <p style="font-size:0.85rem; font-weight:600; color:var(--text-main);">${t.message || 'No description provided.'}</p>
-                        </div>
-                    `;
-                });
-            } catch(e) { 
-                console.error(e);
-                list.innerHTML = `<p style="color:#ef4444; font-size:0.9rem;">Database Error: ${e.message}</p>`;
-            }
-        }
-
-        window.openLightbox = function(index, event) {
-            if (event && event.target.closest('.delete-photo-btn')) return;
-            currentImageIndex = index; updateLightboxUI(); openModal('modalLightbox');
-        };
-
-        function updateLightboxUI() {
-            const img = document.getElementById('lightboxImg'); img.src = currentAlbumImages[currentImageIndex].url;
-            document.getElementById('lbCounter').innerText = `${currentImageIndex + 1} / ${currentAlbumImages.length}`; img.style.transform = `scale(1)`;
-        }
-
-        document.getElementById('lbPrev').addEventListener('click', () => { if (currentImageIndex > 0) { currentImageIndex--; updateLightboxUI(); } });
-        document.getElementById('lbNext').addEventListener('click', () => { if (currentImageIndex < currentAlbumImages.length - 1) { currentImageIndex++; updateLightboxUI(); } });
-        document.getElementById('lightboxClose').addEventListener('click', () => document.getElementById('modalLightbox').style.display = 'none');
-
-        document.getElementById('btnCreateLeader').addEventListener('click', async () => {
-            const name = document.getElementById('newLeaderName').value; const role = document.getElementById('newLeaderRole').value; const fileInput = document.getElementById('newLeaderImage');
-            if(!name || !role) return alert("Enter leader name and role.");
-
-            try {
-                let downloadURL = "";
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0]; const storageRef = ref(storage, `leaders/${Date.now()}_${file.name}`);
-                    const snapshot = await uploadBytes(storageRef, file); downloadURL = await getDownloadURL(snapshot.ref);
-                }
-                await addDoc(collection(db, "midade_leaders"), { name, role, imageUrl: downloadURL });
-                document.getElementById('newLeaderName').value = ''; document.getElementById('newLeaderRole').value = ''; fileInput.value = ''; fetchAllData();
-            } catch(e) { console.error(e); }
-        });
-
+        // ADMIN FEATURES
         function populateAdminDropdown() {
-            const select = document.getElementById('uploadTargetGroup'); select.innerHTML = '<option value="">-- Choose Album --</option>';
-            globalGroups.forEach(g => { select.innerHTML += `<option value="${g.id}">${g.name}</option>`; });
+            const sel = document.getElementById('uploadTargetGroup'); sel.innerHTML = '<option value="">-- Choose Group --</option>';
+            globalGroups.forEach(g => sel.innerHTML += `<option value="${g.id}">${g.name}</option>`);
         }
+
+        async function fetchTickets() {
+            const list = document.getElementById('adminTicketsList'); list.innerHTML = "Loading...";
+            const snap = await getDocs(collection(db, "midade_tickets"));
+            let html = '';
+            snap.forEach(d => {
+                const t = d.data();
+                html += `<div class="ticket-card"><strong>${t.subject} - ${t.name}</strong><p style="font-size:0.8rem; color:gray; margin-top:5px;">${t.message}</p></div>`;
+            });
+            list.innerHTML = html === '' ? "No tickets." : html;
+        }
+
+        document.getElementById('btnAdminPanel').addEventListener('click', () => {
+            if(localStorage.getItem('midade_auth') === 'secure_token_true') {
+                document.getElementById('adminLoginScreen').classList.add('hidden'); document.getElementById('adminDashboardScreen').classList.remove('hidden');
+                fetchTickets();
+            } else {
+                document.getElementById('adminLoginScreen').classList.remove('hidden'); document.getElementById('adminDashboardScreen').classList.add('hidden');
+            }
+            openModal('modalAdmin');
+        });
+
+        document.getElementById('btnLoginSubmit').addEventListener('click', () => {
+            if(document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'midade2026') {
+                localStorage.setItem('midade_auth', 'secure_token_true'); document.getElementById('btnAdminPanel').click();
+            } else document.getElementById('loginError').classList.remove('hidden');
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', () => { localStorage.removeItem('midade_auth'); closeAllModals(); fetchAllData(); });
+
+        document.getElementById('btnUploadSubmit').addEventListener('click', async () => {
+            const files = document.getElementById('uploadFile').files; const groupId = document.getElementById('uploadTargetGroup').value;
+            if(!files.length || !groupId) return alert("Select group and files.");
+            const btn = document.getElementById('btnUploadSubmit'); const pText = document.getElementById('uploadProgressText');
+            btn.disabled = true; pText.style.color = "black";
+            for(let i=0; i<files.length; i++) {
+                pText.innerText = `Compressing & Uploading ${i+1}/${files.length}...`;
+                await new Promise((res, rej) => {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const img = new Image();
+                        img.onload = async () => {
+                            const canvas = document.createElement('canvas');
+                            let w = img.width, h = img.height; const MAX = 500;
+                            if(w > MAX) { h = Math.round((h*MAX)/w); w = MAX; }
+                            canvas.width = w; canvas.height = h;
+                            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                            try { await addDoc(collection(db, "midade_photos"), { groupId, url: canvas.toDataURL("image/jpeg", 0.5), timestamp: Date.now() }); res(); } catch(err) { rej(err); }
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(files[i]);
+                });
+            }
+            pText.style.color = 'green'; pText.innerText = "All Complete!";
+            setTimeout(() => { pText.innerText = ""; btn.disabled = false; document.getElementById('uploadFile').value=''; }, 3000);
+        });
 
         document.getElementById('btnCreateGroup').addEventListener('click', async () => {
             const name = document.getElementById('newGroupName').value; const badge = document.getElementById('newGroupBadge').value; const type = document.getElementById('newGroupType').value;
-            if(!name) return alert("Enter album name");
-            await addDoc(collection(db, "midade_groups_v2"), { name, badge, type });
-            document.getElementById('newGroupName').value = ''; document.getElementById('newGroupBadge').value = ''; fetchAllData();
+            if(!name) return; await addDoc(collection(db, "midade_groups_v2"), { name, badge, type }); fetchAllData(); alert("Group Created");
         });
 
-        document.getElementById('btnSaveEdit').addEventListener('click', async () => {
-            const id = document.getElementById('editGroupId').value; const name = document.getElementById('editGroupName').value; const badge = document.getElementById('editGroupBadge').value;
-            await updateDoc(doc(db, "midade_groups_v2", id), { name, badge }); closeAllModals(); fetchAllData();
-        });
-
-        document.getElementById('btnUploadSubmit').addEventListener('click', async () => {
-            const fileInput = document.getElementById('uploadFile'); 
-            const files = fileInput.files; 
-            const groupId = document.getElementById('uploadTargetGroup').value;
-            const progressContainer = document.getElementById('uploadProgressContainer'); 
-            const progressBar = document.getElementById('uploadProgressBar'); 
-            const progressText = document.getElementById('uploadProgressText'); 
-            const submitBtn = document.getElementById('btnUploadSubmit');
-
-            if (!files.length || !groupId) return alert("Select an album and at least one photo.");
-
-            submitBtn.disabled = true; 
-            progressContainer.classList.remove('hidden');
-            const total = files.length; 
-            let completed = 0; 
-            let failed = 0;
-            progressBar.style.width = '0%'; 
-            progressText.innerText = `Processing 0 / ${total} (0%)`;
-            progressText.style.color = 'inherit';
-
-            for (let i = 0; i < total; i++) {
-                try { 
-                    await processAndUploadFile(files[i], groupId); 
-                    completed++;
-                } catch(e) { 
-                    console.error("Upload Error:", e);
-                    failed++;
-                }
-                const currentTotal = completed + failed;
-                const percentage = Math.round((currentTotal / total) * 100);
-                progressBar.style.width = `${percentage}%`; 
-                progressText.innerText = `Processing ${currentTotal} / ${total} (${percentage}%)`;
+        document.getElementById('btnCreateLeader').addEventListener('click', async () => {
+            const name = document.getElementById('newLeaderName').value; const role = document.getElementById('newLeaderRole').value; const file = document.getElementById('newLeaderPic').files[0];
+            if(!name) return alert("Need name");
+            const btn = document.getElementById('btnCreateLeader'); btn.innerText = "Adding..."; btn.disabled = true;
+            let picBase64 = "";
+            if(file) {
+                picBase64 = await new Promise(res => {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const img = new Image(); img.onload = () => {
+                            const canvas = document.createElement('canvas'); canvas.width = 150; canvas.height = 150; // Force small square
+                            canvas.getContext('2d').drawImage(img, 0, 0, 150, 150); res(canvas.toDataURL("image/jpeg", 0.7));
+                        }; img.src = e.target.result;
+                    }; reader.readAsDataURL(file);
+                });
             }
-            
-            if (failed > 0) {
-                progressText.innerText = `⚠️ Upload finished, but ${failed} failed. Check console or Firebase Rules!`;
-                progressText.style.color = '#ef4444'; 
-            } else {
-                progressText.innerText = `🎉 Successfully uploaded ${total} photo(s)!`; 
-            }
-
-            submitBtn.disabled = false; 
-            fileInput.value = ''; 
-            
-            setTimeout(() => { 
-                if (failed === 0) progressContainer.classList.add('hidden'); 
-                fetchAllData(); 
-            }, 4000);
+            await addDoc(collection(db, "midade_leaders"), { name, role, pic: picBase64 });
+            fetchAllData(); btn.innerText = "Add Leader"; btn.disabled = false; alert("Leader Added");
         });
 
-        function processAndUploadFile(file, groupId) {
-            return new Promise((resolve, reject) => {
-                if (!file.type.startsWith('image/')) {
-                    return reject(new Error("File is not a valid image."));
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = async function() {
-                        try {
-                            const canvas = document.createElement('canvas'); 
-                            const MAX_WIDTH = 1000; 
-                            let width = img.width; 
-                            let height = img.height;
-                            
-                            if (width > MAX_WIDTH) { 
-                                height = Math.round((height * MAX_WIDTH) / width); 
-                                width = MAX_WIDTH; 
-                            }
-                            
-                            canvas.width = width; 
-                            canvas.height = height; 
-                            const ctx = canvas.getContext('2d'); 
-                            ctx.drawImage(img, 0, 0, width, height);
-                            
-                            canvas.toBlob(async (blob) => {
-                                if (!blob) return reject(new Error("Image compression failed."));
-                                try {
-                                    const fileName = `photos/${groupId}/${Date.now()}_${Math.random().toString(36).substring(2,7)}.webp`;
-                                    const storageRef = ref(storage, fileName); 
-                                    const snap = await uploadBytes(storageRef, blob); 
-                                    const url = await getDownloadURL(snap.ref);
-                                    await addDoc(collection(db, "midade_photos"), { groupId, url, timestamp: Date.now() }); 
-                                    resolve();
-                                } catch(err) { 
-                                    reject(err); 
-                                }
-                            }, 'image/webp', 0.75); 
-                        } catch (err) {
-                            reject(err);
-                        }
-                    }; 
-                    img.onerror = () => reject(new Error("Failed to load image data.")); 
-                    img.src = e.target.result;
-                }; 
-                reader.onerror = () => reject(new Error("Failed to read file.")); 
-                reader.readAsDataURL(file);
-            });
+        // LIGHTBOX
+        const lightboxImg = document.getElementById('lightboxImg');
+        function openLightbox(index) {
+            currentPhotoIndex = index; updateLightboxView(); openModal('modalLightbox');
         }
+        function updateLightboxView() {
+            lightboxImg.src = currentAlbumPhotos[currentPhotoIndex].url;
+            document.getElementById('lightboxCounter').innerText = `${currentPhotoIndex + 1} / ${currentAlbumPhotos.length}`;
+        }
+        document.getElementById('lightboxPrev').addEventListener('click', () => { currentPhotoIndex = (currentPhotoIndex > 0) ? currentPhotoIndex - 1 : currentAlbumPhotos.length - 1; updateLightboxView(); });
+        document.getElementById('lightboxNext').addEventListener('click', () => { currentPhotoIndex = (currentPhotoIndex < currentAlbumPhotos.length - 1) ? currentPhotoIndex + 1 : 0; updateLightboxView(); });
 
+        // INIT
         document.addEventListener("DOMContentLoaded", () => {
-            const savedTheme = localStorage.getItem('midade_theme') || 'emerald';
-            currentThemeIndex = themes.indexOf(savedTheme) !== -1 ? themes.indexOf(savedTheme) : 0;
-            if (themes[currentThemeIndex] !== 'emerald') document.body.classList.add(`${themes[currentThemeIndex]}-theme`);
-            
-            applyLanguage(currentLang); fetchAllData();
-
-            document.getElementById('langSelect').addEventListener('change', (e) => applyLanguage(e.target.value));
-            
+            applyStoredTheme(); applyLanguage(currentLang); fetchAllData();
+            document.getElementById('btnThemeToggle').addEventListener('click', cycleTheme);
+            document.getElementById('langSelect').addEventListener('change', e => applyLanguage(e.target.value));
             document.querySelectorAll('.modal-close').forEach(b => b.addEventListener('click', closeAllModals));
-            window.addEventListener('click', (e) => { if(e.target.classList.contains('modal')) closeAllModals(); });
-
-            document.getElementById('btnLoginSubmit').addEventListener('click', async () => {
-                const email = document.getElementById('adminUser').value.trim();
-                const pass = document.getElementById('adminPass').value;
-                const errEl = document.getElementById('loginError');
-
-                try {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                    errEl.classList.add('hidden');
-                    document.getElementById('adminUser').value = '';
-                    document.getElementById('adminPass').value = '';
-                } catch (error) {
-                    console.error("Authentication Error:", error);
-                    errEl.textContent = "Invalid email or password.";
-                    errEl.classList.remove('hidden');
-                }
-            });
-
-            document.getElementById('btnLogout').addEventListener('click', async () => {
-                await signOut(auth);
-                closeAllModals();
-            });
+            document.getElementById('lightboxClose').addEventListener('click', () => document.getElementById('modalLightbox').style.display='none');
+            window.addEventListener('click', e => { if(e.target.classList.contains('modal') && e.target.id !== 'modalLightbox') closeAllModals(); });
         });
     </script>
 </body>
